@@ -6,10 +6,11 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 int main(char* argv[], int argc){
 
-	if(argc == 2){
+	if(argc == 2 && strstr(argv[1],".class") != NULL){
 
 	}
 	else{
