@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(char* argv[], int argc){
+int main(int argc, char* argv[]){
 
 	if(argc == 2 && strstr(argv[1],".class") != NULL){
 
