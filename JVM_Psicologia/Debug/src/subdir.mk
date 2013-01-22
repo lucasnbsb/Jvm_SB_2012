@@ -4,13 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/JVM_Psicologia.c 
+../src/JVM_Psicologia.c \
+../src/PilhaOperandos.c 
 
 OBJS += \
-./src/JVM_Psicologia.o 
+./src/JVM_Psicologia.o \
+./src/PilhaOperandos.o 
 
 C_DEPS += \
-./src/JVM_Psicologia.d 
+./src/JVM_Psicologia.d \
+./src/PilhaOperandos.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
