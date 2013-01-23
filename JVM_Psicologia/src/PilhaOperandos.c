@@ -61,6 +61,7 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 	}
 	else{
 		printf("ERRO em popOperando: pilha vazia");
+		exit(1);
 	}
 
 	return operandoARetornar;
