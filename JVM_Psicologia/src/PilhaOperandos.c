@@ -53,7 +53,7 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 	pilhaOperandos *p1;
 	tipoOperando operandoARetornar;
 
-	if (*endTopoPilha != NULL){
+	if (!pilhaVazia(*endTopoPilha)){
 		operandoARetornar = (*endTopoPilha)->operando;
 		p1 = *endTopoPilha;
 		*endTopoPilha = (*endTopoPilha)->elementoAbaixo;
