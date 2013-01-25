@@ -3,6 +3,7 @@
  *
  *  Created on: 24/01/2013
  *      Author: Vitor
+ *      Co-Author:Filipe
  */
 
 #ifndef CLASSFILE_H_
