@@ -33,10 +33,46 @@ typedef unsigned long u8;
 /*
  * Union que indica os vários tipos possíveis da pool de constantes
  */
-/*typedef union _tipoConstPool{
+typedef union _tipoConstPool{
+
+	struct {
+		u2 nameIndex;
+	} classInfo;
+
+	struct {
+		u2 classIndex;
+		u2 nameAndTypeIndex;
+	} fieldRefInfo;
+
+	struct {
+		u2 classIndex;
+		u2 nameAndTypeIndex;
+	} methodRefInfo;
+
+	struct {
+		u2 classIndex;
+		u2 nameAndTypeIndex;
+	} interfaceMethodRef;
+
+	struct {
+		u2 stringIndex;
+	} stringInfo;
+
+	struct {
+		u4 bytes;
+	} integerInfo;
+
+	struct {
+		u4 bytes;
+	} floatInfo;
+
+	struct {
+
+	} ;
 
 } tipoConstPool;
 
+/*
 typedef struct _cpInfo{
 	u1 tag;
 	tipoConstPool constante;
