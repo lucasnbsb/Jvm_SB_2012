@@ -19,6 +19,8 @@ typedef unsigned short u2;
 typedef unsigned int u4;
 typedef unsigned long u8;
 
+
+// Tabela de access_flags válidas
 #define ACC_PUBLIC	0x0001	//Declared public; may be accessed from outside its package.
 #define ACC_FINAL	0x0010	//Declared final; no subclasses allowed.
 #define ACC_SUPER	0x0020	//Treat superclass methods specially when invoked by the invokespecial instruction.
@@ -48,8 +50,6 @@ typedef struct CP_info {
     u1 tag; //TODO - tabela de defines pra tags da constant pool
     u1 info[];
 }cp_info;
-
-struct classfile;
 
 typedef struct classfile {
     u4             magic; //  0xCAFEBABE
