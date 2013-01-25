@@ -16,6 +16,9 @@ typedef unsigned short u2;
 typedef unsigned int u4;
 typedef unsigned long u8;
 
+/*
+ * Union que indica os vários tipos possíveis da pool de constantes
+ */
 typedef union _tipoConstPool{
 
 
