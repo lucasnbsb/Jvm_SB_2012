@@ -45,8 +45,6 @@ void inicializaPilha(pilhaOperandos **endPilha){
 
 /*
  * Retorna o operando do topo da pilha e libera a memória antes utilizada por ele.
- *
- * TODO: Decidir se a responsabilidade de checar se a pilha está vazia é dessa função ou de quem a usa.
  */
 tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 
@@ -60,7 +58,7 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 		free (p1);
 	}
 	else{
-		printf("ERRO em popOperando: pilha vazia");
+		printf("ERRO em popOperando: pilha vazia\n");
 		exit(1);
 	}
 
