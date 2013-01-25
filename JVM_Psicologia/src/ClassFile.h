@@ -3,6 +3,7 @@
  *
  *  Created on: 24/01/2013
  *      Author: Vitor
+ *      Co-Author:Filipe
  */
 
 //FONTE -  http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html
@@ -47,8 +48,6 @@ typedef struct CP_info {
     u1 tag; //TODO - tabela de defines pra tags da constant pool
     u1 info[];
 }cp_info;
-
-struct classfile;
 
 typedef struct classfile {
     u4             magic; //  0xCAFEBABE
