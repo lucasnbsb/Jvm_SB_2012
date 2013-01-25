@@ -63,12 +63,40 @@ typedef union _tipoConstPool{
 	} integerInfo;
 
 	struct {
-		u4 bytes;
+		float bytes;
 	} floatInfo;
 
 	struct {
+		u8 bytes;
+	} longInfo;
 
-	} ;
+	struct {
+		double bytes;
+	} doubleInfo;
+
+	struct {
+		u2 nameIndex;
+		u2 descriptorIndex;
+	} nameAndTypeInfo;
+
+	struct {
+		u2 length;
+		u1 *bytes;
+	} UTF8Info;
+
+	struct {
+		u1 referenceKind;
+		u2 referenceIndex;
+	} methodHandleInfo;
+
+	struct {
+		u2 descriptorIndex;
+	} methodTypeInfo;
+
+	struct {
+		u2 bootstrapMethodAttrIndex;
+		u2 nameAndTypeIndex;
+	} invokeDynamicInfo;
 
 } tipoConstPool;
 
