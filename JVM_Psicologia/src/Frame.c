@@ -1,5 +1,5 @@
 /*
- * PilhaOperandos.c
+ * Frame.c
  *
  *  Created on: 22/01/2013
  *      Author: Vitor
@@ -7,7 +7,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "PilhaOperandos.h"
+#include "Frame.h"
+
+// TODO - Criar funções de manuseio das frames
 
 /*
  * Checa se a pilha está vazia. Retorna 1, se sim, 0 se não.

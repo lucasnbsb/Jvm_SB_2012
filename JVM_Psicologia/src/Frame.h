@@ -1,12 +1,14 @@
 /*
- * PilhaOperandos.h
+ * Frame.h
  *
  *  Created on: 22/01/2013
  *      Author: Vitor
  */
 
-#ifndef PILHAOPERANDOS_H_
-#define PILHAOPERANDOS_H_
+#ifndef FRAME_H_
+#define FRAME_H_
+
+#include "ClassFile.h"
 
 /*
  * A pilha só mantem operandos de 32 ou 64 bits, os outros sao promovidos a estes tamanhos.
@@ -31,6 +33,15 @@ typedef struct _pilhaOperandos{
 	struct _pilhaOperandos *elementoAbaixo;
 
 } pilhaOperandos;
+
+/*
+ * Estrutura de uma frame. Criada quando um método é invocado
+ */
+typedef struct _frame{
+	cpInfo *constantPool;
+	tipoOperando *arrayLocal;	// ATENÇÃO: Doubles e longs ocupam 2 índices!!
+	pilhaOperandos *pInicio;
+} frame;
 
 /*
  * Checa se a pilha está vazia. Retorna 1, se sim, 0 se não.
