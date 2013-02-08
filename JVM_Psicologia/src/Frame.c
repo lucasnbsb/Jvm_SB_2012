@@ -71,6 +71,9 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 /*
  * Função que inicializa uma frame
  */
-void inicializaFrame (frame **endFrame){
-	*endFrame = NULL;
+void inicializaFrame (ClassFile cf, frame *frame){
+
+	frame->constantPool = cf.constant_pool;
+	frame->frameAbaixo = NULL;
+
 }
