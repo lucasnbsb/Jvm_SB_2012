@@ -41,6 +41,7 @@ typedef struct _frame{
 	cpInfo *constantPool;
 	tipoOperando *arrayLocal;	// ATENÇÃO: Doubles e longs ocupam 2 índices!!
 	pilhaOperandos *pInicio;
+	struct _frame *frameAbaixo;
 } frame;
 
 /*
@@ -62,5 +63,7 @@ void inicializaPilha(pilhaOperandos **endPilha);
  * Retorna o operando do topo da pilha e libera a memória antes utilizada por ele.
  */
 tipoOperando popOperando(pilhaOperandos **endTopoPilha);
+
+void inicializaFrame (frame **endFrame);
 
 #endif /* PILHAOPERANDOS_H_ */

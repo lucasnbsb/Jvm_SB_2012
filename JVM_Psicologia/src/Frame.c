@@ -67,3 +67,10 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 	return operandoARetornar;
 
 }
+
+/*
+ * Função que inicializa uma frame
+ */
+void inicializaFrame (frame **endFrame){
+	*endFrame = NULL;
+}
