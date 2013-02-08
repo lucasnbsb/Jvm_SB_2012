@@ -4,7 +4,7 @@
  *  Created on: 08/02/2013
  *      Author: Vitor
  *
- *  Arquivo das instruções da JVM.
+ *  Arquivo das instruções da JVM. Inclui as de alocação.
  */
 
 
