@@ -64,6 +64,6 @@ void inicializaPilha(pilhaOperandos **endPilha);
  */
 tipoOperando popOperando(pilhaOperandos **endTopoPilha);
 
-void inicializaFrame (frame **endFrame);
+void inicializaFrame (ClassFile cf, frame *frame);
 
 #endif /* PILHAOPERANDOS_H_ */
