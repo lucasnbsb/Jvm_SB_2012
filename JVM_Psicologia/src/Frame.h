@@ -39,10 +39,15 @@ typedef struct _pilhaOperandos{
  */
 typedef struct _frame{
 	cpInfo *constantPool;
+	ClassFile cf;
 	tipoOperando *arrayLocal;	// ATENÇÃO: Doubles e longs ocupam 2 índices!!
 	pilhaOperandos *pInicio;
 	struct _frame *frameAbaixo;
 } frame;
+
+typedef struct EXECUCAO{
+	frame* frameAtual;
+}pilhaFrames;
 
 /*
  * Checa se a pilha está vazia. Retorna 1, se sim, 0 se não.
@@ -64,6 +69,8 @@ void inicializaPilha(pilhaOperandos **endPilha);
  */
 tipoOperando popOperando(pilhaOperandos **endTopoPilha);
 
-void inicializaFrame (ClassFile cf, frame *frame);
+void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo, char* descriptor);
+
+void inicializaPilhaFrames ();
 
 #endif /* PILHAOPERANDOS_H_ */

@@ -8,6 +8,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Frame.h"
+#include "ClassFile.h"
+#include "FuncoesGerais.h"
+#include <string.h>
 
 // TODO - Criar funções de manuseio das frames
 
@@ -71,9 +74,29 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 /*
  * Função que inicializa uma frame
  */
-void inicializaFrame (ClassFile cf, frame *frame){
+void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* descriptor){
+	methodInfo* metodo;
+	attributeInfo codigoMetodo;
+	int i;
 
+	//achar o método pelo nome
+	metodo = buscaMetodoNome(cf , nomeMetodo , descriptor);
+	if(metodo == NULL){
+		printf("método não encontrado: %s\nDescritor: %s", nomeMetodo , descriptor);
+		exit(1);
+	}else{
+		//achar o atributo Code , percorre a lista de atributos buscando o atributo Code
+		for (i = 0; i < metodo->attributesCount; i++) {
+			if(strcmp( buscaUTF8ConstPool(cf , metodo->attributes[i].attributeNameIndex) , "Code") == 0){
+				codigoMetodo = metodo->attributes[i];
+				break;
+			}
+		}
+	}
 	frame->constantPool = cf.constant_pool;
-	frame->frameAbaixo = NULL;
-
+	frame->cf = cf;
+	//inicializando a pilha de operandos
+	inicializaPilha(&(frame->pInicio));
+	//inicializando o array de variáveis locais
+	frame->arrayLocal = malloc(codigoMetodo.tipoInfo.code.maxLocals * sizeof(tipoOperando));
 }
