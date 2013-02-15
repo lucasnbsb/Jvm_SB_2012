@@ -11,6 +11,7 @@
 #include "ClassFile.h"
 #include "DebugFuncs.h"
 #include "ClassLoader.h"
+#include "FuncoesGerais.h"
 
 int main(int argc, char* argv[]){
 
@@ -18,12 +19,18 @@ int main(int argc, char* argv[]){
 
 		char nomeClasse[30];
 		ClassFile cf;
+		//methodInfo* m;
 
 		strcpy(nomeClasse, argv[1]);
 
 		cf = carregaClassFile(nomeClasse);
 
 		printConstantPool(cf);
+
+		//Teste de busca de método por nome. Arquivo usado: Teste.class
+		//m = buscaMetodoNome(cf, "getNome", "()[C");
+		//
+		//printf("\n\n\n%s\n", (char*) buscaUTF8ConstPool(cf,m->nameIndex));
 	}
 	else{
 		printf("ERRO! Possíveis causas:\n");
