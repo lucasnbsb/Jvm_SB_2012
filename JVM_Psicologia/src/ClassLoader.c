@@ -448,6 +448,8 @@ ClassFile carregaClassFile (char *nomeClasse){
 		lerAttributeInfo(fp, &cf, &(cf.attributes[i]));
 	}
 
+	fclose(fp);
+
 	return cf;
 
 }
