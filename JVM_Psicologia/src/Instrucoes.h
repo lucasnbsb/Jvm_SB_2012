@@ -10,6 +10,6 @@
 
 #include "Frame.h"
 
-int nop(pilhaFrames *p);
+void nop(pilhaFrames *p);
 
 #endif /* INSTRUCOES_H_ */

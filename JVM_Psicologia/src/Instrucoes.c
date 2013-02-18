@@ -8,11 +8,10 @@
  */
 #include "Instrucoes.h"
 
-int nop(pilhaFrames *p){
-	return 0;
+void nop(pilhaFrames *p){
 }
 
-int (*vetInstr[])(pilhaFrames *p) = {
+void (*vetInstr[])(pilhaFrames *p) = {
 	nop,
 	nop,//aconst_null,
 	nop,//iconst,
