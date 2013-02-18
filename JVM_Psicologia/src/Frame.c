@@ -97,6 +97,7 @@ void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* desc
 	frame->cf = cf;
 	//inicializando a pilha de operandos
 	inicializaPilha(&(frame->pInicio));
+	frame->metodoAExecutar = *metodo;
 	//inicializando o array de variáveis locais
 	frame->arrayLocal = malloc(codigoMetodo.tipoInfo.code.maxLocals * sizeof(tipoOperando));
 }
