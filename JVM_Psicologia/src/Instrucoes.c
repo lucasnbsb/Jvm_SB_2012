@@ -11,16 +11,79 @@
 void nop(pilhaFrames *p){
 }
 
+void iconst_m1(pilhaFrames *p){
+
+	tipoOperando op;
+
+	op.tipoInt = -1;
+
+	pushOperando(&(p->frameAtual->pInicio), op);
+}
+
+void iconst_0(pilhaFrames *p){
+
+	tipoOperando op;
+
+	op.tipoInt = 0;
+
+	pushOperando(&(p->frameAtual->pInicio), op);
+}
+
+void iconst_1(pilhaFrames *p){
+
+	tipoOperando op;
+
+	op.tipoInt = 1;
+
+	pushOperando(&(p->frameAtual->pInicio), op);
+}
+
+void iconst_2(pilhaFrames *p){
+
+	tipoOperando op;
+
+	op.tipoInt = 2;
+
+	pushOperando(&(p->frameAtual->pInicio), op);
+}
+
+void iconst_3(pilhaFrames *p){
+
+	tipoOperando op;
+
+	op.tipoInt = 3;
+
+	pushOperando(&(p->frameAtual->pInicio), op);
+}
+
+void iconst_4(pilhaFrames *p){
+
+	tipoOperando op;
+
+	op.tipoInt = 4;
+
+	pushOperando(&(p->frameAtual->pInicio), op);
+}
+
+void iconst_5(pilhaFrames *p){
+
+	tipoOperando op;
+
+	op.tipoInt = 5;
+
+	pushOperando(&(p->frameAtual->pInicio), op);
+}
+
 void (*vetInstr[])(pilhaFrames *p) = {
 	nop,
 	nop,//aconst_null,
-	nop,//iconst,
-	nop,//iconst,
-	nop,//iconst,
-	nop,//iconst,
-	nop,//iconst,
-	nop,//iconst,
-	nop,//iconst,
+	iconst_m1,//iconst,
+	iconst_0,//iconst,
+	iconst_1,//iconst,
+	iconst_2,//iconst,
+	iconst_3,//iconst,
+	iconst_4,//iconst,
+	iconst_5,//iconst,
 	nop,//lconst,
 	nop,//lconst,
 	nop,//fconst,
