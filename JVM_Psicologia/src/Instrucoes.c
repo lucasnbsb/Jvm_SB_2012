@@ -106,18 +106,24 @@ void fconst_2(pilhaFrames *p){ // Insere na pilha a constante long 2.0 op: 0xD
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
 }
 
-void dconst_0(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xB
+void dconst_0(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xE
 	tipoOperando op;
 	op.tipoDouble = 0.0;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
 }
 
-void dconst_1(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xB
+void dconst_1(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xF
 	tipoOperando op;
 	op.tipoDouble = 1.0;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
 }
 
+void dup(pilhaFrames *p){
+	tipoOperando op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
 
 void (*vetInstr[])(pilhaFrames *p) = {
 	nop,
@@ -209,7 +215,7 @@ void (*vetInstr[])(pilhaFrames *p) = {
 	nop,//sastore,
 	nop,//pop,
 	nop,//pop2,
-	nop,//dup,
+	dup, //0x59
 	nop,//dup_x1,
 	nop,//dup_x2,
 	nop,//dup2,

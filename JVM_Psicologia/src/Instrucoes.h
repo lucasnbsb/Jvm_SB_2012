@@ -26,4 +26,7 @@ void fconst_2(pilhaFrames *p);// 0xD
 void dconst_0(pilhaFrames *p);// 0xE
 void dconst_1(pilhaFrames *p);// 0xF
 
+
+void dup(pilhaFrames *p);// 0x59
+
 #endif /* INSTRUCOES_H_ */
