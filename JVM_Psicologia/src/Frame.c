@@ -12,7 +12,6 @@
 #include "FuncoesGerais.h"
 #include <string.h>
 
-// TODO - Criar funções de manuseio das frames
 
 /*
  * Checa se a pilha está vazia. Retorna 1, se sim, 0 se não.

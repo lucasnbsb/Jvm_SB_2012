@@ -193,6 +193,61 @@ void swap(pilhaFrames *p) { //troca os dois elementos do topo da pilha op:0x5F
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2);
 }
 
+void iadd(pilhaFrames *p){ // v1 , v2 -> v1+v2 op: 0x60
+	tipoOperando op1, op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoInt = op1.tipoInt +  op2.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void fadd(pilhaFrames *p){ // v1 , v2 -> v1+v2 op: 0x62
+	tipoOperando op1, op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoFloat = op1.tipoFloat +  op2.tipoFloat;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void isub(pilhaFrames *p){ // v1 , v2 -> v1-v2 op: 0x64
+	tipoOperando op1, op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoInt = op1.tipoInt - op2.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void fsub(pilhaFrames *p){ // v1 , v2 -> v1-v2 op: 0x66
+	tipoOperando op1, op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoFloat = op1.tipoFloat - op2.tipoFloat;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void imul(pilhaFrames *p){ // v1 , v2 -> v1*v2 op: 0x64
+	tipoOperando op1, op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoInt = op1.tipoInt * op2.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void fmul(pilhaFrames *p){ // v1 , v2 -> v1*v2 op: 0x66
+	tipoOperando op1, op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoFloat = op1.tipoFloat * op2.tipoFloat;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void ireturn(pilhaFrames *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
+	tipoOperando  op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	popFrame(&(p->frameAtual));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
+}
+
 void (*vetInstr[])(pilhaFrames *p) = {
 	nop, // 0x
 		nop,//aconst_null,// 0x
@@ -290,17 +345,17 @@ void (*vetInstr[])(pilhaFrames *p) = {
 		dup2_x1,// 0x5D
 		dup2_x2,// 0x5E
 		swap,// 0x5F
-		nop,//iadd,// 0x
+		iadd,// 0x60
 		nop,//ladd,// 0x
-		nop,//fadd,// 0x
+		fadd,// 0x62
 		nop,//dadd,// 0x
-		nop,//isub,// 0x
+		isub,// 0x64
 		nop,//lsub,// 0x
-		nop,//fsub,// 0x
+		fsub,// 0x64
 		nop,//dsub,// 0x
-		nop,//imul,// 0x
+		imul,// 0x68
 		nop,//lmul,// 0x
-		nop,//fmul,// 0x
+		fmul,// 0x6A
 		nop,//dmul,// 0x
 		nop,//idiv_,// 0x
 		nop,//ldiv_,// 0x
@@ -366,12 +421,12 @@ void (*vetInstr[])(pilhaFrames *p) = {
 		nop,//ret,// 0x
 		nop,//tableswitch,// 0x
 		nop,//lookupswitch,// 0x
-		nop,//return1,// 0x
-		nop,//return1,// 0x
-		nop,//return1,// 0x
-		nop,//return1,// 0x
-		nop,//return1,// 0x
-		nop,//return0,// 0x
+		ireturn,// 0xAC
+		nop,//return1,// 0xAD
+		nop,//return1,// 0xAE
+		nop,//return1,// 0xAF
+		nop,//return1,// 0xB0
+		nop,//return0,// 0xB1
 		nop,//getstatic,// 0x
 		nop,//putstatic,// 0x
 		nop,//getfield,// 0x
