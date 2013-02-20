@@ -28,8 +28,12 @@ void dconst_1(pilhaFrames *p);// 0xF
 
 
 void dup(pilhaFrames *p);// 0x59
-void dup_x1(pilhaFrames *p); // 5A
-void dup_x2(pilhaFrames *p); // 5B
+void dup_x1(pilhaFrames *p); // 0x5A
+void dup_x2(pilhaFrames *p); // 0x5B
+void dup2(pilhaFrames *p); // 0x5C
+void dup2_x1(pilhaFrames *p); // 0x5D
+void dup2_x2(pilhaFrames *p); // 0x5E
+void swap(pilhaFrames *p);  //0x5F
 
 void (*vetInstr[])(pilhaFrames *p) ;
 
