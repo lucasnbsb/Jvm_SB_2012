@@ -118,10 +118,30 @@ void dconst_1(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xF
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
 }
 
-void dup(pilhaFrames *p){
+void dup(pilhaFrames *p){ // duplica o elemento no topo da pilha op: 0x59
 	tipoOperando op;
 	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+void dup_x1(pilhaFrames *p){ // duplica o elemento no topo da pilha , dois elementos a baixo  op: 0x5A
+	tipoOperando op , op1;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op1);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+void dup_x2(pilhaFrames *p){ // duplica o elemento no topo da pilha tres a baixo op: 0x5B
+	tipoOperando op , op1 , op2;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op2);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op1);
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
 }
 
@@ -216,8 +236,8 @@ void (*vetInstr[])(pilhaFrames *p) = {
 	nop,//pop,
 	nop,//pop2,
 	dup, //0x59
-	nop,//dup_x1,
-	nop,//dup_x2,
+	dup_x1, //0x5A
+	dup_x2, //0x5B
 	nop,//dup2,
 	nop,//dup2_x1,
 	nop,//dup2_x2,
