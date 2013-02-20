@@ -28,5 +28,9 @@ void dconst_1(pilhaFrames *p);// 0xF
 
 
 void dup(pilhaFrames *p);// 0x59
+void dup_x1(pilhaFrames *p); // 5A
+void dup_x2(pilhaFrames *p); // 5B
+
+void (*vetInstr[])(pilhaFrames *p) ;
 
 #endif /* INSTRUCOES_H_ */
