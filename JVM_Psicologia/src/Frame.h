@@ -42,7 +42,7 @@ typedef struct _frame{
 	ClassFile cf;
 	tipoOperando *arrayLocal;	// ATENÇÃO: Doubles e longs ocupam 2 índices!!
 	pilhaOperandos *pInicio;
-	methodInfo metodoAExecutar;
+	u1* codigoAExecutar;
 	struct _frame *frameAbaixo;
 } frame;
 
