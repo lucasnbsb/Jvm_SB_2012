@@ -17,7 +17,7 @@ void iconst_m1(pilhaFrames *p){
 
 	op.tipoInt = -1;
 
-	pushOperando(&(p->frameAtual->pInicio), op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
 void iconst_0(pilhaFrames *p){
@@ -26,7 +26,7 @@ void iconst_0(pilhaFrames *p){
 
 	op.tipoInt = 0;
 
-	pushOperando(&(p->frameAtual->pInicio), op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
 void iconst_1(pilhaFrames *p){
@@ -35,7 +35,7 @@ void iconst_1(pilhaFrames *p){
 
 	op.tipoInt = 1;
 
-	pushOperando(&(p->frameAtual->pInicio), op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
 void iconst_2(pilhaFrames *p){
@@ -44,7 +44,7 @@ void iconst_2(pilhaFrames *p){
 
 	op.tipoInt = 2;
 
-	pushOperando(&(p->frameAtual->pInicio), op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
 void iconst_3(pilhaFrames *p){
@@ -53,7 +53,7 @@ void iconst_3(pilhaFrames *p){
 
 	op.tipoInt = 3;
 
-	pushOperando(&(p->frameAtual->pInicio), op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
 void iconst_4(pilhaFrames *p){
@@ -62,7 +62,7 @@ void iconst_4(pilhaFrames *p){
 
 	op.tipoInt = 4;
 
-	pushOperando(&(p->frameAtual->pInicio), op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
 void iconst_5(pilhaFrames *p){
@@ -71,7 +71,7 @@ void iconst_5(pilhaFrames *p){
 
 	op.tipoInt = 5;
 
-	pushOperando(&(p->frameAtual->pInicio), op);
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
 void (*vetInstr[])(pilhaFrames *p) = {

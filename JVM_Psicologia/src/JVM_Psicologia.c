@@ -11,7 +11,9 @@
 #include "ClassFile.h"
 #include "DebugFuncs.h"
 #include "ClassLoader.h"
+#include "Frame.h"
 #include "FuncoesGerais.h"
+#include "Instrucoes.h"
 
 int main(int argc, char* argv[]){
 
@@ -20,12 +22,27 @@ int main(int argc, char* argv[]){
 		char nomeClasse[30];
 		ClassFile cf;
 		//methodInfo* m;
+		tipoOperando op;
+		pilhaFrames *p;
+
+		p = malloc (sizeof(pilhaFrames));
 
 		strcpy(nomeClasse, argv[1]);
 
 		cf = carregaClassFile(nomeClasse);
 
-		printConstantPool(cf);
+		/*
+		 * TESTE DE INSTRUÇÃO ARITMÉTICA
+		 *
+		inicializaPilhaFrames(&(p->frameAtual));
+		pushFrame(&(p->frameAtual));
+		inicializaFrame(cf, p->frameAtual, "getNome", "()[C");
+		iconst_m1(p);
+		op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+		printf ("\n\n%d\n\n", op.tipoInt);
+		*/
+
+		// printConstantPool(cf);
 
 		//Teste de busca de método por nome. Arquivo usado: Teste.class
 		//m = buscaMetodoNome(cf, "getNome", "()[C");

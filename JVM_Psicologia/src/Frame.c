@@ -72,6 +72,55 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 }
 
 /*
+ * Função que checa se a pilha de frames está vazia
+ */
+int pilhaFramesVazia (frame *frameAtual){
+	return frameAtual == NULL;
+}
+
+/*
+ * Função que inicializa a pilha de frames, semelhante à pilha de operandos
+ */
+void inicializaPilhaFrames (frame **endFrameAtual){
+	*endFrameAtual = NULL;
+}
+
+/*
+ * Função que coloca uma frame nova na pilha.
+ *
+ * !! ATENÇÃO !! - Inicializar a frame após dar o push.
+ */
+void pushFrame (frame **endFrameAtual){
+
+	frame *p1;
+
+	p1 = malloc (sizeof(frame));
+
+	p1->frameAbaixo = *endFrameAtual;
+	*endFrameAtual = p1;
+
+}
+
+/*
+ * Função que retira uma frame da pilha de frames
+ */
+void popFrame (frame **endFrameAtual){
+
+	frame *p1;
+
+	if (!pilhaFramesVazia(*endFrameAtual)){
+		p1 = *endFrameAtual;
+		*endFrameAtual = (*endFrameAtual)->frameAbaixo;
+		free (p1);
+	}
+	else {
+		printf("ERRO em popFrame : pilha vazia\n");
+		exit (1);
+	}
+
+}
+
+/*
  * Função que inicializa uma frame
  */
 void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* descriptor){
@@ -96,9 +145,9 @@ void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* desc
 	frame->constantPool = cf.constant_pool;
 	frame->cf = cf;
 	//inicializando a pilha de operandos
-	inicializaPilha(&(frame->pInicio));
+	inicializaPilha(&(frame->topoPilhaOperandos));
 	//Copiando a referência do código do método a ser executado.
-	frame->codigoAExecutar = metodo->attributes->tipoInfo.code.code;
+	frame->codigoAExecutar = codigoMetodo.tipoInfo.code.code;
 	//inicializando o array de variáveis locais
 	frame->arrayLocal = malloc(codigoMetodo.tipoInfo.code.maxLocals * sizeof(tipoOperando));
 }

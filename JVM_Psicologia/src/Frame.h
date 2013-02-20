@@ -17,7 +17,7 @@
 typedef union _tipoOperando{
 
 	int tipoInt;
-	long tipoLong;
+	long long tipoLong;
 	float tipoFloat;
 	double tipoDouble;
 
@@ -41,7 +41,7 @@ typedef struct _frame{
 	cpInfo *constantPool;
 	ClassFile cf;
 	tipoOperando *arrayLocal;	// ATENÇÃO: Doubles e longs ocupam 2 índices!!
-	pilhaOperandos *pInicio;
+	pilhaOperandos *topoPilhaOperandos;
 	u1* codigoAExecutar;
 	struct _frame *frameAbaixo;
 } frame;
@@ -50,28 +50,22 @@ typedef struct EXECUCAO{
 	frame* frameAtual;
 }pilhaFrames;
 
-/*
- * Checa se a pilha está vazia. Retorna 1, se sim, 0 se não.
- */
 int pilhaVazia (pilhaOperandos *topoPilha);
 
-/*
- * Dados um ponteiro de pilha e um operando, atualiza o topo dessa pilha com o operando passado
- */
 void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado);
 
-/*
- * Sempre que uma pilha for iniciada, chame essa função.
- */
 void inicializaPilha(pilhaOperandos **endPilha);
 
-/*
- * Retorna o operando do topo da pilha e libera a memória antes utilizada por ele.
- */
 tipoOperando popOperando(pilhaOperandos **endTopoPilha);
 
-void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo, char* descriptor);
+void pilhaVaziaFrame (frame *frameAtual);
 
-void inicializaPilhaFrames ();
+void inicializaPilhaFrames (frame **endFrameAtual);
+
+void pushFrame (frame **endFrameAtual);
+
+void popFrame (frame **endFrameAtual);
+
+void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo, char* descriptor);
 
 #endif /* PILHAOPERANDOS_H_ */
