@@ -74,23 +74,68 @@ void iconst_5(pilhaFrames *p){
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
+void lconst_0(pilhaFrames *p){ // Insere na pilha a constante long 0 op: 0x9
+	tipoOperando op;
+	op.tipoLong = 0;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+void lconst_1(pilhaFrames *p){ // Insere na pilha a constante long 1 op: 0xA
+
+	tipoOperando op;
+	op.tipoLong = 1;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+
+}
+
+void fconst_0(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xB
+	tipoOperando op;
+	op.tipoFloat = 0.0;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+void fconst_1(pilhaFrames *p){ // Insere na pilha a constante float 1.0 op: 0xC
+	tipoOperando op;
+	op.tipoFloat = 1.0;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+void fconst_2(pilhaFrames *p){ // Insere na pilha a constante long 2.0 op: 0xD
+	tipoOperando op;
+	op.tipoFloat = 2.0;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+void dconst_0(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xB
+	tipoOperando op;
+	op.tipoDouble = 0.0;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+void dconst_1(pilhaFrames *p){ // Insere na pilha a constante float 0.0 op: 0xB
+	tipoOperando op;
+	op.tipoDouble = 1.0;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+}
+
+
 void (*vetInstr[])(pilhaFrames *p) = {
 	nop,
 	nop,//aconst_null,
-	iconst_m1,//iconst,
-	iconst_0,//iconst,
-	iconst_1,//iconst,
-	iconst_2,//iconst,
-	iconst_3,//iconst,
-	iconst_4,//iconst,
-	iconst_5,//iconst,
-	nop,//lconst,
-	nop,//lconst,
-	nop,//fconst,
-	nop,//fconst,
-	nop,//fconst,
-	nop,//dconst,
-	nop,//dconst,
+	iconst_m1,//0x2
+	iconst_0,//0x3
+	iconst_1,//0x4
+	iconst_2,//0x5
+	iconst_3,//0x6
+	iconst_4,//0x7
+	iconst_5,//0x8
+	lconst_0,//0x9
+	lconst_1,//0xA
+	fconst_0,//0xB
+	fconst_1,//0xC
+	fconst_2,//0xD
+	dconst_0,//0xE
+	dconst_1,//0xF
 	nop,//bipush,
 	nop,//sipush,
 	nop,//ldc,

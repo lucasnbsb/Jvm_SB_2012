@@ -32,15 +32,16 @@ int main(int argc, char* argv[]){
 		cf = carregaClassFile(nomeClasse);
 
 		/*
-		 * TESTE DE INSTRUÇÃO ARITMÉTICA
+		 * TESTE DE INSTRUÇÃO ARITMÉTICA - SUCESSO
 		 *
-		inicializaPilhaFrames(&(p->frameAtual));
+		nicializaPilhaFrames(&(p->frameAtual));
 		pushFrame(&(p->frameAtual));
-		inicializaFrame(cf, p->frameAtual, "getNome", "()[C");
+		inicializaFrame(cf, p->frameAtual, "getNome", "()[C");i
 		iconst_m1(p);
 		op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 		printf ("\n\n%d\n\n", op.tipoInt);
 		*/
+
 
 		// printConstantPool(cf);
 

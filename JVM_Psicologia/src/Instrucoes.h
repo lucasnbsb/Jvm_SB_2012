@@ -10,14 +10,20 @@
 
 #include "Frame.h"
 
-void nop(pilhaFrames *p);
-void iconst_m1(pilhaFrames *p);
-void iconst_0(pilhaFrames *p);
-void iconst_1(pilhaFrames *p);
-void iconst_2(pilhaFrames *p);
-void iconst_3(pilhaFrames *p);
-void iconst_4(pilhaFrames *p);
-void iconst_5(pilhaFrames *p);
-
+void nop(pilhaFrames *p); // 0x00
+void iconst_m1(pilhaFrames *p); //0x2
+void iconst_0(pilhaFrames *p);// 0x3
+void iconst_1(pilhaFrames *p);// 0x4
+void iconst_2(pilhaFrames *p);// 0x5
+void iconst_3(pilhaFrames *p);// 0x6
+void iconst_4(pilhaFrames *p);// 0x7
+void iconst_5(pilhaFrames *p);// 0x8
+void lconst_0(pilhaFrames *p);// 0x9
+void lconst_1(pilhaFrames *p);// 0xA
+void fconst_0(pilhaFrames *p);// 0xB
+void fconst_1(pilhaFrames *p);// 0xC
+void fconst_2(pilhaFrames *p);// 0xD
+void dconst_0(pilhaFrames *p);// 0xE
+void dconst_1(pilhaFrames *p);// 0xF
 
 #endif /* INSTRUCOES_H_ */
