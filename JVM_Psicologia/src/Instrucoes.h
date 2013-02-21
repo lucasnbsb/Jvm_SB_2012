@@ -54,8 +54,33 @@ void imul(pilhaFrames *p);  //0x68
 void fmul(pilhaFrames *p);  //0x6A
 //void dmul(pilhaFrames *p);  //0x6B
 
-void ireturn(pilhaFrames *p);  //0xAC
+// div-------------------------------------------------------------
+void idiv(pilhaFrames *p);  //0x6C
+//void ldiv(pilhaFrames *p);  //0x6D
+void fdiv(pilhaFrames *p);  //0x6E
+//void ddiv(pilhaFrames *p);  //0x6F
 
+// rem -----------------------------------------------------------
+void irem(pilhaFrames *p);  //0x70
+//void lrem(pilhaFrames *p);  //0x71
+void frem(pilhaFrames *p);  //0x72
+//void drem(pilhaFrames *p);  //0x73
+
+// neg -----------------------------------------------------------
+void ineg(pilhaFrames *p);  //0x74
+//void lneg(pilhaFrames *p);  //0x75
+void fneg(pilhaFrames *p);  //0x76
+//void dneg(pilhaFrames *p);  //0x77
+
+// shl -----------------------------------------------------------
+void ishl(pilhaFrames *p);  //0x78
+void lshl(pilhaFrames *p);  //0x79
+
+// shr -----------------------------------------------------------
+void ishr(pilhaFrames *p);  //0x7A
+void lshr(pilhaFrames *p);  //0x7B
+
+void ireturn(pilhaFrames *p);  //0xAC
 
 void (*vetInstr[])(pilhaFrames *p) ;
 
