@@ -81,6 +81,10 @@ void lshl(execucao *p);  //0x79
 void ishr(execucao *p);  //0x7A
 void lshr(execucao *p);  //0x7B
 
+void iand(execucao *p);  //0x7E
+void ior(execucao *p);  //0x80
+void ixor(execucao *p);  //0x82
+
 void ireturn(execucao *p);  //0xAC
 
 void (*vetInstr[])(execucao *p) ;

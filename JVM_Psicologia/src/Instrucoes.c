@@ -306,6 +306,32 @@ void ishr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
+
+// bitwise ----------------------------------------------------------------------------------------------
+void iand(execucao *p){// V1 , V2 -> V1 AND V2 op: 0x7E
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoInt = op1.tipoInt & op2.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void ior(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x80
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoInt = op1.tipoInt | op2.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
+void ixor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x82
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoInt = op1.tipoInt ^ op2.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
+}
+
 void ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
 	tipoOperando  op;
 	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -441,11 +467,11 @@ void (*vetInstr[])(execucao *p) = {
 		nop,//lshr,// 0x7B
 		nop,//iushr,// 0x7C
 		nop,//lushr,// 0x7D
-		//iand,// 0x7E
+		iand,// 0x7E
 		nop,//land,// 0x7F
-		//ior,// 0x80
+		ior,// 0x80
 		nop,//lor,// 0x81
-		//ixor,// 0x82
+		ixor,// 0x82
 		nop,//lxor,// 0x83
 		nop,//iinc,// 0x84
 		nop,//i2l,// 0x85
