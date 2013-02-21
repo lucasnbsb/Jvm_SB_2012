@@ -198,7 +198,7 @@ void iadd(pilhaFrames *p){ // v1 , v2 -> v1+v2 op: 0x60
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoInt = op1.tipoInt +  op2.tipoInt;
+	op1.tipoInt = op2.tipoInt +  op1.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -206,7 +206,7 @@ void fadd(pilhaFrames *p){ // v1 , v2 -> v1+v2 op: 0x62
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoFloat = op1.tipoFloat +  op2.tipoFloat;
+	op1.tipoFloat = op2.tipoFloat +  op1.tipoFloat;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -214,7 +214,7 @@ void isub(pilhaFrames *p){ // v1 , v2 -> v1-v2 op: 0x64
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoInt = op1.tipoInt - op2.tipoInt;
+	op1.tipoInt = op2.tipoInt - op1.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -222,7 +222,7 @@ void fsub(pilhaFrames *p){ // v1 , v2 -> v1-v2 op: 0x66
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoFloat = op1.tipoFloat - op2.tipoFloat;
+	op1.tipoFloat = op2.tipoFloat - op1.tipoFloat;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -230,7 +230,7 @@ void imul(pilhaFrames *p){ // v1 , v2 -> v1*v2 op: 0x64
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoInt = op1.tipoInt * op2.tipoInt;
+	op1.tipoInt = op2.tipoInt * op1.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -238,7 +238,7 @@ void fmul(pilhaFrames *p){ // v1 , v2 -> v1*v2 op: 0x66
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoFloat = op1.tipoFloat * op2.tipoFloat;
+	op1.tipoFloat = op2.tipoFloat * op1.tipoFloat;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -246,7 +246,7 @@ void idiv(pilhaFrames *p){ // v1 , v2 -> v1/v2 op: 0x6C
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoInt = op1.tipoInt / op2.tipoInt;
+	op1.tipoInt = op2.tipoInt / op1.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -254,7 +254,7 @@ void fdiv(pilhaFrames *p){ // v1 , v2 -> v1/v2 op: 0x6E
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoFloat = op1.tipoFloat / op2.tipoFloat;
+	op1.tipoFloat = op2.tipoFloat / op1.tipoFloat;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -262,7 +262,7 @@ void irem(pilhaFrames *p){ // v1 , v2 -> v1 mod v2 op: 0x70
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoInt = op1.tipoInt % op2.tipoInt;
+	op1.tipoInt = op2.tipoInt % op1.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -270,7 +270,7 @@ void frem(pilhaFrames *p){ // v1 , v2 -> v1 mod v2 op: 0x72
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoFloat = (float) fmod(op1.tipoFloat, op2.tipoFloat);
+	op1.tipoFloat = (float) fmod(op2.tipoFloat, op1.tipoFloat);
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
@@ -290,21 +290,19 @@ void fneg(pilhaFrames *p){ // v1 -> -v1 op: 0x76
 
 void ishl(pilhaFrames *p){ // v1 , v2 -> v1<<5 bits de baixo de v2 op: 0x78
 	tipoOperando op1 , op2;
-	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op2.tipoInt = op2.tipoInt << 27;
-	op2.tipoInt = op2.tipoInt >> 27; // isolando os 5 menores bits de op2
-	op1.tipoLong = op1.tipoInt<<op2.tipoInt;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v2
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v1
+	op1.tipoInt = op1.tipoInt & 0x1F;	// isolando os 5 bits menos significativos de v2
+	op1.tipoInt = op2.tipoInt<<op1.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
 void ishr(pilhaFrames *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 	tipoOperando op1 , op2;
-	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op2.tipoInt = op2.tipoInt << 27;
-	op2.tipoInt = op2.tipoInt >> 27; // isolando os 5 menores bits de op2
-	op1.tipoLong = op1.tipoInt>>op2.tipoInt;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v2
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v1
+	op1.tipoInt = op1.tipoInt & 0x1F;	// isolando os 5 bits menos significativos de v2
+	op1.tipoInt = op2.tipoInt>>op1.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1);
 }
 
