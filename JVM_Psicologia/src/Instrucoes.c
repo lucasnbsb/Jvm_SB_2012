@@ -313,9 +313,10 @@ void ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos 
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
 }
 
+
 void (*vetInstr[])(execucao *p) = {
-	nop, // 0x
-		nop,//aconst_null,// 0x
+	nop, // 0x00
+		nop,//aconst_null,// 0x1
 		iconst_m1,// 0x2
 		iconst_0,// 0x3
 		iconst_1,// 0x4
@@ -330,79 +331,79 @@ void (*vetInstr[])(execucao *p) = {
 		fconst_2,// 0xD
 		dconst_0,// 0xE
 		dconst_1,// 0xF
-		nop,//bipush,// 0x
-		nop,//sipush,// 0x
-		nop,//ldc,// 0x
-		nop,//ldc,// 0x
-		nop,//ldc,// 0x
-		nop,//iload,// 0x
-		nop,//lload,// 0x
-		nop,//fload,// 0x
-		nop,//dload,// 0x
-		nop,//aload,// 0x
-		nop,//iload,// 0x
-		nop,//iload,// 0x
-		nop,//iload,// 0x
-		nop,//iload,// 0x
-		nop,//lload,// 0x
-		nop,//lload,// 0x
-		nop,//lload,// 0x
-		nop,//lload,// 0x
-		nop,//fload,// 0x
-		nop,//fload,// 0x
-		nop,//fload,// 0x
-		nop,//fload,// 0x
-		nop,//dload,// 0x
-		nop,//dload,// 0x
-		nop,//dload,// 0x
-		nop,//dload,// 0x
-		nop,//aload,// 0x
-		nop,//aload,// 0x
-		nop,//aload,// 0x
-		nop,//aload,// 0x
-		nop,//iaload,// 0x
-		nop,//laload,// 0x
-		nop,//faload,// 0x
-		nop,//daload,// 0x
-		nop,//aaload,// 0x
-		nop,//baload,// 0x
-		nop,//caload,// 0x
-		nop,//saload,// 0x
-		nop,//istore,// 0x
-		nop,//lstore,// 0x
-		nop,//fstore,// 0x
-		nop,//dstore,// 0x
-		nop,//astore,// 0x
-		nop,//istore,// 0x
-		nop,//istore,// 0x
-		nop,//istore,// 0x
-		nop,//istore,// 0x
-		nop,//lstore,// 0x
-		nop,//lstore,// 0x
-		nop,//lstore,// 0x
-		nop,//lstore,// 0x
-		nop,//fstore,// 0x
-		nop,//fstore,// 0x
-		nop,//fstore,// 0x
-		nop,//fstore,// 0x
-		nop,//dstore,// 0x
-		nop,//dstore,// 0x
-		nop,//dstore,// 0x
-		nop,//dstore,// 0x
-		nop,//astore,// 0x
-		nop,//astore,// 0x
-		nop,//astore,// 0x
-		nop,//astore,// 0x
-		nop,//iastore,// 0x
-		nop,//lastore,// 0x
-		nop,//fastore,// 0x
-		nop,//dastore,// 0x
-		nop,//aastore,// 0x
-		nop,//bastore,// 0x
-		nop,//castore,// 0x
-		nop,//sastore,// 0x
-		nop,//pop,// 0x
-		nop,//pop2,// 0x
+		nop,//bipush,// 0x10
+		nop,//sipush,// 0x11
+		nop,//ldc,// 0x12
+		nop,//ldc,// 0x13
+		nop,//ldc,// 0x14
+		nop,//iload,// 0x15
+		nop,//lload,// 0x16
+		nop,//fload,// 0x17
+		nop,//dload,// 0x18
+		nop,//aload,// 0x19
+		nop,//iload,// 0x1A
+		nop,//iload,// 0x1B
+		nop,//iload,// 0x1C
+		nop,//iload,// 0x1D
+		nop,//lload,// 0x1E
+		nop,//lload,// 0x1F
+		nop,//lload,// 0x20
+		nop,//lload,// 0x21
+		nop,//fload,// 0x22
+		nop,//fload,// 0x23
+		nop,//fload,// 0x24
+		nop,//fload,// 0x25
+		nop,//dload,// 0x26
+		nop,//dload,// 0x27
+		nop,//dload,// 0x28
+		nop,//dload,// 0x29
+		nop,//aload,// 0x2A
+		nop,//aload,// 0x2B
+		nop,//aload,// 0x2C
+		nop,//aload,// 0x2D
+		nop,//iaload,// 0x2E
+		nop,//laload,// 0x2F
+		nop,//faload,// 0x30
+		nop,//daload,// 0x31
+		nop,//aaload,// 0x32
+		nop,//baload,// 0x33
+		nop,//caload,// 0x34
+		nop,//saload,// 0x35
+		nop,//istore,// 0x36
+		nop,//lstore,// 0x37
+		nop,//fstore,// 0x38
+		nop,//dstore,// 0x39
+		nop,//astore,// 0x3A
+		nop,//istore,// 0x3B
+		nop,//istore,// 0x3C
+		nop,//istore,// 0x3D
+		nop,//istore,// 0x3E
+		nop,//lstore,// 0x3F
+		nop,//lstore,// 0x40
+		nop,//lstore,// 0x41
+		nop,//lstore,// 0x42
+		nop,//fstore,// 0x43
+		nop,//fstore,// 0x44
+		nop,//fstore,// 0x45
+		nop,//fstore,// 0x46
+		nop,//dstore,// 0x47
+		nop,//dstore,// 0x48
+		nop,//dstore,// 0x49
+		nop,//dstore,// 0x4A
+		nop,//astore,// 0x4B
+		nop,//astore,// 0x4C
+		nop,//astore,// 0x4D
+		nop,//astore,// 0x4E
+		nop,//iastore,// 0x4F
+		nop,//lastore,// 0x50
+		nop,//fastore,// 0x51
+		nop,//dastore,// 0x52
+		nop,//aastore,// 0x53
+		nop,//bastore,// 0x54
+		nop,//castore,// 0x55
+		nop,//sastore,// 0x56
+		nop,//pop,// 0x57
+		nop,//pop2,// 0x58
 		dup,//0x59
 		dup_x1,//0x5A
 		dup_x2,//0x5B
@@ -411,109 +412,109 @@ void (*vetInstr[])(execucao *p) = {
 		dup2_x2,// 0x5E
 		swap,// 0x5F
 		iadd,// 0x60
-		nop,//ladd,// 0x
+		//ladd,// 0x61
 		fadd,// 0x62
-		nop,//dadd,// 0x
+		//dadd,// 0x63
 		isub,// 0x64
-		nop,//lsub,// 0x
-		fsub,// 0x64
-		nop,//dsub,// 0x
+		nop,//lsub,// 0x65
+		fsub,// 0x66
+		nop,//dsub,// 0x67
 		imul,// 0x68
-		nop,//lmul,// 0x
+		nop,//lmul,// 0x69
 		fmul,// 0x6A
-		nop,//dmul,// 0x
+		nop,//dmul,// 0x6B
 		idiv,// 0x6C
-		nop,//ldiv_,// 0x
+		nop,//ldiv_,// 0x6D
 		fdiv,// 0x6E
-		nop,//ddiv,// 0x
+		nop,//ddiv,// 0x6F
 		irem,// 0x70
-		nop,//lrem,// 0x
+		nop,//lrem,// 0x71
 		frem,// 0x72
-		nop,//drem_,// 0x
+		nop,//drem_,// 0x73
 		ineg,// 0x74
-		nop,//lneg,// 0x
+		nop,//lneg,// 0x75
 		fneg,// 0x76
-		nop,//dneg,// 0x
+		nop,//dneg,// 0x77
 		ishl,// 0x78
-		nop,//lshl,// 0x
+		nop,//lshl,// 0x79
 		ishr,// 0x7A
-		nop,//lshr,// 0x
-		nop,//iushr,// 0x
-		nop,//lushr,// 0x
-		nop,//iand,// 0x
-		nop,//land,// 0x
-		nop,//ior,// 0x
-		nop,//lor,// 0x
-		nop,//ixor,// 0x
-		nop,//lxor,// 0x
-		nop,//iinc,// 0x
-		nop,//i2l,// 0x
-		nop,//i2f,// 0x
-		nop,//i2d,// 0x
-		nop,//l2i,// 0x
-		nop,//l2f,// 0x
-		nop,//l2d,// 0x
-		nop,//f2i,// 0x
-		nop,//f2l,// 0x
-		nop,//f2d,// 0x
-		nop,//d2i,// 0x
-		nop,//d2l,// 0x
-		nop,//d2f,// 0x
-		nop,//i2b,// 0x
-		nop,//i2c,// 0x
-		nop,//i2s,// 0x
-		nop,//lcmp,// 0x
-		nop,//fcmpl,// 0x
-		nop,//fcmpg,// 0x
-		nop,//dcmpl,// 0x
-		nop,//dcmpg,// 0x
-		nop,//ifeq,// 0x
-		nop,//ifne,// 0x
-		nop,//iflt,// 0x
-		nop,//ifge,// 0x
-		nop,//ifgt,// 0x
-		nop,//ifle,// 0x
-		nop,//if_icmpeq,// 0x
-		nop,//if_icmpne,// 0x
-		nop,//if_icmplt,// 0x
-		nop,//if_icmpge,// 0x
-		nop,//if_icmpgt,// 0x
-		nop,//if_icmple,// 0x
-		nop,//if_acmpeq,// 0x
-		nop,//if_acmpne,// 0x
-		nop,//goto_,// 0x
-		nop,//jsr,// 0x
-		nop,//ret,// 0x
-		nop,//tableswitch,// 0x
-		nop,//lookupswitch,// 0x
+		nop,//lshr,// 0x7B
+		nop,//iushr,// 0x7C
+		nop,//lushr,// 0x7D
+		//iand,// 0x7E
+		nop,//land,// 0x7F
+		//ior,// 0x80
+		nop,//lor,// 0x81
+		//ixor,// 0x82
+		nop,//lxor,// 0x83
+		nop,//iinc,// 0x84
+		nop,//i2l,// 0x85
+		nop,//i2f,// 0x86
+		nop,//i2d,// 0x87
+		nop,//l2i,// 0x88
+		nop,//l2f,// 0x89
+		nop,//l2d,// 0x8A
+		nop,//f2i,// 0x8B
+		nop,//f2l,// 0x8C
+		nop,//f2d,// 0x8D
+		nop,//d2i,// 0x8E
+		nop,//d2l,// 0x8F
+		nop,//d2f,// 0x90
+		nop,//i2b,// 0x91
+		nop,//i2c,// 0x92
+		nop,//i2s,// 0x93
+		nop,//lcmp,// 0x94
+		nop,//fcmpl,// 0x95
+		nop,//fcmpg,// 0x96
+		nop,//dcmpl,// 0x97
+		nop,//dcmpg,// 0x98
+		nop,//ifeq,// 0x99
+		nop,//ifne,// 0x9A
+		nop,//iflt,// 0x9B
+		nop,//ifge,// 0x9C
+		nop,//ifgt,// 0x9D
+		nop,//ifle,// 0x9E
+		nop,//if_icmpeq,// 0x9F
+		nop,//if_icmpne,// 0xA0
+		nop,//if_icmplt,// 0xA1
+		nop,//if_icmpge,// 0xA2
+		nop,//if_icmpgt,// 0xA3
+		nop,//if_icmple,// 0xA4
+		nop,//if_acmpeq,// 0XA5
+		nop,//if_acmpne,// 0xA6
+		nop,//goto_,// 0xA7
+		nop,//jsr,// 0xA8
+		nop,//ret,// 0xA9
+		nop,//tableswitch,// 0xAA
+		nop,//lookupswitch,// 0xAB
 		ireturn,// 0xAC
 		nop,//return1,// 0xAD
 		nop,//return1,// 0xAE
 		nop,//return1,// 0xAF
 		nop,//return1,// 0xB0
 		nop,//return0,// 0xB1
-		nop,//getstatic,// 0x
-		nop,//putstatic,// 0x
-		nop,//getfield,// 0x
-		nop,//putfield,// 0x
-		nop,//invokevirtual,// 0x
-		nop,//invokespecial,// 0x
-		nop,//invokestatic,// 0x
-		nop,//nop,// 0x
-		nop,//nop,// 0x
-		nop,//new_,// 0x
-		nop,//newarray,// 0x
-		nop,//anewarray,// 0x
-		nop,//arraylength,// 0x
-		nop,//athrow,// 0x
-		nop,//checkcast,// 0x
-		nop,//instanceof,// 0x
-		nop,//nop,// 0x
-		nop,//nop,// 0x
-		nop,//wide,// 0x
-		nop,//multianewarray,// 0x
-		nop,//ifnull,// 0x
-		nop,//ifnonnull,// 0x
-		nop,//goto_w,// 0x
-		nop//jsr_// 0x
+		nop,//getstatic,// 0xB2
+		nop,//putstatic,// 0xB3
+		nop,//getfield,// 0xB4
+		nop,//putfield,// 0xB5
+		nop,//invokevirtual,// 0xB6
+		nop,//invokespecial,// 0xB7
+		nop,//invokestatic,// 0xB8
+		nop,//nop,// 0xB9
+		nop,//nop,// 0xBA
+		nop,//new_,// 0xBB
+		nop,//newarray,// 0xBC
+		nop,//anewarray,// 0xBD
+		nop,//arraylength,// 0xBE
+		nop,//athrow,// 0xBF
+		nop,//checkcast,// 0xC0
+		nop,//instanceof,// 0xC1
+		nop,//nop,// 0xC2
+		nop,//nop,// 0xC3
+		nop,//wide,// 0xC4
+		nop,//multianewarray,// 0xC5
+		nop,//ifnull,// 0xC6
+		nop,//ifnonnull,// 0xC7
+		nop,//goto_w,// 0xC8
+		nop//jsr_// 0xC9
 };
