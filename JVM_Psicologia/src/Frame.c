@@ -142,7 +142,6 @@ void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* desc
 		}
 	}
 	frame->constantPool = cf.constant_pool;
-	frame->cf = cf;
 	//inicializando a pilha de operandos
 	inicializaPilha(&(frame->topoPilhaOperandos));
 	//Copiando a referência do código do método a ser executado.

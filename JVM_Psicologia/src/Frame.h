@@ -39,16 +39,11 @@ typedef struct _pilhaOperandos{
  */
 typedef struct _frame{
 	cpInfo *constantPool;
-	ClassFile cf;
 	tipoOperando *arrayLocal;	// ATENÇÃO: Doubles e longs ocupam 2 índices!!
 	pilhaOperandos *topoPilhaOperandos;
 	u1* codigoAExecutar;
 	struct _frame *frameAbaixo;
 } frame;
-
-typedef struct EXECUCAO{
-	frame* frameAtual;
-}pilhaFrames;
 
 int pilhaVazia (pilhaOperandos *topoPilha);
 

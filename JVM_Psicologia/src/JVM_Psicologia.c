@@ -23,9 +23,9 @@ int main(int argc, char* argv[]){
 		ClassFile cf;
 		//methodInfo* m;
 		tipoOperando op;
-		pilhaFrames *p;
+		execucao *p;
 
-		p = malloc (sizeof(pilhaFrames));
+		p = malloc (sizeof(execucao));
 
 		strcpy(nomeClasse, argv[1]);
 
