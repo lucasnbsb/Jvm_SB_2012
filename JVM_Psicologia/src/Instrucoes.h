@@ -39,39 +39,39 @@ void swap(execucao *p);  //0x5F
 // add ------------------------------------------------------------
 
 void iadd(execucao *p);  //0x60
-//void ladd(execucao *p);  //0x61
+void ladd(execucao *p);  //0x61
 void fadd(execucao *p);  //0x62
-//void dadd(execucao *p);  //0x63
+void dadd(execucao *p);  //0x63
 // sub ------------------------------------------------------------
 
 void isub(execucao *p);  //0x64
-//void lsub(execucao *p);  //0x65
+void lsub(execucao *p);  //0x65
 void fsub(execucao *p);  //0x66
-//void dsub(execucao *p);  //0x67
+void dsub(execucao *p);  //0x67
 
 // mul ------------------------------------------------------------
 void imul(execucao *p);  //0x68
-//void lmul(execucao *p);  //0x69
+void lmul(execucao *p);  //0x69
 void fmul(execucao *p);  //0x6A
-//void dmul(execucao *p);  //0x6B
+void dmul(execucao *p);  //0x6B
 
 // div-------------------------------------------------------------
 void idiv(execucao *p);  //0x6C
 //void ldiv(execucao *p);  //0x6D
 void fdiv(execucao *p);  //0x6E
-//void ddiv(execucao *p);  //0x6F
+void ddiv(execucao *p);  //0x6F
 
 // rem -----------------------------------------------------------
 void irem(execucao *p);  //0x70
-//void lrem(execucao *p);  //0x71
+void lrem(execucao *p);  //0x71
 void frem(execucao *p);  //0x72
 //void drem(execucao *p);  //0x73
 
 // neg -----------------------------------------------------------
 void ineg(execucao *p);  //0x74
-//void lneg(execucao *p);  //0x75
+void lneg(execucao *p);  //0x75
 void fneg(execucao *p);  //0x76
-//void dneg(execucao *p);  //0x77
+void dneg(execucao *p);  //0x77
 
 // shl -----------------------------------------------------------
 void ishl(execucao *p);  //0x78
