@@ -11,6 +11,11 @@
 #include "Frame.h"
 #include "FuncoesGerais.h"
 
+// Função que inicializa a lista com o endereço NULL
+void inicializaClassFileLista(listaClasses** endInicioLista){
+	*endInicioLista = NULL;
+}
+
 // Função que adiciona um novo class file carregado à lista encadeada simples de classes
 void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf){
 
@@ -59,10 +64,10 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 }
 
 // Função que inicia e executa um método
-void executaMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p){
+void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs){
 
 	ClassFile* cf;
-	int isRetInstr = 0;
+	int i;
 
 	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
 	if (cf == NULL){
@@ -77,8 +82,19 @@ void executaMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execuc
 	// Preenche a frame alocada
 	inicializaFrame(*cf, p->frameAtual, nomeMetodo, descriptor);
 
-	// loop de execução dos métodos
-	// Enquanto a instrução executada não for a de retorno, continue executando
+	// Passa os argumentos para a nova frame
+	if (p->frameAtual->frameAbaixo != NULL){
+		for (i = (numArgs - 1); i > 0; i--){
+			p->frameAtual->arrayLocal[i] = popOperando(&(p->frameAtual->topoPilhaOperandos));
+		}
+	}
+
+}
+
+void executaMetodo(execucao *p){
+
+	int isRetInstr = 0;
+
 	while (!isRetInstr){
 
 		isRetInstr = vetInstr[*(p->frameAtual->pc)](p);

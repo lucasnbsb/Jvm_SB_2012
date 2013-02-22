@@ -12,10 +12,12 @@
 #include "ClassFile.h"
 #include "Instrucoes.h"
 
+void inicializaClassFileLista(listaClasses** endInicioLista);
+
 void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf);
 
 ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse);
 
-void executaMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p);
+void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs);
 
 #endif /* EXECUCAO_H_ */

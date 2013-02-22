@@ -100,6 +100,8 @@ int ixor(execucao *p);  //0x82
 
 int ireturn(execucao *p);  //0xAC
 
+int invokespecial(execucao *p); // 0xB7
+
 int (*vetInstr[])(execucao *p) ;
 
 #endif /* INSTRUCOES_H_ */

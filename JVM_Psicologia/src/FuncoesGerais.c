@@ -47,6 +47,30 @@ u2 lerU2Codigo(frame *fr){
 
 }
 
+int contaArgumentosMetodo(u1* descriptor){
+
+	u1* varredor;
+	int i = 0;
+	int numArgs = 0;
+
+	while (varredor[i] != ')'){
+		if (varredor[i] != '(' && varredor[i] != '['){
+			numArgs++;
+			if (varredor[i] == 'L'){
+				while (varredor[i] != ';'){
+					i++;
+				}
+			}
+		}
+
+		i++;
+
+	}
+
+	return numArgs;
+
+}
+
 // Função que retorna um atributo UTF8 dado um índice válido
 u1* buscaUTF8ConstPool(cpInfo *cp, u2 indice){
 

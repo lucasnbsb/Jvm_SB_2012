@@ -17,4 +17,8 @@ u1* buscaUTF8ConstPool(cpInfo* cp, u2 indice);
 
 u1 lerU1Codigo(frame*);
 
+u2 lerU2Codigo(frame*);
+
+int contaArgumentosMetodo(u1* descriptor);
+
 #endif /* FUNCOESGERAIS_H_ */

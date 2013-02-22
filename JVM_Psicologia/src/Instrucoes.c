@@ -589,6 +589,41 @@ int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  
 }
 
 
+// TODO - Vitor: estou me adiantando com essa instrução complexa. Incompleta.
+// Instrução que dada uma pilha com os argumentos, invoca um método
+int invokespecial(execucao *p){
+
+	int numArgs;
+	char* nomeClasse;
+	char* nomeMetodo;
+	char* descritor;
+	u2 indice;
+	u2 indiceClassInfo;
+	u2 indiceNameAndTypeInfo;
+	u2 indiceNomeMetodo;
+	u2 indiceTipoMetodo;
+
+	indice = lerU2Codigo(p->frameAtual);
+
+	indiceClassInfo = p->frameAtual->constantPool[indice].info.methodRefInfo.classIndex;
+	nomeClasse = (char*) buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
+
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indice].info.methodRefInfo.nameAndTypeIndex;
+	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
+	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
+
+	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
+	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
+
+	numArgs = contaArgumentosMetodo(descritor);
+
+	preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs);
+
+	// TODO - Terminar
+
+	return 0;
+}
+
 int (*vetInstr[])(execucao *p) = {
 	nop, // 0x00
 		nop,//aconst_null,// 0x1
