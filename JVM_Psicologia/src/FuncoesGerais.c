@@ -17,8 +17,8 @@ methodInfo* buscaMetodoNome(ClassFile cf, char* nomeMetodo, char* descriptor){
 	int i;
 
 	for (i = 0; i < cf.methods_count; i++){
-		if(strcmp((char*) buscaUTF8ConstPool(cf, cf.methods[i].nameIndex), nomeMetodo) == 0
-				&& strcmp((char*) buscaUTF8ConstPool(cf, cf.methods[i].descriptorIndex), descriptor) == 0){
+		if(strcmp((char*) buscaUTF8ConstPool(cf.constant_pool, cf.methods[i].nameIndex), nomeMetodo) == 0
+				&& strcmp((char*) buscaUTF8ConstPool(cf.constant_pool, cf.methods[i].descriptorIndex), descriptor) == 0){
 			return &(cf.methods[i]);
 		}
 	}
@@ -34,9 +34,22 @@ u1 lerU1Codigo(frame *fr){
 	return retorno;
 }
 
-// Função que retorna um atributo UTF8 dado um índice válido
-u1* buscaUTF8ConstPool(ClassFile cf, u2 indice){
+u2 lerU2Codigo(frame *fr){
+	u2 retorno;
 
-	return cf.constant_pool[indice].info.UTF8Info.bytes;
+	retorno = *(fr->pc);
+	fr->pc++;
+
+	retorno = retorno << 8 | *(fr->pc);
+	fr->pc++;
+
+	return retorno;
+
+}
+
+// Função que retorna um atributo UTF8 dado um índice válido
+u1* buscaUTF8ConstPool(cpInfo *cp, u2 indice){
+
+	return cp[indice].info.UTF8Info.bytes;
 
 }

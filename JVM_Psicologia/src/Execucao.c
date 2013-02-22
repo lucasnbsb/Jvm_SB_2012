@@ -49,7 +49,7 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 	indiceClassInfo = p1->cf.this_class;
 
 	while (p1 != NULL){
-		if (strcmp(buscaUTF8ConstPool(p1->cf, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasse) == 0){
+		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasse) == 0){
 			return &(p1->cf);
 		}
 	}
@@ -57,8 +57,6 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 	return NULL;
 
 }
-
-// TODO - Filosofar sobre como executar um método
 
 // Função que inicia e executa um método
 void executaMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p){

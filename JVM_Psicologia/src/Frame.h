@@ -20,6 +20,7 @@ typedef union _tipoOperando{
 	long long tipoLong;
 	float tipoFloat;
 	double tipoDouble;
+	void* tipoReferencia;
 
 } tipoOperando;
 

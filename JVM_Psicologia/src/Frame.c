@@ -135,7 +135,7 @@ void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* desc
 	}else{
 		//achar o atributo Code , percorre a lista de atributos buscando o atributo Code
 		for (i = 0; i < metodo->attributesCount; i++) {
-			if(strcmp( buscaUTF8ConstPool(cf , metodo->attributes[i].attributeNameIndex) , "Code") == 0){
+			if(strcmp( buscaUTF8ConstPool(cf.constant_pool , metodo->attributes[i].attributeNameIndex) , "Code") == 0){
 				codigoMetodo = metodo->attributes[i];
 				break;
 			}

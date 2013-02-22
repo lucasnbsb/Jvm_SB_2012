@@ -181,6 +181,35 @@ int load_3(execucao *p){ //insere na pilha um int da constant pool op: 0X1D , 0X
 	return 0;
 }
 
+// Lê um índice de 2 bytes e carrega o valor que estiver na constant pool neste índice
+// No caso da String, é carregado sua referência
+int ldc(execucao *p){
+
+	u2 indice;
+	tipoOperando op;
+
+	indice = lerU1Codigo(p->frameAtual);
+
+	switch(p->frameAtual->constantPool[indice].tag){
+		case CONSTANT_Integer:
+			op.tipoInt = p->frameAtual->constantPool[indice].info.integerInfo.bytes;
+			break;
+		case CONSTANT_Float:
+			op.tipoFloat = p->frameAtual->constantPool[indice].info.floatInfo.f.num;
+			break;
+		case CONSTANT_String:
+			op.tipoReferencia = (char*) buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indice].info.stringInfo.stringIndex);
+			break;
+		default:
+			printf("\nInstrução ldc sendo utilizado com indice invalido\n");
+			exit(1);
+	}
+
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op);
+
+	return 0;
+}
+
 //Store --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int store(execucao *p){ //recebe um indice e salva o topo da pilha de operandos no indice do vetor de variaveis locais 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
 	return 0;
@@ -574,7 +603,7 @@ int (*vetInstr[])(execucao *p) = {
 		dconst_1,// 0xF
 		nop,//bipush,// 0x10
 		nop,//sipush,// 0x11
-		nop,//ldc,// 0x12
+		ldc,// 0x12
 		nop,//ldc,// 0x13
 		nop,//ldc,// 0x14
 		load,// 0x15
