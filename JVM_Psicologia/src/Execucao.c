@@ -63,12 +63,12 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 // Função que inicia e executa um método
 void executaMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p){
 
-	u1* pc;
 	ClassFile* cf;
+	int isRetInstr = 0;
 
 	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
-
 	if (cf == NULL){
+		cf = malloc (sizeof(ClassFile));
 		*cf = carregaClassFile(nomeClasse);
 		insereClassFileLista(&(p->pInicioLista), *cf);
 	}
@@ -79,7 +79,13 @@ void executaMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execuc
 	// Preenche a frame alocada
 	inicializaFrame(*cf, p->frameAtual, nomeMetodo, descriptor);
 
-	pc = p->frameAtual->codigoAExecutar;
+	// loop de execução dos métodos
+	// Enquanto a instrução executada não for a de retorno, continue executando
+	while (!isRetInstr){
 
+		isRetInstr = vetInstr[*(p->frameAtual->pc)](p);
+		p->frameAtual->pc++;
+
+	}
 
 }

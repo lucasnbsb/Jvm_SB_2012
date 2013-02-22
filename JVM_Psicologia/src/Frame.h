@@ -46,6 +46,16 @@ typedef struct _frame{
 	u1 *pc;
 } frame;
 
+typedef struct _listaClasses{
+	ClassFile cf;
+	struct _listaClasses *proxClasse;
+} listaClasses;
+
+typedef struct EXECUCAO{
+	frame* frameAtual;
+	listaClasses* pInicioLista;
+}execucao;
+
 int pilhaVazia (pilhaOperandos *topoPilha);
 
 void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado);

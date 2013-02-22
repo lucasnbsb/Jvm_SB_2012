@@ -10,16 +10,7 @@
 
 #include "Frame.h"
 #include "ClassFile.h"
-
-typedef struct _listaClasses{
-	ClassFile cf;
-	struct _listaClasses *proxClasse;
-} listaClasses;
-
-typedef struct EXECUCAO{
-	frame* frameAtual;
-	listaClasses* pInicioLista;
-}execucao;
+#include "Instrucoes.h"
 
 void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf);
 
