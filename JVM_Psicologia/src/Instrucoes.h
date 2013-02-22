@@ -36,7 +36,7 @@ int load_2(execucao *p); // 0X1C , 0X20 , 0X24 , 0X28 , OX2C
 int load_3(execucao *p); // 0X1D , 0X21 , 0X25 , 0X29 , 0X2D
 
 // store ------------------------------------------------------------
-int strore(execucao *p); // 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
+int store(execucao *p); // 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
 // dup ------------------------------------------------------------
 int dup(execucao *p);// 0x59
 int dup_x1(execucao *p); // 0x5A
