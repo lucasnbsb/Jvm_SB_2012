@@ -20,4 +20,6 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse);
 
 void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs);
 
+void executaMetodo(execucao *p);
+
 #endif /* EXECUCAO_H_ */
