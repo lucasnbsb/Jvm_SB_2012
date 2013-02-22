@@ -212,9 +212,14 @@ int ldc(execucao *p){
 
 //Store --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int store(execucao *p){ //recebe um indice e salva o topo da pilha de operandos no indice do vetor de variaveis locais 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
+	u1 index;
+	tipoOperando op;
+	index = lerU1Codigo(p->frameAtual);
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	p->frameAtual->arrayLocal[index] = op;
 	return 0;
 }
-
+//todo - incluir o store na lista de instruçoes ,  fazer store 0,1,2,3
 //dup  --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int dup(execucao *p) { // duplica o elemento no topo da pilha op: 0x59
 	tipoOperando op;
