@@ -148,4 +148,5 @@ void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* desc
 	frame->codigoAExecutar = codigoMetodo.tipoInfo.code.code;
 	//inicializando o array de variáveis locais
 	frame->arrayLocal = malloc(codigoMetodo.tipoInfo.code.maxLocals * sizeof(tipoOperando));
+	frame->pc =  frame->codigoAExecutar;
 }

@@ -27,6 +27,13 @@ methodInfo* buscaMetodoNome(ClassFile cf, char* nomeMetodo, char* descriptor){
 
 }
 
+u1 lerU1Codigo(frame *fr){
+	u1 retorno;
+	retorno = *(fr->pc);
+	fr->pc++;
+	return retorno;
+}
+
 // Função que retorna um atributo UTF8 dado um índice válido
 u1* buscaUTF8ConstPool(ClassFile cf, u2 indice){
 

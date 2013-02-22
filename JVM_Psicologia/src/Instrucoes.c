@@ -134,6 +134,51 @@ int dconst_1(execucao *p) { // Insere na pilha a constante float 0.0 op: 0xF
 	return 0;
 }
 
+int load(execucao *p){ //insere na pilha um int da constant pool
+	u1 index;
+	tipoOperando op;
+	index = lerU1Codigo(p->frameAtual);
+	op = p->frameAtual->arrayLocal[index];
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	return 0;
+}
+
+int load_0(execucao *p){ //insere na pilha um int da constant pool
+	u1 index;
+	tipoOperando op;
+	index = 0;
+	op = p->frameAtual->arrayLocal[index];
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	return 0;
+}
+
+int load_1(execucao *p){ //insere na pilha um int da constant pool
+	u1 index;
+	tipoOperando op;
+	index = 1;
+	op = p->frameAtual->arrayLocal[index];
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	return 0;
+}
+
+int load_2(execucao *p){ //insere na pilha um int da constant pool
+	u1 index;
+	tipoOperando op;
+	index = 2;
+	op = p->frameAtual->arrayLocal[index];
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	return 0;
+}
+
+int load_3(execucao *p){ //insere na pilha um int da constant pool
+	u1 index;
+	tipoOperando op;
+	index = 3;
+	op = p->frameAtual->arrayLocal[index];
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op);
+	return 0;
+}
+
 int dup(execucao *p) { // duplica o elemento no topo da pilha op: 0x59
 	tipoOperando op;
 	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -524,31 +569,31 @@ int (*vetInstr[])(execucao *p) = {
 		nop,//ldc,// 0x12
 		nop,//ldc,// 0x13
 		nop,//ldc,// 0x14
-		nop,//iload,// 0x15
-		nop,//lload,// 0x16
-		nop,//fload,// 0x17
-		nop,//dload,// 0x18
-		nop,//aload,// 0x19
-		nop,//iload,// 0x1A
-		nop,//iload,// 0x1B
-		nop,//iload,// 0x1C
-		nop,//iload,// 0x1D
-		nop,//lload,// 0x1E
-		nop,//lload,// 0x1F
-		nop,//lload,// 0x20
-		nop,//lload,// 0x21
-		nop,//fload,// 0x22
-		nop,//fload,// 0x23
-		nop,//fload,// 0x24
-		nop,//fload,// 0x25
-		nop,//dload,// 0x26
-		nop,//dload,// 0x27
-		nop,//dload,// 0x28
-		nop,//dload,// 0x29
-		nop,//aload,// 0x2A
-		nop,//aload,// 0x2B
-		nop,//aload,// 0x2C
-		nop,//aload,// 0x2D
+		load,// 0x15
+		load,// 0x16 dada a natureza da construção da pilha de operandos
+		load,// 0x17 as funçoes iload , aload , lload , fload , dload  tem  o mesmo
+		load,// 0x18 comportamento e portanto chamam a funçao unica load
+		load,// 0x19
+		load_0,// 0x1A //iload_0
+		load_1,// 0x1B //iload_1
+		load_2,// 0x1C //iload_2
+		load_3,// 0x1D //iload_3
+		load_0,// 0x1E //lload_0
+		load_1,// 0x1F //lload_1
+		load_2,// 0x20 //lload_2
+		load_3,// 0x21 //lload_3
+		load_0,// 0x22 //fload_0
+		load_1,// 0x23 //fload_1
+		load_2,// 0x24 //fload_2
+		load_3,// 0x25 //fload_3
+		load_0,// 0x26 //dload_0
+		load_1,// 0x27 //dload_1
+		load_2,// 0x28 //dload_2
+		load_3,// 0x29 //dload_3
+		load_0,// 0x2A //aload_0
+		load_1,// 0x2B // aload_1
+		load_2,// 0x2C // aload_2
+		load_3,// 0x2D // aload_3
 		nop,//iaload,// 0x2E
 		nop,//laload,// 0x2F
 		nop,//faload,// 0x30

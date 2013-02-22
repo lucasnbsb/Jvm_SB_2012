@@ -43,6 +43,7 @@ typedef struct _frame{
 	pilhaOperandos *topoPilhaOperandos;
 	u1* codigoAExecutar;
 	struct _frame *frameAbaixo;
+	u1 *pc;
 } frame;
 
 int pilhaVazia (pilhaOperandos *topoPilha);
