@@ -597,18 +597,18 @@ int invokespecial(execucao *p){
 	char* nomeClasse;
 	char* nomeMetodo;
 	char* descritor;
-	u2 indice;
+	u2 indiceMethodRefInfo;
 	u2 indiceClassInfo;
 	u2 indiceNameAndTypeInfo;
 	u2 indiceNomeMetodo;
 	u2 indiceTipoMetodo;
 
-	indice = lerU2Codigo(p->frameAtual);
+	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
 
-	indiceClassInfo = p->frameAtual->constantPool[indice].info.methodRefInfo.classIndex;
+	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
 	nomeClasse = (char*) buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
 
-	indiceNameAndTypeInfo = p->frameAtual->constantPool[indice].info.methodRefInfo.nameAndTypeIndex;
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
 	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
 	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
 
@@ -617,9 +617,9 @@ int invokespecial(execucao *p){
 
 	numArgs = contaArgumentosMetodo(descritor);
 
-	preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs);
-
-	// TODO - Terminar
+	//numArgs + 1 é para incluir a referência ao objeto
+	preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs + 1);
+	executaMetodo(p);
 
 	return 0;
 }
