@@ -28,12 +28,15 @@ int fconst_2(execucao *p);// 0xD
 int dconst_0(execucao *p);// 0xE
 int dconst_1(execucao *p);// 0xF
 
+// load ------------------------------------------------------------
 int load(execucao *p);//0x15 , 0x16 , 0x17 ,0x18 , 0x19
 int load_0(execucao *p); //0x1A , 0X1E ,0X22 , 0X26 ,0X2A
 int load_1(execucao *p); // 0X1B , 0X1F , 0X23 , 0X27 , 0X2B
 int load_2(execucao *p); // 0X1C , 0X20 , 0X24 , 0X28 , OX2C
 int load_3(execucao *p); // 0X1D , 0X21 , 0X25 , 0X29 , 0X2D
 
+// store ------------------------------------------------------------
+int strore(execucao *p); // 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
 // dup ------------------------------------------------------------
 int dup(execucao *p);// 0x59
 int dup_x1(execucao *p); // 0x5A

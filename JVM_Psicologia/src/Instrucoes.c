@@ -13,6 +13,7 @@ int nop(execucao *p) {
 	return 0;
 }
 
+//const --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int iconst_m1(execucao *p) {
 
 	tipoOperando op;
@@ -134,7 +135,8 @@ int dconst_1(execucao *p) { // Insere na pilha a constante float 0.0 op: 0xF
 	return 0;
 }
 
-int load(execucao *p){ //insere na pilha um int da constant pool
+//Load --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+int load(execucao *p){ //insere na pilha a posicao apontada por um indice do vetor de variáveis locais op: 0x15 , 0x16 , 0x17 ,0x18 , 0x19
 	u1 index;
 	tipoOperando op;
 	index = lerU1Codigo(p->frameAtual);
@@ -143,7 +145,7 @@ int load(execucao *p){ //insere na pilha um int da constant pool
 	return 0;
 }
 
-int load_0(execucao *p){ //insere na pilha um int da constant pool
+int load_0(execucao *p){ //insere na pilha a posicao 0 do vetor de variáveis locais op: 0x1A , 0X1E ,0X22 , 0X26 ,0X2A
 	u1 index;
 	tipoOperando op;
 	index = 0;
@@ -152,7 +154,7 @@ int load_0(execucao *p){ //insere na pilha um int da constant pool
 	return 0;
 }
 
-int load_1(execucao *p){ //insere na pilha um int da constant pool
+int load_1(execucao *p){ //insere na pilha um int da constant pool op: 0X1B , 0X1F , 0X23 , 0X27 , 0X2B
 	u1 index;
 	tipoOperando op;
 	index = 1;
@@ -161,7 +163,7 @@ int load_1(execucao *p){ //insere na pilha um int da constant pool
 	return 0;
 }
 
-int load_2(execucao *p){ //insere na pilha um int da constant pool
+int load_2(execucao *p){ //insere na pilha um int da constant pool op: 0X1C , 0X20 , 0X24 , 0X28 , OX2C
 	u1 index;
 	tipoOperando op;
 	index = 2;
@@ -170,7 +172,7 @@ int load_2(execucao *p){ //insere na pilha um int da constant pool
 	return 0;
 }
 
-int load_3(execucao *p){ //insere na pilha um int da constant pool
+int load_3(execucao *p){ //insere na pilha um int da constant pool op: 0X1D , 0X21 , 0X25 , 0X29 , 0X2D
 	u1 index;
 	tipoOperando op;
 	index = 3;
@@ -179,6 +181,12 @@ int load_3(execucao *p){ //insere na pilha um int da constant pool
 	return 0;
 }
 
+//Store --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+int store(execucao *p){ //recebe um indice e salva o topo da pilha de operandos no indice do vetor de variaveis locais 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
+	return 0;
+}
+
+//dup  --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int dup(execucao *p) { // duplica o elemento no topo da pilha op: 0x59
 	tipoOperando op;
 	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
