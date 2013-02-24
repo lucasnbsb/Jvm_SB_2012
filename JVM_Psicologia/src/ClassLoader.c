@@ -114,10 +114,11 @@ void lerConstantPool (FILE *fp, ClassFile *cf) {
 
 			case CONSTANT_UTF8:
 				cf->constant_pool[i].info.UTF8Info.length = lerU2 (fp);
-				cf->constant_pool[i].info.UTF8Info.bytes = malloc ((cf->constant_pool[i].info.UTF8Info.length)*sizeof(char));
+				cf->constant_pool[i].info.UTF8Info.bytes = malloc ((cf->constant_pool[i].info.UTF8Info.length)*sizeof(char) + 1);
 				for (j = 0; j < cf->constant_pool[i].info.UTF8Info.length; j++) {
 					cf->constant_pool[i].info.UTF8Info.bytes[j] = lerU1 (fp);
 				}
+				cf->constant_pool[i].info.UTF8Info.bytes[j] = '\0';
 				break;
 		}
 	}

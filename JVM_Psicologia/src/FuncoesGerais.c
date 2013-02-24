@@ -53,6 +53,7 @@ int contaArgumentosMetodo(u1* descriptor){
 	int i = 0;
 	int numArgs = 0;
 
+	// Varre o descritor até achar o ')', que indica final dos parametros.
 	while (varredor[i] != ')'){
 		if (varredor[i] != '(' && varredor[i] != '['){
 			numArgs++;
