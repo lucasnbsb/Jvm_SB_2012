@@ -47,8 +47,32 @@ typedef struct _frame{
 	u1 *pc;
 } frame;
 
+typedef union _tipoField{
+	int tipoInt;
+	short tipoShort;
+	float tipoFloat;
+	long long tipoLong;
+	double tipoDouble;
+	char tipoChar;
+	void* tipoReferencia;
+} tipoField;
+
+typedef struct _field{
+	char* nome;
+	char* descritor;
+	tipoField valor;
+} field;
+
+typedef struct _listaObject{
+	object obj;
+	struct _listaObject *proxObj;
+} listaObject;
+
 typedef struct _listaClasses{
 	ClassFile cf;
+	int numStaticFields;
+	field* staticFields;
+	listaObject* listaObjetos;
 	struct _listaClasses *proxClasse;
 } listaClasses;
 
@@ -56,6 +80,12 @@ typedef struct EXECUCAO{
 	frame* frameAtual;
 	listaClasses* pInicioLista;
 }execucao;
+
+typedef struct _Object{
+	int fieldsCount;
+	field* fields;
+	methodInfo* methodAreaPointer;
+} object;
 
 int pilhaVazia (pilhaOperandos *topoPilha);
 
