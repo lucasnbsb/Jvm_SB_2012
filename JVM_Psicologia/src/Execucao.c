@@ -33,7 +33,7 @@ void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf){
 	// Primeiro, contamos os static fields
 	for(i = 0; i < cf.fields_count; i++){
 		// Se a flag static estiver ativa, o field é static
-		if (cf.fields[i].accessFlags & ACC_STATIC != 0){
+		if ((cf.fields[i].accessFlags & ACC_STATIC) != 0){
 			p1->numStaticFields++;
 		}
 	}
@@ -49,7 +49,7 @@ void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf){
 		indiceNomeField = cf.fields[i].nameIndex;
 		indiceDescritorField = cf.fields[i].descriptorIndex;
 
-		if (cf.fields[i].accessFlags & ACC_STATIC != 0){
+		if ((cf.fields[i].accessFlags & ACC_STATIC) != 0){
 			p1->staticFields[j].nome = cf.constant_pool[indiceNomeField].info.UTF8Info.bytes;
 			p1->staticFields[j].descritor = cf.constant_pool[indiceDescritorField].info.UTF8Info.bytes;
 			p1->staticFields[j].valor.tipoLong = 0; // Inicializo o long com 0 pois ele representa o maior membro da Union, preenchendo tudo com 0

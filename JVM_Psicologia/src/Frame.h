@@ -63,6 +63,12 @@ typedef struct _field{
 	tipoField valor;
 } field;
 
+typedef struct _Object{
+	int fieldsCount;
+	field* fields;
+	methodInfo* methodAreaPointer;
+} object;
+
 typedef struct _listaObject{
 	object obj;
 	struct _listaObject *proxObj;
@@ -80,12 +86,6 @@ typedef struct EXECUCAO{
 	frame* frameAtual;
 	listaClasses* pInicioLista;
 }execucao;
-
-typedef struct _Object{
-	int fieldsCount;
-	field* fields;
-	methodInfo* methodAreaPointer;
-} object;
 
 int pilhaVazia (pilhaOperandos *topoPilha);
 
