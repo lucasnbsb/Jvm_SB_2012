@@ -136,7 +136,7 @@ int dconst_1(execucao *p) { // Insere na pilha a constante float 0.0 op: 0xF
 }
 
 //Load --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-int iload(execucao *p){ //insere na pilha a posicao apontada por um indice do vetor de variáveis locais op: 0x15 , 0x16 , 0x17 ,0x18 , 0x19
+int iload(execucao *p){ //insere na pilha o valor da posicao apontada por um indice do vetor de variáveis locais op: 0x15 , 0x16 , 0x17 ,0x18 , 0x19
 	u1 index;
 	tipoOperando op;
 	index = lerU1Codigo(p->frameAtual);
@@ -145,7 +145,7 @@ int iload(execucao *p){ //insere na pilha a posicao apontada por um indice do ve
 	return 0;
 }
 
-int iload_0(execucao *p){ //insere na pilha a posicao 0 do vetor de variáveis locais op: 0x1A , 0X1E ,0X22 , 0X26 ,0X2A
+int iload_0(execucao *p){ //insere na pilha o valor da posicao 0 do vetor de variáveis locais op: 0x1A , 0X1E ,0X22 , 0X26 ,0X2A
 	u1 index;
 	tipoOperando op;
 	index = 0;
@@ -695,7 +695,18 @@ int idiv(execucao *p){ // v1 , v2 -> v1/v2 op: 0x6C
 	return 0;
 }
 
-// todo erro bizarro em ldiv
+int ldiv_(execucao *p){ // v1 , v2 -> v1 / v2 op: 0x6D
+	tipoOperando op1, op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+
+	op1.tipoLong = op2.tipoLong / op1.tipoLong;
+
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
+
+	return 0;
+
+}
 
 int fdiv(execucao *p){ // v1 , v2 -> v1/v2 op: 0x6E
 	tipoOperando op1, op2;
@@ -710,7 +721,7 @@ int ddiv(execucao *p){ // v1 , v2 -> v1/v2 op: 0x6F
 	tipoOperando op1, op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	op1.tipoFloat = op2.tipoFloat / op1.tipoFloat;
+	op1.tipoDouble = op2.tipoDouble / op1.tipoDouble;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
 	return 0;
 }
@@ -743,7 +754,18 @@ int frem(execucao *p){ // v1 , v2 -> v1 mod v2 op: 0x72
 	return 0;
 }
 
-//TODO - erro esquisito em drem
+int drem_(execucao *p){ // v1 , v2 -> v1 mod v2 op: 0x73
+	tipoOperando op1, op2;
+
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+
+	op1.tipoDouble = fmod(op2.tipoDouble, op1.tipoDouble);
+
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
+
+	return 0;
+}
 
 
 //neg --------------------------------------------------------------------------------------
@@ -852,6 +874,43 @@ int ixor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x82
 // retornos ----------------------------------------------------------------------------------------------
 
 int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
+	tipoOperando  op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	popFrame(&(p->frameAtual));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+	return 1;
+}
+
+int lreturn(execucao *p){ // value -> empty op: 0xAD
+
+	tipoOperando op;
+
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	popFrame(&(p->frameAtual));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO2);
+
+	return 1;
+}
+
+int freturn(execucao *p){ // value -> empty op: 0xAE
+	tipoOperando  op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	popFrame(&(p->frameAtual));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+	return 1;
+}
+
+int dreturn(execucao *p){ // value -> empty op: 0xAF
+	tipoOperando op;
+
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	popFrame(&(p->frameAtual));
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO2);
+
+	return 1;
+}
+
+int areturn(execucao *p){ // value -> empty op: 0xB0
 	tipoOperando  op;
 	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	popFrame(&(p->frameAtual));
@@ -1010,13 +1069,13 @@ int (*vetInstr[])(execucao *p) = {
 		fmul,// 0x6A
 		dmul,// 0x6B
 		idiv,// 0x6C
-		nop,//ldiv_,// 0x6D
+		ldiv_,// 0x6D
 		fdiv,// 0x6E
 		ddiv,// 0x6F
 		irem,// 0x70
 		lrem,// 0x71
 		frem,// 0x72
-		nop,//drem_,// 0x73
+		drem_,// 0x73
 		ineg,// 0x74
 		lneg,// 0x75
 		fneg,// 0x76
@@ -1074,10 +1133,10 @@ int (*vetInstr[])(execucao *p) = {
 		nop,//tableswitch,// 0xAA
 		nop,//lookupswitch,// 0xAB
 		ireturn,// 0xAC
-		nop,//return1,// 0xAD
-		nop,//return1,// 0xAE
-		nop,//return1,// 0xAF
-		nop,//return1,// 0xB0
+		lreturn,// 0xAD
+		freturn,// 0xAE
+		dreturn,// 0xAF
+		areturn,// 0xB0
 		return_,// 0xB1
 		nop,//getstatic,// 0xB2
 		nop,//putstatic,// 0xB3

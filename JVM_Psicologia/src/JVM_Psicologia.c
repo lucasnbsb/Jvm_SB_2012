@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
 		char nomeClasse[30];
 		ClassFile cf;
 		//methodInfo* m;
-		tipoOperando op;
+		tipoOperando op1, op2;
 		execucao *p;
 
 		p = malloc (sizeof(execucao));
@@ -31,17 +31,22 @@ int main(int argc, char* argv[]){
 
 		cf = carregaClassFile(nomeClasse);
 
+
 		/*
-		 * Novo teste aritmético
+		 * TESTE DE INSTRUÇÕES ARITMÉTICAS
 		 *
 		inicializaPilhaFrames(&(p->frameAtual));
 		inicializaClassFileLista(&(p->pInicioLista));
 		pushFrame(&(p->frameAtual));
-		inicializaFrame(p->pInicioLista, cf, p->frameAtual, "getNome", "()[C");
-		dconst_1(p);
+		inicializaFrame(p->pInicioLista, cf, p->frameAtual, "main", "([Ljava/lang/String;)V");
+		op1.tipoFloat = 3000.123;
+		op2.tipoFloat = 7.5;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), op2, TIPO2);
+		frem(p);
 		printf("%s", p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1 ? "Tipo 1" : "Tipo 2");
-		op = popOperando(&(p->frameAtual->topoPilhaOperandos));
-		printf ("\n\n%g\n\n", op.tipoDouble);
+		op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+		printf ("\n\n%g\n\n", op1.tipoFloat);
 		*/
 
 		//printConstantPool(cf);

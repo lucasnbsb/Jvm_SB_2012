@@ -90,7 +90,7 @@ int dmul(execucao *p);  //0x6B
 
 // div-------------------------------------------------------------
 int idiv(execucao *p);  //0x6C
-//int ldiv(execucao *p);  //0x6D
+int ldiv_(execucao *p);  //0x6D
 int fdiv(execucao *p);  //0x6E
 int ddiv(execucao *p);  //0x6F
 
@@ -98,7 +98,7 @@ int ddiv(execucao *p);  //0x6F
 int irem(execucao *p);  //0x70
 int lrem(execucao *p);  //0x71
 int frem(execucao *p);  //0x72
-//int drem(execucao *p);  //0x73
+int drem_(execucao *p);  //0x73
 
 // neg -----------------------------------------------------------
 int ineg(execucao *p);  //0x74
@@ -120,6 +120,10 @@ int ixor(execucao *p);  //0x82
 
 // retornos ------------------------------------------------------
 int ireturn(execucao *p);  //0xAC
+int lreturn(execucao *p);  //0xAD
+int freturn(execucao *p);  //0xAE
+int dreturn(execucao *p);  //0xAF
+int areturn(execucao *p);  //0xB0
 int return_(execucao *p);  //0xB1
 
 int invokespecial(execucao *p); // 0xB7
