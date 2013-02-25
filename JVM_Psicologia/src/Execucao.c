@@ -109,6 +109,7 @@ void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor
 	// Passa os argumentos para a nova frame
 	if (p->frameAtual->frameAbaixo != NULL){
 		for (i = (numArgs - 1); i > 0; i--){
+			// TODO - Arrumar o problema dos índices de double e long
 			p->frameAtual->arrayLocal[i] = popOperando(&(p->frameAtual->topoPilhaOperandos));
 		}
 	}
