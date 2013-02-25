@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
 		char nomeClasse[30];
 		ClassFile cf;
 		//methodInfo* m;
-		tipoOperando op1, op2;
+		//tipoOperando op1, op2;
 		execucao *p;
 
 		p = malloc (sizeof(execucao));

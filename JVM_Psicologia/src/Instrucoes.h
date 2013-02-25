@@ -15,6 +15,7 @@
 #include "FuncoesGerais.h"
 
 int nop(execucao *p); // 0x00
+int aconst_null(execucao *p); // 0x01
 int iconst_m1(execucao *p); //0x2
 int iconst_0(execucao *p);// 0x3
 int iconst_1(execucao *p);// 0x4
@@ -29,6 +30,10 @@ int fconst_1(execucao *p);// 0xC
 int fconst_2(execucao *p);// 0xD
 int dconst_0(execucao *p);// 0xE
 int dconst_1(execucao *p);// 0xF
+
+// push ------------------------------------------------------------
+int bipush(execucao *p);// 0x10
+int sipush(execucao *p);// 0x11
 
 // load ------------------------------------------------------------
 int iload(execucao *p);//0x15
