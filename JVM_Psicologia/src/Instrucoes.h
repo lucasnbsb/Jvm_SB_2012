@@ -31,11 +31,31 @@ int dconst_0(execucao *p);// 0xE
 int dconst_1(execucao *p);// 0xF
 
 // load ------------------------------------------------------------
-int load(execucao *p);//0x15 , 0x16 , 0x17 ,0x18 , 0x19
-int load_0(execucao *p); //0x1A , 0X1E ,0X22 , 0X26 ,0X2A
-int load_1(execucao *p); // 0X1B , 0X1F , 0X23 , 0X27 , 0X2B
-int load_2(execucao *p); // 0X1C , 0X20 , 0X24 , 0X28 , OX2C
-int load_3(execucao *p); // 0X1D , 0X21 , 0X25 , 0X29 , 0X2D
+int iload(execucao *p);//0x15
+int lload(execucao *p);//0x16
+int fload(execucao *p);//0x17
+int dload(execucao *p);//0x18
+int aload(execucao *p);//0x19
+int iload_0(execucao *p); //0x1A
+int iload_1(execucao *p); // 0X1B
+int iload_2(execucao *p); // 0X1C
+int iload_3(execucao *p); // 0X1D
+int lload_0(execucao *p); // 0x1E
+int lload_1(execucao *p); // 0x1F
+int lload_2(execucao *p); // 0x20
+int lload_3(execucao *p); // 0x21
+int fload_0(execucao *p); // 0x22
+int fload_1(execucao *p); // 0x23
+int fload_2(execucao *p); // 0x24
+int fload_3(execucao *p); // 0x25
+int dload_0(execucao *p); // 0x26
+int dload_1(execucao *p); // 0x27
+int dload_2(execucao *p); // 0x28
+int dload_3(execucao *p); // 0x29
+int aload_0(execucao *p); // 0x2A
+int aload_1(execucao *p); // 0x2B
+int aload_2(execucao *p); // 0x2C
+int aload_3(execucao *p); // 0x2D
 int ldc(execucao *p); // 0x12
 
 // store ------------------------------------------------------------

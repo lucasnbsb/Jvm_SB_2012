@@ -8,6 +8,9 @@
 #ifndef FRAME_H_
 #define FRAME_H_
 
+#define TIPO1 1
+#define TIPO2 0
+
 #include "ClassFile.h"
 
 /*
@@ -31,6 +34,7 @@ typedef union _tipoOperando{
 typedef struct _pilhaOperandos{
 
 	tipoOperando operando;
+	int operandoTipo1;	// flag que diz se o operando empilhado é do tipo 1
 	struct _pilhaOperandos *elementoAbaixo;
 
 } pilhaOperandos;
@@ -89,7 +93,7 @@ typedef struct EXECUCAO{
 
 int pilhaVazia (pilhaOperandos *topoPilha);
 
-void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado);
+void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado, int operandoTipo);
 
 void inicializaPilha(pilhaOperandos **endPilha);
 

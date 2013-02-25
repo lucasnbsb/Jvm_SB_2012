@@ -25,12 +25,13 @@ int pilhaVazia (pilhaOperandos *topoPilha){
 /*
  * Dados um ponteiro de pilha e um operando, atualiza o topo dessa pilha com o operando passado
  */
-void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado){
+void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado, int operandoTipo){
 
 	pilhaOperandos *p1;
 
 	p1 = malloc(sizeof(pilhaOperandos));
 	p1->operando = operandoPassado;
+	p1->operandoTipo1 = operandoTipo;
 	p1->elementoAbaixo = *endTopoPilha;
 	*endTopoPilha = p1;
 
