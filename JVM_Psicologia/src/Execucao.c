@@ -80,7 +80,10 @@ void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf){
 void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs){
 
 	ClassFile* cf;
+	pilhaOperandos* pilhaAux;
 	int i;
+	int numIndicesNecessarios = 0;
+	int operandoTipo;
 
 	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
 
@@ -106,11 +109,41 @@ void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor
 	// no ClassFile passado
 	inicializaFrame(p->pInicioLista, *cf, p->frameAtual, nomeMetodo, descriptor);
 
-	// Passa os argumentos para a nova frame
+	// TODO - Estou sentindo uma treta no bloco abaixo. Verificar.
+
+	// Esse bloco se refere a passagem de argumentos para o array local do novo frame
+	// Se a frame abaixo for NULL então é o método main que está passando por essa função
 	if (p->frameAtual->frameAbaixo != NULL){
-		for (i = (numArgs - 1); i > 0; i--){
-			// TODO - Arrumar o problema dos índices de double e long
-			p->frameAtual->arrayLocal[i] = popOperando(&(p->frameAtual->topoPilhaOperandos));
+
+		inicializaPilha(&pilhaAux);
+
+		// Agora, temos que contar quantos índices iremos usar no array local
+		// Para tal, usaremos uma pilha de operandos auxiliar, que será preenchida
+		// com os elementos da pilha de operandos da frame abaixo
+		for (i = 0; i < numArgs; i++){
+			operandoTipo = p->frameAtual->frameAbaixo->topoPilhaOperandos->operandoTipo1;
+			pushOperando(&pilhaAux, popOperando(&(p->frameAtual->frameAbaixo->topoPilhaOperandos)), operandoTipo);
+
+			if (operandoTipo == TIPO2){
+				numIndicesNecessarios++;
+			}
+			numIndicesNecessarios++;
+
+		}
+
+		// Agora, temos que devolver os operandos para a pilha original
+		for (i = 0; i < numArgs; i++){
+			operandoTipo = pilhaAux->operandoTipo1;
+			pushOperando(&(p->frameAtual->frameAbaixo->topoPilhaOperandos), popOperando(&pilhaAux), operandoTipo);
+		}
+
+		// Passa os argumentos para a nova frame
+		for (i = (numIndicesNecessarios - 1); i >= 0; i--){
+			// Se o argumento for um double ou um long, pulamos um índice
+			if (p->frameAtual->frameAbaixo->topoPilhaOperandos->operandoTipo1 == TIPO2){
+				i--;
+			}
+			p->frameAtual->arrayLocal[i] = popOperando(&(p->frameAtual->frameAbaixo->topoPilhaOperandos));
 		}
 	}
 

@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
 		char nomeClasse[30];
 		ClassFile cf;
 		//methodInfo* m;
-		//tipoOperando op;
+		tipoOperando op;
 		execucao *p;
 
 		p = malloc (sizeof(execucao));
@@ -30,18 +30,21 @@ int main(int argc, char* argv[]){
 		strcpy(nomeClasse, argv[1]);
 
 		cf = carregaClassFile(nomeClasse);
+
 		/*
-		 * TESTE DE INSTRUÇÃO ARITMÉTICA
+		 * Novo teste aritmético
 		 *
 		inicializaPilhaFrames(&(p->frameAtual));
+		inicializaClassFileLista(&(p->pInicioLista));
 		pushFrame(&(p->frameAtual));
-		inicializaFrame(cf, p->frameAtual, "getNome", "()[C");
-		iconst_m1(p);
+		inicializaFrame(p->pInicioLista, cf, p->frameAtual, "getNome", "()[C");
+		dconst_1(p);
+		printf("%s", p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1 ? "Tipo 1" : "Tipo 2");
 		op = popOperando(&(p->frameAtual->topoPilhaOperandos));
-		printf ("\n\n%d\n\n", op.tipoInt);
+		printf ("\n\n%g\n\n", op.tipoDouble);
 		*/
 
-		printConstantPool(cf);
+		//printConstantPool(cf);
 
 		//Teste de busca de método por nome. Arquivo usado: Teste.class
 		//m = buscaMetodoNome(cf, "<clinit>", "()V");
