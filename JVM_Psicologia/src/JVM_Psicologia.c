@@ -17,12 +17,12 @@
 
 int main(int argc, char* argv[]){
 
-	if(argc == 2 && strstr(argv[1],".class") != NULL){
+	if(argc == 2){
 
 		char nomeClasse[30];
 		ClassFile cf;
 		//methodInfo* m;
-		tipoOperando op;
+		//tipoOperando op;
 		execucao *p;
 
 		p = malloc (sizeof(execucao));
@@ -30,7 +30,6 @@ int main(int argc, char* argv[]){
 		strcpy(nomeClasse, argv[1]);
 
 		cf = carregaClassFile(nomeClasse);
-
 		/*
 		 * TESTE DE INSTRUÇÃO ARITMÉTICA
 		 *
@@ -42,18 +41,18 @@ int main(int argc, char* argv[]){
 		printf ("\n\n%d\n\n", op.tipoInt);
 		*/
 
-		// printConstantPool(cf);
+		printConstantPool(cf);
 
 		//Teste de busca de método por nome. Arquivo usado: Teste.class
-		//m = buscaMetodoNome(cf, "getNome", "()[C");
-		//
-		//printf("\n\n\n%s\n", (char*) buscaUTF8ConstPool(cf,m->nameIndex));
+		//m = buscaMetodoNome(cf, "<clinit>", "()V");
+
+		//printf("\n\n\n%s\n", (char*) buscaUTF8ConstPool(cf.constant_pool,m->nameIndex));
+		//printf("%s\n", (char*) buscaUTF8ConstPool(cf.constant_pool,m->descriptorIndex));
 	}
 	else{
 		printf("ERRO! Possíveis causas:\n");
 		printf("\t1. Mais de um argumento de linha de comando foi passado\n");
 		printf("\t2. Nao foi passado um argumento de linha de comando\n");
-		printf("\t3. O arquivo nao possui a extensao .class\n");
 	}
 
 	return 0;

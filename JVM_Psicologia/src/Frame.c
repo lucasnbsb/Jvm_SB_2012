@@ -120,28 +120,45 @@ void popFrame (frame **endFrameAtual){
 }
 
 /*
- * Função que inicializa uma frame
+ * Função que inicializa uma frame, com o código correto a ser executado
+ *
+ * Caso o método que quer ser executado não possa ser achado na classe atual, procuramos nas super classes.
  */
-void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo , char* descriptor){
+void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , char* nomeMetodo , char* descriptor){
+
+	ClassFile* cfAux;
 	methodInfo* metodo;
 	attributeInfo codigoMetodo;
+	u2 indiceSuperClasse;
+	char nomeSuperClasse[100];
 	int i;
 
-	//achar o método pelo nome
-	metodo = buscaMetodoNome(cf , nomeMetodo , descriptor);
-	if(metodo == NULL){
-		printf("método não encontrado: %s\nDescritor: %s", nomeMetodo , descriptor);
-		exit(1);
-	}else{
-		//achar o atributo Code , percorre a lista de atributos buscando o atributo Code
-		for (i = 0; i < metodo->attributesCount; i++) {
-			if(strcmp( buscaUTF8ConstPool(cf.constant_pool , metodo->attributes[i].attributeNameIndex) , "Code") == 0){
-				codigoMetodo = metodo->attributes[i];
-				break;
-			}
+	cfAux = &cf;
+	indiceSuperClasse = cfAux->super_class;
+
+	// Achar o método pelo nome
+	// Se não acharmos, passamos para a super classe para ver se está lá
+	while((metodo = buscaMetodoNome(*cfAux , nomeMetodo , descriptor)) == NULL && indiceSuperClasse != 0){
+
+		strcpy(nomeSuperClasse, buscaUTF8ConstPool(cfAux->constant_pool, cfAux->constant_pool[indiceSuperClasse].info.classInfo.nameIndex));
+
+		cfAux = buscaClassFileNome(inicioLista, nomeSuperClasse);
+		indiceSuperClasse = cfAux->super_class;
+	}
+
+	// Não conseguimos achar o método :(
+	if (metodo == NULL){
+		printf("ERRO: NoSuchMethodError - %s %s\n", nomeMetodo, descriptor);
+	}
+
+	//achar o atributo Code , percorre a lista de atributos buscando o atributo Code
+	for (i = 0; i < metodo->attributesCount; i++) {
+		if(strcmp( buscaUTF8ConstPool(cfAux->constant_pool , metodo->attributes[i].attributeNameIndex) , "Code") == 0){
+			codigoMetodo = metodo->attributes[i];
+			break;
 		}
 	}
-	frame->constantPool = cf.constant_pool;
+	frame->constantPool = cfAux->constant_pool;
 	//inicializando a pilha de operandos
 	inicializaPilha(&(frame->topoPilhaOperandos));
 	//Copiando a referência do código do método a ser executado.

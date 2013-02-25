@@ -16,8 +16,6 @@ void inicializaClassFileLista(listaClasses** endInicioLista);
 
 void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf);
 
-ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse);
-
 void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs);
 
 void executaMetodo(execucao *p);

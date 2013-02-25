@@ -27,6 +27,30 @@ methodInfo* buscaMetodoNome(ClassFile cf, char* nomeMetodo, char* descriptor){
 
 }
 
+// Função que verifica se uma determinada classe já está carregada
+// A busca é feita pela constant pool de cada classe,
+// vendo cada membro this_class.
+ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
+
+	listaClasses* p1;
+	u2 indiceClassInfo;
+
+	p1 = inicioLista;
+
+	if (p1 != NULL){
+		indiceClassInfo = p1->cf.this_class;
+	}
+	while (p1 != NULL){
+		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasse) == 0){
+			return &(p1->cf);
+		}
+		p1 = p1->proxClasse;
+	}
+
+	return NULL;
+
+}
+
 u1 lerU1Codigo(frame *fr){
 	u1 retorno;
 	retorno = *(fr->pc);

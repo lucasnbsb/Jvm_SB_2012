@@ -98,7 +98,9 @@ int iand(execucao *p);  //0x7E
 int ior(execucao *p);  //0x80
 int ixor(execucao *p);  //0x82
 
+// retornos ------------------------------------------------------
 int ireturn(execucao *p);  //0xAC
+int return_(execucao *p);  //0xB1
 
 int invokespecial(execucao *p); // 0xB7
 

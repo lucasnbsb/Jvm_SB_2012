@@ -382,10 +382,17 @@ ClassFile carregaClassFile (char *nomeClasse){
 
 	FILE *fp;
 	ClassFile cf;
+	char nomeClasseExt[100];
 	int i;
 
+	strcpy(nomeClasseExt, nomeClasse);
+
+	if (strcasestr(nomeClasse, ".class") == NULL){
+		strcat(nomeClasseExt, ".class");
+	}
+
 	// abre o arquivo .class. Caso o arquivo não exista, aborta o programa.
-	fp = fopen(nomeClasse,"rb");
+	fp = fopen(nomeClasseExt,"rb");
 	if (fp == NULL) {
 		printf ("\nO arquivo %s nao existe.", nomeClasse);
 		exit(1);

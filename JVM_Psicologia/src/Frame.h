@@ -103,6 +103,6 @@ void pushFrame (frame **endFrameAtual);
 
 void popFrame (frame **endFrameAtual);
 
-void inicializaFrame (ClassFile cf, frame *frame , char* nomeMetodo, char* descriptor);
+void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , char* nomeMetodo, char* descriptor);
 
 #endif /* PILHAOPERANDOS_H_ */

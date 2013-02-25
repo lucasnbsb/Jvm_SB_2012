@@ -13,6 +13,8 @@
 
 methodInfo* buscaMetodoNome(ClassFile cf, char* nomeMetodo, char* descriptor);
 
+ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse);
+
 u1* buscaUTF8ConstPool(cpInfo* cp, u2 indice);
 
 u1 lerU1Codigo(frame*);

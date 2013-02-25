@@ -76,28 +76,6 @@ void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf){
 
 }
 
-// Função que verifica se uma determinada classe já está carregada
-// A busca é feita pela constant pool de cada classe,
-// vendo cada membro this_class.
-ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
-
-	listaClasses* p1;
-	u2 indiceClassInfo;
-
-	p1 = inicioLista;
-
-	indiceClassInfo = p1->cf.this_class;
-
-	while (p1 != NULL){
-		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasse) == 0){
-			return &(p1->cf);
-		}
-	}
-
-	return NULL;
-
-}
-
 // Função que inicia e executa um método
 void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs){
 
@@ -105,17 +83,28 @@ void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor
 	int i;
 
 	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
+
+	// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
 	if (cf == NULL){
 		cf = malloc (sizeof(ClassFile));
 		*cf = carregaClassFile(nomeClasse);
 		insereClassFileLista(&(p->pInicioLista), *cf);
+
+		// Executando o bloco que inicializa os parâmetros statics
+		// Caso ele exista
+		if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
+			preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
+			executaMetodo(p);
+		}
 	}
 
 	// Aloca a frame nova e a coloca na pilha de frames
 	pushFrame(&(p->frameAtual));
 
 	// Preenche a frame alocada
-	inicializaFrame(*cf, p->frameAtual, nomeMetodo, descriptor);
+	// A lista de classes é passada caso o método não seja encontrado
+	// no ClassFile passado
+	inicializaFrame(p->pInicioLista, *cf, p->frameAtual, nomeMetodo, descriptor);
 
 	// Passa os argumentos para a nova frame
 	if (p->frameAtual->frameAbaixo != NULL){

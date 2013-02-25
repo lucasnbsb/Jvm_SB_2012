@@ -580,6 +580,8 @@ int ixor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x82
 	return 0;
 }
 
+// retornos ----------------------------------------------------------------------------------------------
+
 int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
 	tipoOperando  op;
 	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -588,9 +590,14 @@ int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  
 	return 1;
 }
 
+int return_(execucao *p){ // -> empty, não retorna nada OP: 0xB1
+	popFrame(&(p->frameAtual));
+	return 1;
+}
 
-// TODO - Vitor: estou me adiantando com essa instrução complexa. Incompleta.
+
 // Instrução que dada uma pilha com os argumentos, invoca um método
+// Opcode: 0xB7
 int invokespecial(execucao *p){
 
 	int numArgs;
@@ -802,7 +809,7 @@ int (*vetInstr[])(execucao *p) = {
 		nop,//return1,// 0xAE
 		nop,//return1,// 0xAF
 		nop,//return1,// 0xB0
-		nop,//return0,// 0xB1
+		return_,// 0xB1
 		nop,//getstatic,// 0xB2
 		nop,//putstatic,// 0xB3
 		nop,//getfield,// 0xB4
