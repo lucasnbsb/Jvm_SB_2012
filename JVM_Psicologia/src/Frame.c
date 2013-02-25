@@ -149,6 +149,7 @@ void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , ch
 	// Não conseguimos achar o método :(
 	if (metodo == NULL){
 		printf("ERRO: NoSuchMethodError - %s %s\n", nomeMetodo, descriptor);
+		exit(1);
 	}
 
 	//achar o atributo Code , percorre a lista de atributos buscando o atributo Code
