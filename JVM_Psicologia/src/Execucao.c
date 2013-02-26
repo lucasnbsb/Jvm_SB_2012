@@ -152,11 +152,13 @@ void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor
 void executaMetodo(execucao *p){
 
 	int isRetInstr = 0;
+	u1 instrucao;
 
 	while (!isRetInstr){
 
-		isRetInstr = vetInstr[*(p->frameAtual->pc)](p);
-		p->frameAtual->pc++;
+		instrucao = lerU1Codigo(p->frameAtual);
+
+		isRetInstr = vetInstr[instrucao](p);
 
 	}
 

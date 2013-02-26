@@ -10,8 +10,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Frame.h"
 #include "Execucao.h"
+#include "ClassLoader.h"
 #include "FuncoesGerais.h"
 
 int nop(execucao *p); // 0x00
@@ -131,7 +133,14 @@ int dreturn(execucao *p);  //0xAF
 int areturn(execucao *p);  //0xB0
 int return_(execucao *p);  //0xB1
 
+// static --------------------------------------------------------
+int getstatic(execucao *p); // 0xB2
+
+// invokes -------------------------------------------------------
+int invokevirtual(execucao *p); // 0xB6
 int invokespecial(execucao *p); // 0xB7
+int invokestatic(execucao *p); // 0xB8
+
 
 int (*vetInstr[])(execucao *p) ;
 

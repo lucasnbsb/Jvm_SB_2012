@@ -134,17 +134,20 @@ void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , ch
 	char nomeSuperClasse[100];
 	int i;
 
+	metodo = NULL;
 	cfAux = &cf;
 	indiceSuperClasse = cfAux->super_class;
 
 	// Achar o método pelo nome
 	// Se não acharmos, passamos para a super classe para ver se está lá
-	while((metodo = buscaMetodoNome(*cfAux , nomeMetodo , descriptor)) == NULL && indiceSuperClasse != 0){
+	while(cfAux != NULL && (metodo = buscaMetodoNome(*cfAux , nomeMetodo , descriptor)) == NULL && indiceSuperClasse != 0){
 
 		strcpy(nomeSuperClasse, buscaUTF8ConstPool(cfAux->constant_pool, cfAux->constant_pool[indiceSuperClasse].info.classInfo.nameIndex));
 
 		cfAux = buscaClassFileNome(inicioLista, nomeSuperClasse);
-		indiceSuperClasse = cfAux->super_class;
+		if(cfAux != NULL){
+			indiceSuperClasse = cfAux->super_class;
+		}
 	}
 
 	// Não conseguimos achar o método :(
@@ -160,6 +163,7 @@ void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , ch
 			break;
 		}
 	}
+
 	frame->constantPool = cfAux->constant_pool;
 	//inicializando a pilha de operandos
 	inicializaPilha(&(frame->topoPilhaOperandos));
@@ -168,4 +172,5 @@ void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , ch
 	//inicializando o array de variáveis locais
 	frame->arrayLocal = malloc(codigoMetodo.tipoInfo.code.maxLocals * sizeof(tipoOperando));
 	frame->pc =  frame->codigoAExecutar;
+
 }

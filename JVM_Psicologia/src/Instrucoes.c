@@ -959,6 +959,151 @@ int return_(execucao *p){ // -> empty, não retorna nada OP: 0xB1
 	return 1;
 }
 
+// statics -------------------------------------------------------------------------------------------
+
+// Função que pega um campo estático do array de campos estáticos da classe e o empilha
+int getstatic(execucao *p){ // op: 0xB2
+
+	ClassFile *cf;
+	tipoOperando op;
+	field* fieldAProcurar;
+	char* nomeClasse;
+	char* nomeField;
+	char* descritor;
+	u2 indiceFieldRefInfo;
+	u2 indiceClassInfo;
+	u2 indiceNomeClasse;
+	u2 indiceNameAndTypeInfo;
+	u2 indiceNomeField;
+	u2 indiceTipoField;
+
+	indiceFieldRefInfo = lerU2Codigo(p->frameAtual);
+
+	indiceClassInfo = p->frameAtual->constantPool[indiceFieldRefInfo].info.fieldRefInfo.classIndex;
+	indiceNomeClasse = p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex;
+
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeClasse);
+
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceFieldRefInfo].info.fieldRefInfo.nameAndTypeIndex;
+	indiceNomeField = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
+	nomeField = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeField);
+
+	indiceTipoField = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
+	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoField);
+
+	// Se o campo atender a essas condições, é um campo que significa print
+	if(strcmp(nomeClasse, "java/lang/System") == 0 &&
+			strcmp(nomeField, "out") == 0 && strcmp(descritor, "Ljava/io/PrintStream;") == 0){
+
+		op.tipoLong = 0;
+
+		// Empilhamos esse operando relativemente inútil pois temos que empilhar algo dessa instrução
+		// Ele será descartado assim que o invokevirtual do print for chamado
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+	}
+	else{ // Senão, temos que buscar nos fields da classe requisitada
+
+		// Verificamos se estamos requisitando uma classe que já está carregada
+		cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
+
+		// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
+		if (cf == NULL){
+			cf = malloc (sizeof(ClassFile));
+			*cf = carregaClassFile(nomeClasse);
+			insereClassFileLista(&(p->pInicioLista), *cf);
+
+			// Executando o bloco que inicializa os parâmetros statics
+			// Caso ele exista
+			if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
+				preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
+				executaMetodo(p);
+			}
+		}
+
+		fieldAProcurar = buscaStaticFieldNome(p->pInicioLista, nomeClasse, nomeField);
+
+		// Não achei :(
+		if (fieldAProcurar == NULL){
+			printf("ERRO em getstatic: field nao encontrado - %s %s %s\n", nomeClasse, nomeField, descritor);
+			exit(1);
+		}
+		else{
+			// Agora vemos o tipo do field para podermos carregá-lo na pilha
+			if (descritor[0] == 'B' || descritor[0] == 'C'){
+				op.tipoInt = fieldAProcurar->valor.tipoChar;
+				pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+			}
+			else if(descritor[0] == 'S'){
+				op.tipoInt = fieldAProcurar->valor.tipoShort;
+				pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+			}
+			else if(descritor[0] == 'D'){
+				op.tipoDouble = fieldAProcurar->valor.tipoDouble;
+				pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO2);
+			}
+			else if(descritor[0] == 'F'){
+				op.tipoFloat = fieldAProcurar->valor.tipoFloat;
+				pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+			}
+			else if(descritor[0] == 'I' || descritor[0] == 'Z'){
+				op.tipoInt = fieldAProcurar->valor.tipoInt;
+				pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+			}
+			else if(descritor[0] == 'J'){
+				op.tipoLong = fieldAProcurar->valor.tipoLong;
+				pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO2);
+			}
+			else if(descritor[0] == 'L' || descritor[0] == '['){
+				op.tipoReferencia = fieldAProcurar->valor.tipoReferencia;
+				pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+			}
+		}
+	}
+
+	return 0;
+}
+
+// invokes -------------------------------------------------------------------------------------------
+
+int invokestatic(execucao *p){
+
+	int numArgs;
+	char* nomeClasse;
+	char* nomeMetodo;
+	char* descritor;
+	u2 indiceMethodRefInfo;
+	u2 indiceClassInfo;
+	u2 indiceNameAndTypeInfo;
+	u2 indiceNomeMetodo;
+	u2 indiceTipoMetodo;
+
+	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
+
+	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
+
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
+	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
+	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
+
+	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
+	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
+
+	numArgs = contaArgumentosMetodo(descritor);
+
+	// O método registerNatives é um método da classe Object.class, é um método nativo
+	// portanto, devemos ignorá-lo
+	if(strcmp(nomeClasse,"java/lang/Object") == 0 && strcmp(nomeMetodo, "registerNatives") == 0 &&
+			strcmp(descritor,"()V") == 0){
+		return 0;
+	}
+	else{
+		preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs);
+		executaMetodo(p);
+
+		return 0;
+	}
+}
 
 // Instrução que dada uma pilha com os argumentos, invoca um método
 // Opcode: 0xB7
@@ -977,7 +1122,7 @@ int invokespecial(execucao *p){
 	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
 
 	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
-	nomeClasse = (char*) buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
 
 	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
 	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
@@ -991,6 +1136,82 @@ int invokespecial(execucao *p){
 	//numArgs + 1 é para incluir a referência ao objeto
 	preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs + 1);
 	executaMetodo(p);
+
+	return 0;
+}
+
+// ATENÇÃO: O invokevirtual serve apenas para simular o print/println, não faz o que devia
+int invokevirtual(execucao *p){ // op: 0xB6
+
+	char* nomeClasse;
+	char* nomeMetodo;
+	char* descritor;
+	u2 indiceMethodRefInfo;
+	u2 indiceClassInfo;
+	u2 indiceNameAndTypeInfo;
+	u2 indiceNomeMetodo;
+	u2 indiceTipoMetodo;
+	tipoOperando op;
+
+	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
+
+	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
+
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
+	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
+	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
+
+	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
+	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
+
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+
+	if (strcmp(nomeClasse,"java/io/PrintStream") == 0 && (strcmp(nomeMetodo,"println") == 0 || strcmp(nomeMetodo,"println") == 0)){
+		if(descritor[1] == 'I'){
+			printf("%d", op.tipoInt);
+		}
+		else if(descritor[1] == 'J'){
+			printf("%llu", op.tipoLong);
+		}
+		else if(descritor[1] == 'F'){
+			printf("%g", op.tipoFloat);
+		}
+		else if(descritor[1] == 'D'){
+			printf("%g", op.tipoDouble);
+		}
+		else if(descritor[1] == 'S'){
+			printf("%hi", (short) op.tipoInt);
+		}
+		else if(descritor[1] == 'C'){
+			printf("%c", (char) op.tipoInt);
+		}
+		else if(descritor[1] == 'L'){
+			if (strstr(descritor,"java/lang/String") != NULL){
+				printf("%s", (char*) op.tipoReferencia);
+			}
+			else{
+				printf("%p", op.tipoReferencia);
+			}
+		}
+		else if(descritor[1] == 'Z'){
+			printf("%s", !op.tipoInt ? "false" : "true");
+		}
+		else if(descritor[1] == 'B'){
+			printf("%d", op.tipoInt);
+		}
+		else{ // descritor[1] == '['
+			printf("%p", op.tipoReferencia);
+		}
+
+		if (strcmp(nomeMetodo, "println") == 0){
+			printf("\n");
+		}
+
+	}
+
+	// Tirando a referência desnecessária para essa simulação
+	popOperando(&(p->frameAtual->topoPilhaOperandos));
 
 	return 0;
 }
@@ -1174,13 +1395,13 @@ int (*vetInstr[])(execucao *p) = {
 	dreturn,// 0xAF
 	areturn,// 0xB0
 	return_,// 0xB1
-	nop,//getstatic,// 0xB2
+	getstatic,// 0xB2
 	nop,//putstatic,// 0xB3
 	nop,//getfield,// 0xB4
 	nop,//putfield,// 0xB5
-	nop,//invokevirtual,// 0xB6
+	invokevirtual,// 0xB6
 	nop,//invokespecial,// 0xB7
-	nop,//invokestatic,// 0xB8
+	invokestatic,// 0xB8
 	nop,//nop,// 0xB9
 	nop,//nop,// 0xBA
 	nop,//new_,// 0xBB

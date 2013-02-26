@@ -11,6 +11,7 @@
 #define TIPO1 1
 #define TIPO2 0
 
+#include "DebugFuncs.h"
 #include "ClassFile.h"
 
 /*
