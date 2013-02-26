@@ -1018,9 +1018,9 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//ldc,// 0x13
 	nop,//ldc,// 0x14
 	iload,// 0x15
-	lload,// 0x16 dada a natureza da construção da pilha de operandos
-	fload,// 0x17 as funçoes iload , aload , lload , fload , dload  tem  o mesmo
-	dload,// 0x18 comportamento e portanto chamam a funçao unica load
+	lload,// 0x16
+	fload,// 0x17
+	dload,// 0x18
 	aload,// 0x19
 	iload_0,// 0x1A
 	iload_1,// 0x1B
