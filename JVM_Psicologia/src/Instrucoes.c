@@ -1400,7 +1400,7 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//getfield,// 0xB4
 	nop,//putfield,// 0xB5
 	invokevirtual,// 0xB6
-	nop,//invokespecial,// 0xB7
+	invokespecial,// 0xB7
 	invokestatic,// 0xB8
 	nop,//nop,// 0xB9
 	nop,//nop,// 0xBA
