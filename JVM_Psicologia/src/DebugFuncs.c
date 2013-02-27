@@ -107,7 +107,7 @@ void printCodigoMetodo(attributeInfo codigoMetodo){
 
 	int i;
 
-	for(i = 0; i < codigoMetodo.attributeLength; i++){
+	for(i = 0; i < codigoMetodo.tipoInfo.code.codeLength; i++){
 		if (i % 6 == 0){
 			printf("\n");
 		}
