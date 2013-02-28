@@ -967,10 +967,22 @@ int ishr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 
 int lshr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 	tipoOperando op1 , op2;
+	long long mask = 0x8000000000000000;
+	long long count = 0;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v2
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v1
 	op1.tipoLong = op1.tipoLong & 0x3F;	// isolando os 5 bits menos significativos de v2
-	op1.tipoLong = op2.tipoLong>>op1.tipoLong;
+	if(op2.tipoLong < 0 ){
+		int i;
+		for (i = 0; i < op1.tipoInt; ++i) {
+			count = count>>1;
+			count = count|mask;
+		}
+		op1.tipoLong = op2.tipoLong>>op1.tipoLong; //valor shiftado
+		op1.tipoLong = op1.tipoLong|count;
+	}else{
+		op1.tipoLong = op2.tipoLong>>op1.tipoLong;
+	}
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
 	return 0;
 }
