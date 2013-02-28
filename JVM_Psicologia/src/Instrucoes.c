@@ -1044,8 +1044,9 @@ int lxor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x83
 }
 
 int iinc(execucao *p){
-	u2 index;
-	index = lerU2Codigo(p->frameAtual);
+	u1 index ,constante;
+	index = lerU1Codigo(p->frameAtual);
+	constante = lerU1Codigo(p->frameAtual);
 	p->frameAtual->arrayLocal[index].tipoInt++;
 	return 0;
 }
