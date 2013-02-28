@@ -150,7 +150,7 @@ int dconst_1(execucao *p) { // Insere na pilha a constante float 0.0 op: 0xF
 int bipush(execucao *p){ //insere na pilha o valor lido do índice op: 0x10
 
 	tipoOperando op;
-	u1 byteLido;
+	char byteLido;
 
 	byteLido = lerU1Codigo(p->frameAtual);
 	op.tipoInt = byteLido;
@@ -162,7 +162,7 @@ int bipush(execucao *p){ //insere na pilha o valor lido do índice op: 0x10
 int sipush(execucao *p){ //insere na pilha o valor (u2) lido do índice op: 0x11
 
 	tipoOperando op;
-	u2 shortLido;
+	short shortLido;
 
 	shortLido = lerU2Codigo(p->frameAtual);
 	op.tipoInt = shortLido;
