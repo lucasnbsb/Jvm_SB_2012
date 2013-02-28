@@ -950,6 +950,14 @@ int ixor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x82
 }
 
 // x2y-----------------------------------------------------------------------------------------------------------
+int i2l(execucao *p){
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoLong = (long long)op1.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
+
 
 // retornos ----------------------------------------------------------------------------------------------
 
