@@ -999,6 +999,22 @@ int l2d(execucao *p){ //  Converte o valor do topo da pilha de long para double 
 	return 0;
 }
 
+int f2i(execucao *p){ //  Converte o valor do topo da pilha de float para int op: 0x8B
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoInt = (int)op1.tipoFloat;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO1);
+	return 0;
+}
+
+int f2l(execucao *p){ //  Converte o valor do topo da pilha de float para long op: 0x8C
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoLong = (long long)op1.tipoFloat;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
+
 
 int i2c(execucao *p){ //  Converte o valor do topo da pilha de int para char , cobre tambem o caso do byte - i2b op: 0x91 ,0x92
 	tipoOperando op1 , op2;
@@ -1282,7 +1298,7 @@ int invokevirtual(execucao *p){ // op: 0xB6
 			printf("%d", op.tipoInt);
 		}
 		else if(descritor[1] == 'J'){
-			printf("%llu", op.tipoLong);
+			printf("%lld", op.tipoLong);
 		}
 		else if(descritor[1] == 'F'){
 			printf("%g", op.tipoFloat);
@@ -1466,8 +1482,8 @@ int (*vetInstr[])(execucao *p) = {
 	l2i,// 0x88
 	l2f,// 0x89
 	l2d,// 0x8A
-	nop,//f2i,// 0x8B
-	nop,//f2l,// 0x8C
+	f2i,// 0x8B
+	f2l,// 0x8C
 	nop,//f2d,// 0x8D
 	nop,//d2i,// 0x8E
 	nop,//d2l,// 0x8F
