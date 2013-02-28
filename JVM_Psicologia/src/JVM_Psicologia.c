@@ -20,7 +20,7 @@ int main(int argc, char* argv[]){
 	if(argc == 2){
 
 		char nomeClasse[30];
-		ClassFile cf;
+		//ClassFile cf;
 		//methodInfo* m;
 		//tipoOperando op1, op2;
 		execucao *p;

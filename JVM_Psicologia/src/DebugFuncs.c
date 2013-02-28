@@ -81,7 +81,7 @@ void printConstantPool(ClassFile cf){
 				printf("%s\t\t%f\n", tagString(cf.constant_pool[i].tag), cf.constant_pool[i].info.floatInfo.f.num);
 				break;
 			case CONSTANT_Long:
-				printf("%s\t\t%lu\n", tagString(cf.constant_pool[i].tag), cf.constant_pool[i].info.longInfo.bytes);
+				printf("%s\t\t%llu\n", tagString(cf.constant_pool[i].tag), cf.constant_pool[i].info.longInfo.bytes);
 				i++;
 				break;
 			case CONSTANT_Double:
