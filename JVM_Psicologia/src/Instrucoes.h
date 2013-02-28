@@ -127,9 +127,15 @@ int lshl(execucao *p);  //0x79
 int ishr(execucao *p);  //0x7A
 int lshr(execucao *p);  //0x7B
 
+//Bitwise ---------------------------------------------------------
 int iand(execucao *p);  //0x7E
+int land(execucao *p);  //0x7F
 int ior(execucao *p);  //0x80
+int lor(execucao *p);  //0x81
 int ixor(execucao *p);  //0x82
+int lxor(execucao *p);  //0x83
+int iinc(execucao *p); // 0x84
+
 
 //x2y -------------------------------------------------------------
 int i2l(execucao *p);  //0x85

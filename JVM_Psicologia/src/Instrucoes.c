@@ -25,7 +25,6 @@ int aconst_null(execucao *p){ // empty -> value (NULL) op: 0x01
 }
 
 
-// TODO - a volta da lasanha - shift left long , shift right long , andlong
 //const --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int iconst_m1(execucao *p) {
 
@@ -998,6 +997,15 @@ int iand(execucao *p){// V1 , V2 -> V1 AND V2 op: 0x7E
 	return 0;
 }
 
+int land(execucao *p){// V1 , V2 -> V1 AND V2 op: 0x7F
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoLong = op1.tipoLong & op2.tipoLong;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
+	return 0;
+}
+
 int ior(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x80
 	tipoOperando op1 , op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1007,12 +1015,30 @@ int ior(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x80
 	return 0;
 }
 
+int lor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x81
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoLong = op1.tipoLong | op2.tipoLong;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
+	return 0;
+}
+
 int ixor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x82
 	tipoOperando op1 , op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1.tipoInt = op1.tipoInt ^ op2.tipoInt;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO1);
+	return 0;
+}
+
+int lxor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x83
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1.tipoLong = op1.tipoLong ^ op2.tipoLong;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
 	return 0;
 }
 
@@ -1571,11 +1597,11 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//iushr,// 0x7C
 	nop,//lushr,// 0x7D
 	iand,// 0x7E
-	nop,//land,// 0x7F
+	land,// 0x7F
 	ior,// 0x80
-	nop,//lor,// 0x81
+	lor,// 0x81
 	ixor,// 0x82
-	nop,//lxor,// 0x83
+	lxor,// 0x83
 	nop,//iinc,// 0x84
 	i2l,// 0x85
 	i2f,// 0x86
