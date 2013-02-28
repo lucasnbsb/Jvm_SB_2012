@@ -989,6 +989,7 @@ int lshr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 
 // bitwise ----------------------------------------------------------------------------------------------
 int iand(execucao *p){// V1 , V2 -> V1 AND V2 op: 0x7E
+
 	tipoOperando op1 , op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1039,6 +1040,13 @@ int lxor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x83
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1.tipoLong = op1.tipoLong ^ op2.tipoLong;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
+	return 0;
+}
+
+int iinc(execucao *p){
+	u2 index;
+	index = lerU2Codigo(p->frameAtual);
+	p->frameAtual->arrayLocal[index].tipoInt++;
 	return 0;
 }
 
@@ -1602,7 +1610,7 @@ int (*vetInstr[])(execucao *p) = {
 	lor,// 0x81
 	ixor,// 0x82
 	lxor,// 0x83
-	nop,//iinc,// 0x84
+	iinc,// 0x84
 	i2l,// 0x85
 	i2f,// 0x86
 	i2d,// 0x87
