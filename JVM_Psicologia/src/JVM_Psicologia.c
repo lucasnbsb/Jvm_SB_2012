@@ -29,7 +29,12 @@ int main(int argc, char* argv[]){
 
 		strcpy(nomeClasse, argv[1]);
 
-		cf = carregaClassFile(nomeClasse);
+		inicializaPilhaFrames(&(p->frameAtual));
+		inicializaClassFileLista(&(p->pInicioLista));
+
+		preparaExecucaoMetodo(nomeClasse, "main", "([Ljava/lang/String;)V", p, 0);
+
+		executaMetodo(p);
 
 
 		/*

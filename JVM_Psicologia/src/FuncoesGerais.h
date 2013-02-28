@@ -21,6 +21,8 @@ u1 lerU1Codigo(frame*);
 
 u2 lerU2Codigo(frame*);
 
+field* buscaStaticFieldNome(listaClasses *inicioLista, char* nomeClasse, char* nomeField);
+
 int contaArgumentosMetodo(u1* descriptor);
 
 #endif /* FUNCOESGERAIS_H_ */
