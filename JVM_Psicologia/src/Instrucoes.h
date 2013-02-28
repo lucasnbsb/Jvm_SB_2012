@@ -64,7 +64,8 @@ int aload_1(execucao *p); // 0x2B
 int aload_2(execucao *p); // 0x2C
 int aload_3(execucao *p); // 0x2D
 int ldc(execucao *p); // 0x12
-
+int ldc_w(execucao *p); // 0x13
+int ldc2_w(execucao *p); // 0x14
 // store ------------------------------------------------------------
 int store(execucao *p); // 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
 int store_0(execucao *p); //0X3B,0X3F,0X43,0X47,0x4C
@@ -138,12 +139,15 @@ int i2d(execucao *p);  //0x87
 int l2i(execucao *p);  //0x88
 int l2f(execucao *p);  //0x89
 int l2d(execucao *p);  //0x8A
+
 int f2i(execucao *p);  //0x8B
 int f2l(execucao *p);  //0x8C
 int f2d(execucao *p);  //0x8D
+
 int d2i(execucao *p);  //0x8E
 int d2l(execucao *p);  //0x8F
 int d2f(execucao *p);  //0x90
+
 int i2c(execucao *p);  //0x91, 0x92
 int i2s(execucao *p);  //0x93
 

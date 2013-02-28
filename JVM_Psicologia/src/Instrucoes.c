@@ -171,6 +171,86 @@ int sipush(execucao *p){ //insere na pilha o valor (u2) lido do índice op: 0x11
 	return 0;
 }
 
+//Ldc -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/* Lê um índice de 2 bytes e carrega o valor que estiver na constant pool neste índice op: 0x12
+ No caso da String, é carregado sua referência*/
+int ldc(execucao *p){
+
+	u2 indice;
+	tipoOperando op;
+
+	indice = lerU1Codigo(p->frameAtual);
+
+	switch(p->frameAtual->constantPool[indice].tag){
+		case CONSTANT_Integer:
+			op.tipoInt = p->frameAtual->constantPool[indice].info.integerInfo.bytes;
+			break;
+		case CONSTANT_Float:
+			op.tipoFloat = p->frameAtual->constantPool[indice].info.floatInfo.f.num;
+			break;
+		case CONSTANT_String:
+			op.tipoReferencia = (char*) buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indice].info.stringInfo.stringIndex);
+			break;
+		default:
+			printf("\nInstrução ldc sendo utilizado com indice invalido\n");
+			exit(1);
+	}
+
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+
+	return 0;
+}
+
+int ldc_w(execucao *p){  // ldc com index duplo op: 0x13
+
+	u2 indice;
+	tipoOperando op;
+
+	indice = lerU2Codigo(p->frameAtual);
+
+	switch(p->frameAtual->constantPool[indice].tag){
+		case CONSTANT_Integer:
+			op.tipoInt = p->frameAtual->constantPool[indice].info.integerInfo.bytes;
+			break;
+		case CONSTANT_Float:
+			op.tipoFloat = p->frameAtual->constantPool[indice].info.floatInfo.f.num;
+			break;
+		case CONSTANT_String:
+			op.tipoReferencia = (char*) buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indice].info.stringInfo.stringIndex);
+			break;
+		default:
+			printf("\nInstrução ldc_w sendo utilizado com indice invalido\n");
+			exit(1);
+	}
+
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
+
+	return 0;
+}
+
+int ldc2_w(execucao *p){  // ldc com index duplo op: 0x14
+
+	u2 indice;
+	tipoOperando op;
+
+	indice = lerU2Codigo(p->frameAtual);
+
+	switch(p->frameAtual->constantPool[indice].tag){
+	case CONSTANT_Double:
+		op.tipoDouble = p->frameAtual->constantPool[indice].info.doubleInfo.d.num;
+	break;
+	case CONSTANT_Long:
+		op.tipoLong = p->frameAtual->constantPool[indice].info.longInfo.bytes;
+	break;
+	printf("\nInstrução ldc2_w sendo utilizado com indice invalido\n");
+	exit(1);
+	}
+
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO2);
+
+	return 0;
+}
+
 //Load --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int iload(execucao *p){ //insere na pilha o valor da posicao apontada por um indice do vetor de variáveis locais op: 0x15 , 0x16 , 0x17 ,0x18 , 0x19
 	u1 index;
@@ -397,34 +477,7 @@ int aload_3(execucao *p){
 	return 0;
 }
 
-// Lê um índice de 2 bytes e carrega o valor que estiver na constant pool neste índice
-// No caso da String, é carregado sua referência
-int ldc(execucao *p){
 
-	u2 indice;
-	tipoOperando op;
-
-	indice = lerU1Codigo(p->frameAtual);
-
-	switch(p->frameAtual->constantPool[indice].tag){
-		case CONSTANT_Integer:
-			op.tipoInt = p->frameAtual->constantPool[indice].info.integerInfo.bytes;
-			break;
-		case CONSTANT_Float:
-			op.tipoFloat = p->frameAtual->constantPool[indice].info.floatInfo.f.num;
-			break;
-		case CONSTANT_String:
-			op.tipoReferencia = (char*) buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indice].info.stringInfo.stringIndex);
-			break;
-		default:
-			printf("\nInstrução ldc sendo utilizado com indice invalido\n");
-			exit(1);
-	}
-
-	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO1);
-
-	return 0;
-}
 
 //Store --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int store(execucao *p){ //recebe um indice e salva o topo da pilha de operandos no indice do vetor de variaveis locais 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
@@ -1396,8 +1449,8 @@ int (*vetInstr[])(execucao *p) = {
 	bipush,// 0x10
 	sipush,// 0x11
 	ldc,// 0x12
-	nop,//ldc,// 0x13
-	nop,//ldc,// 0x14
+	ldc_w,// 0x13
+	ldc2_w,// 0x14
 	iload,// 0x15
 	lload,// 0x16
 	fload,// 0x17
