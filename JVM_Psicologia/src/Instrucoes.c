@@ -1015,6 +1015,14 @@ int f2l(execucao *p){ //  Converte o valor do topo da pilha de float para long o
 	return 0;
 }
 
+int f2d(execucao *p){ //  Converte o valor do topo da pilha de float para double op: 0x8D
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoDouble = (double)op1.tipoFloat;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
+
 
 int i2c(execucao *p){ //  Converte o valor do topo da pilha de int para char , cobre tambem o caso do byte - i2b op: 0x91 ,0x92
 	tipoOperando op1 , op2;
@@ -1484,7 +1492,7 @@ int (*vetInstr[])(execucao *p) = {
 	l2d,// 0x8A
 	f2i,// 0x8B
 	f2l,// 0x8C
-	nop,//f2d,// 0x8D
+	f2d,// 0x8D
 	nop,//d2i,// 0x8E
 	nop,//d2l,// 0x8F
 	nop,//d2f,// 0x90
