@@ -65,6 +65,11 @@ int ldc(execucao *p); // 0x12
 
 // store ------------------------------------------------------------
 int store(execucao *p); // 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
+int store_0(execucao *p); //0X3B,0X3F,0X43,0X47,0x4C
+int store_1(execucao *p); //0X3C,0X40,0X44,0X48,0x4D
+int store_2(execucao *p); //0X3D,0X41,0X45,0X49,0x4E
+int store_3(execucao *p); //0X3E,0X42,0X46,0X4A,0x4F
+
 // dup ------------------------------------------------------------
 int dup(execucao *p);// 0x59
 int dup_x1(execucao *p); // 0x5A

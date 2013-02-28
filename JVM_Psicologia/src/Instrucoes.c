@@ -435,7 +435,37 @@ int store(execucao *p){ //recebe um indice e salva o topo da pilha de operandos 
 	p->frameAtual->arrayLocal[index] = op;
 	return 0;
 }
-//todo - incluir o store na lista de instruçoes ,  fazer store 0,1,2,3
+
+int store_0(execucao *p){ //salva o valor na posicao 0 0X3B,0X3F,0X43,0X47,0x4C
+	tipoOperando op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	p->frameAtual->arrayLocal[0] = op;
+	return 0;
+}
+
+int store_1(execucao *p){ //salva o valor na posicao 1 0X3C,0X40,0X44,0X48,0x4D
+	tipoOperando op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	p->frameAtual->arrayLocal[1] = op;
+	return 0;
+}
+
+int store_2(execucao *p){ //salva o valor na posicao 2 0X3D,0X41,0X45,0X49,0x4E
+	tipoOperando op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	p->frameAtual->arrayLocal[2] = op;
+	return 0;
+}
+
+int store_3(execucao *p){ //salva o valor na posicao 3 0X3E,0X42,0X46,0X4A
+	tipoOperando op;
+	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	p->frameAtual->arrayLocal[3] = op;
+	return 0;
+}
+
+
+
 //dup  --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int dup(execucao *p) { // duplica o elemento no topo da pilha op: 0x59
 	tipoOperando op;
@@ -1050,31 +1080,31 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//baload,// 0x33
 	nop,//caload,// 0x34
 	nop,//saload,// 0x35
-	nop,//istore,// 0x36
-	nop,//lstore,// 0x37
-	nop,//fstore,// 0x38
-	nop,//dstore,// 0x39
-	nop,//astore,// 0x3A
-	nop,//istore,// 0x3B
-	nop,//istore,// 0x3C
-	nop,//istore,// 0x3D
-	nop,//istore,// 0x3E
-	nop,//lstore,// 0x3F
-	nop,//lstore,// 0x40
-	nop,//lstore,// 0x41
-	nop,//lstore,// 0x42
-	nop,//fstore,// 0x43
-	nop,//fstore,// 0x44
-	nop,//fstore,// 0x45
-	nop,//fstore,// 0x46
-	nop,//dstore,// 0x47
-	nop,//dstore,// 0x48
-	nop,//dstore,// 0x49
-	nop,//dstore,// 0x4A
-	nop,//astore,// 0x4B
-	nop,//astore,// 0x4C
-	nop,//astore,// 0x4D
-	nop,//astore,// 0x4E
+	store,// 0x36
+	store,// 0x37
+	store,// 0x38
+	store,// 0x39
+	store,// 0x3A
+	store_0,// 0x3B
+	store_1,// 0x3C
+	store_2,// 0x3D
+	store_3,// 0x3E
+	store_0,// 0x3F
+	store_1,// 0x40
+	store_2,// 0x41
+	store_3,// 0x42
+	store_0,// 0x43
+	store_1,// 0x44
+	store_2,/// 0x45
+	store_3,// 0x46
+	store_0,// 0x47
+	store_1,// 0x48
+	store_2,/// 0x49
+	store_3,// 0x4A
+	store_0,// 0x4B
+	store_1,// 0x4C
+	store_2,/// 0x4D
+	store_3,// 0x4E
 	nop,//iastore,// 0x4F
 	nop,//lastore,// 0x50
 	nop,//fastore,// 0x51
