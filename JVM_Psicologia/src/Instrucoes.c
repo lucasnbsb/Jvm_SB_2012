@@ -1553,9 +1553,9 @@ int (*vetInstr[])(execucao *p) = {
 	fneg,// 0x76
 	dneg,// 0x77
 	ishl,// 0x78
-	nop,//lshl,// 0x79
+	lshl,// 0x79
 	ishr,// 0x7A
-	nop,//lshr,// 0x7B
+	lshr,// 0x7B
 	nop,//iushr,// 0x7C
 	nop,//lushr,// 0x7D
 	iand,// 0x7E
