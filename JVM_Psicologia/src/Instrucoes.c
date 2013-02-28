@@ -999,6 +999,7 @@ int l2d(execucao *p){ //  Converte o valor do topo da pilha de long para double 
 	return 0;
 }
 
+
 int f2i(execucao *p){ //  Converte o valor do topo da pilha de float para int op: 0x8B
 	tipoOperando op1 , op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1020,6 +1021,31 @@ int f2d(execucao *p){ //  Converte o valor do topo da pilha de float para double
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2.tipoDouble = (double)op1.tipoFloat;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
+
+int d2i(execucao *p){ //  Converte o valor do topo da pilha de double para int op: 0x8E
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoInt = (int)op1.tipoDouble;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO1);
+	return 0;
+}
+
+int d2l(execucao *p){ //  Converte o valor do topo da pilha de double para long op: 0x8F
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoLong = (long long)op1.tipoDouble;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
+
+
+int d2f(execucao *p){ //  Converte o valor do topo da pilha de double para float op: 0x90
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoFloat = (float)op1.tipoDouble;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO1);
 	return 0;
 }
 
@@ -1493,9 +1519,9 @@ int (*vetInstr[])(execucao *p) = {
 	f2i,// 0x8B
 	f2l,// 0x8C
 	f2d,// 0x8D
-	nop,//d2i,// 0x8E
-	nop,//d2l,// 0x8F
-	nop,//d2f,// 0x90
+	d2i,// 0x8E
+	d2l,// 0x8F
+	d2f,// 0x90
 	i2c,// 0x91
 	i2c,// 0x92
 	i2s,// 0x93
