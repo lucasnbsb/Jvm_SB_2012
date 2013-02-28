@@ -983,6 +983,15 @@ int i2c(execucao *p){ //  Converte o valor do topo da pilha de int para char , c
 	return 0;
 }
 
+int i2s(execucao *p){ //  Converte o valor do topo da pilha de int para short - i2b op: 0x93
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoInt = (short)op1.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
+
+
 // retornos ----------------------------------------------------------------------------------------------
 
 int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
@@ -1440,7 +1449,7 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//d2f,// 0x90
 	i2c,// 0x91
 	i2c,// 0x92
-	nop,//i2s,// 0x93
+	i2s,// 0x93
 	nop,//lcmp,// 0x94
 	nop,//fcmpl,// 0x95
 	nop,//fcmpg,// 0x96
