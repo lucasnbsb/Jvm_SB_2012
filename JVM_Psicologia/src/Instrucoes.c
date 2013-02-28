@@ -890,10 +890,22 @@ int lshl(execucao *p){ // v1 , v2 -> v1<<6 bits de baixo de v2 op: 0x78
 
 int ishr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 	tipoOperando op1 , op2;
+	int mask = 0x80000000;
+	int count = 0;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v2
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v1
 	op1.tipoInt = op1.tipoInt & 0x1F;	// isolando os 5 bits menos significativos de v2
-	op1.tipoInt = op2.tipoInt>>op1.tipoInt;
+	if(op2.tipoInt < 0 ){
+		int i;
+		for (i = 0; i < op1.tipoInt; ++i) {
+			count = count>>1;
+			count = count|mask;
+		}
+		op1.tipoInt = op2.tipoInt>>op1.tipoInt; //valor shiftado
+		op1.tipoInt = op1.tipoInt|count;
+	}else{
+		op1.tipoInt = op2.tipoInt>>op1.tipoInt;
+	}
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO1);
 	return 0;
 }
@@ -936,6 +948,8 @@ int ixor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x82
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO1);
 	return 0;
 }
+
+// x2y-----------------------------------------------------------------------------------------------------------
 
 // retornos ----------------------------------------------------------------------------------------------
 
