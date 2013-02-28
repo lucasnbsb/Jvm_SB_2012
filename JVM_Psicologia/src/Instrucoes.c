@@ -950,7 +950,7 @@ int ixor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x82
 }
 
 // x2y-----------------------------------------------------------------------------------------------------------
-int i2l(execucao *p){
+int i2l(execucao *p){//  Converte o valor do topo da pilha de int para long op: 0x85
 	tipoOperando op1 , op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2.tipoLong = (long long)op1.tipoInt;
@@ -958,6 +958,30 @@ int i2l(execucao *p){
 	return 0;
 }
 
+int i2f(execucao *p){ //  Converte o valor do topo da pilha de int para float op: 0x86
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoFloat = (float)op1.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO1);
+	return 0;
+}
+
+int i2d(execucao *p){ //  Converte o valor do topo da pilha de int para double op: 0x87
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoDouble = (double)op1.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
+
+
+int i2c(execucao *p){ //  Converte o valor do topo da pilha de int para char , cobre tambem o caso do byte - i2b op: 0x91 ,0x92
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op2.tipoInt = (char)op1.tipoInt;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op2 , TIPO2);
+	return 0;
+}
 
 // retornos ----------------------------------------------------------------------------------------------
 
@@ -1402,9 +1426,9 @@ int (*vetInstr[])(execucao *p) = {
 	ixor,// 0x82
 	nop,//lxor,// 0x83
 	nop,//iinc,// 0x84
-	nop,//i2l,// 0x85
-	nop,//i2f,// 0x86
-	nop,//i2d,// 0x87
+	i2l,// 0x85
+	i2f,// 0x86
+	i2d,// 0x87
 	nop,//l2i,// 0x88
 	nop,//l2f,// 0x89
 	nop,//l2d,// 0x8A
@@ -1414,8 +1438,8 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//d2i,// 0x8E
 	nop,//d2l,// 0x8F
 	nop,//d2f,// 0x90
-	nop,//i2b,// 0x91
-	nop,//i2c,// 0x92
+	i2c,// 0x91
+	i2c,// 0x92
 	nop,//i2s,// 0x93
 	nop,//lcmp,// 0x94
 	nop,//fcmpl,// 0x95

@@ -134,6 +134,7 @@ int ixor(execucao *p);  //0x82
 int i2l(execucao *p);  //0x85
 int i2f(execucao *p);  //0x86
 int i2d(execucao *p);  //0x87
+
 int l2i(execucao *p);  //0x88
 int l2f(execucao *p);  //0x89
 int l2d(execucao *p);  //0x8A
@@ -143,8 +144,7 @@ int f2d(execucao *p);  //0x8D
 int d2i(execucao *p);  //0x8E
 int d2l(execucao *p);  //0x8F
 int d2f(execucao *p);  //0x90
-int i2b(execucao *p);  //0x91
-int i2c(execucao *p);  //0x92
+int i2c(execucao *p);  //0x91, 0x92
 int i2s(execucao *p);  //0x93
 
 // retornos ------------------------------------------------------
