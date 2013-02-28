@@ -24,6 +24,8 @@ int aconst_null(execucao *p){ // empty -> value (NULL) op: 0x01
 	return 0;
 }
 
+
+// TODO - a volta da lasanha - shift left long , shift right long , andlong
 //const --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int iconst_m1(execucao *p) {
 
