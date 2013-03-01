@@ -1169,6 +1169,177 @@ int i2s(execucao *p){ //  Converte o valor do topo da pilha de int para short - 
 }
 
 
+// Ifs -----------------------------------------------------------------------------------------------------
+
+int ifeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x99
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt == 0){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int ifne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9A
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt != 0){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int iflt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9B
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt < 0){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int ifge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9C
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt >= 0){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int ifgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9D
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt > 0){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int ifle(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9E
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt <= 0){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_icmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9F
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt == op2.tipoInt){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_icmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA0
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt != op2.tipoInt){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_icmplt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA1
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt < op2.tipoInt){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_icmpge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA2
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt >= op2.tipoInt){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_icmpgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA3
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt > op2.tipoInt){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_icmple(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA4
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoInt <= op2.tipoInt){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_acmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA5
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoReferencia == op2.tipoReferencia){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int if_acmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA6
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 , op2;
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoReferencia != op2.tipoReferencia){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+// goto -----------------------------------------------------------------------------------------------
+int goto_(execucao *p){
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	p->frameAtual->pc += offset;
+	return 0;
+}
 // retornos ----------------------------------------------------------------------------------------------
 
 int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
@@ -1632,21 +1803,21 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//fcmpg,// 0x96
 	nop,//dcmpl,// 0x97
 	nop,//dcmpg,// 0x98
-	nop,//ifeq,// 0x99
-	nop,//ifne,// 0x9A
-	nop,//iflt,// 0x9B
-	nop,//ifge,// 0x9C
-	nop,//ifgt,// 0x9D
-	nop,//ifle,// 0x9E
-	nop,//if_icmpeq,// 0x9F
-	nop,//if_icmpne,// 0xA0
-	nop,//if_icmplt,// 0xA1
-	nop,//if_icmpge,// 0xA2
-	nop,//if_icmpgt,// 0xA3
-	nop,//if_icmple,// 0xA4
-	nop,//if_acmpeq,// 0XA5
-	nop,//if_acmpne,// 0xA6
-	nop,//goto_,// 0xA7
+	ifeq,// 0x99
+	ifne,// 0x9A
+	iflt,// 0x9B
+	ifge,// 0x9C
+	ifgt,// 0x9D
+	ifle,// 0x9E
+	if_icmpeq,// 0x9F
+	if_icmpne,// 0xA0
+	if_icmplt,// 0xA1
+	if_icmpge,// 0xA2
+	if_icmpgt,// 0xA3
+	if_icmple,// 0xA4
+	if_acmpeq,// 0XA5
+	if_acmpne,// 0xA6
+	goto_,// 0xA7
 	nop,//jsr,// 0xA8
 	nop,//ret,// 0xA9
 	nop,//tableswitch,// 0xAA

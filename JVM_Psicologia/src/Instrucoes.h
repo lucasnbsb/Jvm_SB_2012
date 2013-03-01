@@ -157,6 +157,24 @@ int d2f(execucao *p);  //0x90
 int i2c(execucao *p);  //0x91, 0x92
 int i2s(execucao *p);  //0x93
 
+// IF --------------------------------------------------------------------
+int ifeq(execucao *p);//0x99
+int ifne(execucao *p);//0x9A
+int iflt(execucao *p);//0x9B
+int ifge(execucao *p);//0x9C
+int ifgt(execucao *p);//0x9D
+int ifle(execucao *p);//0x9E
+int if_icmpeq(execucao *p);//0x9F
+int if_icmpne(execucao *p);//0xA0
+int if_icmplt(execucao *p);//0xA1
+int if_icmpge(execucao *p);//0xA2
+int if_icmpgt(execucao *p);//0xA3
+int if_icmple(execucao *p);//0xA4
+int if_acmpeq(execucao *p);//0xA5
+int if_acmpne(execucao *p);//0xA6
+
+// goto ---------------------------------------------------------
+int goto_(execucao *p); // 0xA7
 // retornos ------------------------------------------------------
 int ireturn(execucao *p);  //0xAC
 int lreturn(execucao *p);  //0xAD
