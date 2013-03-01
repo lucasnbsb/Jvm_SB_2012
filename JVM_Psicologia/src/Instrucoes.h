@@ -173,8 +173,10 @@ int if_icmple(execucao *p);//0xA4
 int if_acmpeq(execucao *p);//0xA5
 int if_acmpne(execucao *p);//0xA6
 
-// goto ---------------------------------------------------------
+// controle ---------------------------------------------------------
 int goto_(execucao *p); // 0xA7
+int jsr(execucao *p); // 0xA8
+int ret(execucao *p); // 0xA9
 // retornos ------------------------------------------------------
 int ireturn(execucao *p);  //0xAC
 int lreturn(execucao *p);  //0xAD
@@ -194,9 +196,9 @@ int invokestatic(execucao *p); // 0xB8
 //if_null------------------------------------------------------------
 int ifnull(execucao *p);//0xC6
 int ifnonnull(execucao *p);//0xc7
-//goto_w----------------------------------------------------------
-int goto_w(execucao *p); //0C8
-
+//controle_wide----------------------------------------------------------
+int goto_w(execucao *p); //0xC8
+int jsr_w(execucao *p); //0xC9
 
 int (*vetInstr[])(execucao *p) ;
 

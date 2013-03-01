@@ -1348,14 +1348,16 @@ int if_acmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	return 0;
 }
 
-// goto -----------------------------------------------------------------------------------------------
-int goto_(execucao *p){
+// controle -----------------------------------------------------------------------------------------------
+int goto_(execucao *p){ // op: 0xA7
 	u2 offset;
 	offset = lerU2Codigo(p->frameAtual);
 	offset -= 3; // serve para corrigir o offset do PC
 	p->frameAtual->pc += offset;
 	return 0;
 }
+
+
 // retornos ----------------------------------------------------------------------------------------------
 
 int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
@@ -1692,17 +1694,32 @@ int ifnonnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 //goto_w ------------------------------------------------------------------------------------------------
-int goto_w(execucao *p){
+int goto_w(execucao *p){ // goto com index de 32 bits op: 0xC8
 	u2 off1 , off2;
-	int offset;
+	unsigned int offset;
 	off1 = lerU2Codigo(p->frameAtual);
 	off2 = lerU2Codigo(p->frameAtual);
 	offset = off1;
 	offset = (offset<<16)|(off2);
+	offset -= 5; // Para  corrigir o PC
 	p->frameAtual->pc += offset;
 	return 0;
 }
 
+int jsr_w(execucao *p){ // similar ao goto mas joga o pc na pilha op: 0xC9
+	u2 off1 , off2;
+	tipoOperando op1;
+	unsigned int offset;
+	off1 = lerU2Codigo(p->frameAtual);
+	off2 = lerU2Codigo(p->frameAtual);
+	offset = off1;
+	offset = (offset<<16)|(off2);
+	offset -= 5; // Para  corrigir o PC
+	op1.tipoReferencia = p->frameAtual->pc;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op1 , TIPO1);
+	p->frameAtual->pc += offset;
+	return 0;
+}
 
 int (*vetInstr[])(execucao *p) = {
 	nop, // 0x00
@@ -1905,6 +1922,6 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//multianewarray,// 0xC5
 	ifnull,// 0xC6
 	ifnonnull,// 0xC7
-	nop,//goto_w,// 0xC8
-	nop//jsr_// 0xC9
+	goto_w,// 0xC8
+	jsr_w// 0xC9
 };
