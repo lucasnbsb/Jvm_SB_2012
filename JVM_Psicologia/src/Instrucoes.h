@@ -129,6 +129,9 @@ int lshl(execucao *p);  //0x79
 // shr -----------------------------------------------------------
 int ishr(execucao *p);  //0x7A
 int lshr(execucao *p);  //0x7B
+//ushift -----------------------------------------------------------
+int iushr(execucao *p); //0x7C
+int lushr(execucao *p);//0x7D
 
 //Bitwise ---------------------------------------------------------
 int iand(execucao *p);  //0x7E

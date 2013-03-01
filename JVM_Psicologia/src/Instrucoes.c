@@ -933,7 +933,7 @@ int ishl(execucao *p){ // v1 , v2 -> v1<<5 bits de baixo de v2 op: 0x78
 	return 0;
 }
 
-int lshl(execucao *p){ // v1 , v2 -> v1<<6 bits de baixo de v2 op: 0x78
+int lshl(execucao *p){ // v1 , v2 -> v1<<6 bits de baixo de v2 op: 0x79
 	tipoOperando op1 , op2;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v2
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v1
@@ -965,7 +965,7 @@ int ishr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 	return 0;
 }
 
-int lshr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
+int lshr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7B
 	tipoOperando op1 , op2;
 	long long mask = 0x8000000000000000;
 	long long count = 0;
@@ -987,6 +987,25 @@ int lshr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7A
 	return 0;
 }
 
+int iushr(execucao *p){ // v1 , v2 -> v1>>5 bits de baixo de v2 op: 0x7C
+	tipoOperando op1 , op2;
+		op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v2
+		op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v1
+		op1.tipoInt = op1.tipoInt & 0x1F;	// isolando os 5 bits menos significativos de v2
+		op1.tipoInt = op2.tipoInt>>op1.tipoInt;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO1);
+		return 0;
+}
+
+int lushr(execucao *p){ // op: 0x7D
+	tipoOperando op1 , op2;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v2
+	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));	// v1
+	op1.tipoLong= op1.tipoLong & 0x3F;	// isolando os 6 bits menos significativos de v2
+	op1.tipoLong = op2.tipoLong>>op1.tipoLong;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), op1, TIPO2);
+	return 0;
+}
 
 // bitwise ----------------------------------------------------------------------------------------------
 int iand(execucao *p){// V1 , V2 -> V1 AND V2 op: 0x7E
@@ -2107,8 +2126,8 @@ int (*vetInstr[])(execucao *p) = {
 	lshl,// 0x79
 	ishr,// 0x7A
 	lshr,// 0x7B
-	nop,//iushr,// 0x7C
-	nop,//lushr,// 0x7D
+	iushr,// 0x7C
+	lushr,// 0x7D
 	iand,// 0x7E
 	land,// 0x7F
 	ior,// 0x80
