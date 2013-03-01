@@ -1410,7 +1410,7 @@ int tableswitch(execucao *p){
 	if((index.tipoInt > high)||(index.tipoInt < low)){// caso default
 		p->frameAtual->pc = p->frameAtual->pc+default_;
 	}else{
-		p->frameAtual->pc =  p->frameAtual->pc+(index.tipoInt - low);
+		p->frameAtual->pc =  p->frameAtual->pc+(offsets[index.tipoInt- low]);
 	}
 
 	return 0;
