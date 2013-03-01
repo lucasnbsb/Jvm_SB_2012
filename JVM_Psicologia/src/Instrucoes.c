@@ -1177,6 +1177,7 @@ int ifeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt == 0){
 		p->frameAtual->pc += offset;
 	}
@@ -1188,6 +1189,7 @@ int ifne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt != 0){
 		p->frameAtual->pc += offset;
 	}
@@ -1199,6 +1201,7 @@ int iflt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt < 0){
 		p->frameAtual->pc += offset;
 	}
@@ -1210,6 +1213,7 @@ int ifge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt >= 0){
 		p->frameAtual->pc += offset;
 	}
@@ -1221,6 +1225,7 @@ int ifgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt > 0){
 		p->frameAtual->pc += offset;
 	}
@@ -1232,6 +1237,7 @@ int ifle(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt <= 0){
 		p->frameAtual->pc += offset;
 	}
@@ -1244,6 +1250,7 @@ int if_icmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt == op2.tipoInt){
 		p->frameAtual->pc += offset;
 	}
@@ -1256,6 +1263,7 @@ int if_icmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt != op2.tipoInt){
 		p->frameAtual->pc += offset;
 	}
@@ -1268,6 +1276,7 @@ int if_icmplt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt < op2.tipoInt){
 		p->frameAtual->pc += offset;
 	}
@@ -1280,6 +1289,7 @@ int if_icmpge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt >= op2.tipoInt){
 		p->frameAtual->pc += offset;
 	}
@@ -1292,6 +1302,7 @@ int if_icmpgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt > op2.tipoInt){
 		p->frameAtual->pc += offset;
 	}
@@ -1304,6 +1315,7 @@ int if_icmple(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoInt <= op2.tipoInt){
 		p->frameAtual->pc += offset;
 	}
@@ -1316,6 +1328,7 @@ int if_acmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoReferencia == op2.tipoReferencia){
 		p->frameAtual->pc += offset;
 	}
@@ -1328,6 +1341,7 @@ int if_acmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoReferencia != op2.tipoReferencia){
 		p->frameAtual->pc += offset;
 	}
@@ -1658,6 +1672,7 @@ int ifnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op:
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1 ;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoReferencia == NULL){
 		p->frameAtual->pc += offset;
 	}
@@ -1669,6 +1684,7 @@ int ifnonnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 	offset = lerU2Codigo(p->frameAtual);
 	tipoOperando op1 ;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	offset -= 3; // para corrigir o PC
 	if(op1.tipoReferencia != NULL){
 		p->frameAtual->pc += offset;
 	}
