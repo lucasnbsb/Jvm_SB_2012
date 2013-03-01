@@ -1385,7 +1385,7 @@ int tableswitch(execucao *p){
 
 	index = popOperando(&(p->frameAtual->topoPilhaOperandos)); // tirando o indeice do case da pilha
 
-	sizepads = (4 - (p->frameAtual->pc - p->frameAtual->codigoAExecutar) % 4); // calculando quantos bits de pad são necessários
+	sizepads = (4 - (p->frameAtual->pc - p->frameAtual->codigoAExecutar) % 4)%4; // calculando quantos bits de pad são necessários
 	for (i = 0; i < sizepads; ++i) {
 		lerU1Codigo(p->frameAtual); // padding de bytes no inicio
 	}
