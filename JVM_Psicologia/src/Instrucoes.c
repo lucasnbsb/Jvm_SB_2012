@@ -1636,6 +1636,7 @@ int putstatic(execucao *p){ // 0xB3
 
 int invokestatic(execucao *p){
 
+	ClassFile *cf;
 	int numArgs;
 	char* nomeClasse;
 	char* nomeMetodo;
@@ -1667,6 +1668,24 @@ int invokestatic(execucao *p){
 		return 0;
 	}
 	else{
+
+		// Verificamos se estamos requisitando uma classe que já está carregada
+		cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
+
+		// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
+		if (cf == NULL){
+			cf = malloc (sizeof(ClassFile));
+			*cf = carregaClassFile(nomeClasse);
+			insereClassFileLista(&(p->pInicioLista), *cf);
+
+			// Executando o bloco que inicializa os parâmetros statics
+			// Caso ele exista
+			if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
+				preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
+				executaMetodo(p);
+			}
+		}
+
 		preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs);
 		executaMetodo(p);
 
@@ -1784,7 +1803,6 @@ int invokevirtual(execucao *p){ // op: 0xB6
 
 	return 0;
 }
-
 
 //ifnulls ------------------------------------------------------------------------------------------------
 int ifnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xC6

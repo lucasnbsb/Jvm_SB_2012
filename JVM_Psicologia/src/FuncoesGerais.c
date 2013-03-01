@@ -75,10 +75,10 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 
 	limpaPathClasseParaNome(nomeClasseSemPath, nomeClasse);
 
-	if (p1 != NULL){
-		indiceClassInfo = p1->cf.this_class;
-	}
 	while (p1 != NULL){
+
+		indiceClassInfo = p1->cf.this_class;
+
 		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasseSemPath) == 0){
 			return &(p1->cf);
 		}
