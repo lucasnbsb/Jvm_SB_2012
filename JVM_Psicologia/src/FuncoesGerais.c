@@ -112,6 +112,18 @@ u2 lerU2Codigo(frame *fr){
 
 }
 
+u4 lerU4Codigo(frame *fr){
+	u4 retorno;
+	retorno = *(fr->pc);
+	fr->pc++;
+	retorno = retorno << 8 | *(fr->pc);
+	fr->pc++;
+	retorno = retorno << 8 | *(fr->pc);
+	fr->pc++;
+	retorno = retorno << 8 | *(fr->pc);
+	fr->pc++;
+	return retorno;
+}
 //dado o descritor do metodo conta-se quantos argumentos sao passados para ele
 //É feita uma varredura no descritor e ao chegar na ')' encerra a varredura
 //Duarante a varredura um contador conta os argumentos que forem aparecendo

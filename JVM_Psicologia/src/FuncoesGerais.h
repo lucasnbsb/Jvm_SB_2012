@@ -21,6 +21,8 @@ u1 lerU1Codigo(frame*);
 
 u2 lerU2Codigo(frame*);
 
+u4 lerU4Codigo(frame *fr);
+
 field* buscaStaticFieldNome(listaClasses *inicioLista, char* nomeClasse, char* nomeField);
 
 void insereValorStaticField(listaClasses *inicioLista, char* nomeClasse, char* nomeField, tipoOperando op);
