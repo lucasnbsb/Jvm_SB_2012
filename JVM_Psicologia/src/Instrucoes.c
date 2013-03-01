@@ -1979,7 +1979,7 @@ int (*vetInstr[])(execucao *p) = {
 	areturn,// 0xB0
 	return_,// 0xB1
 	getstatic,// 0xB2
-	nop,//putstatic,// 0xB3
+	putstatic,// 0xB3
 	nop,//getfield,// 0xB4
 	nop,//putfield,// 0xB5
 	invokevirtual,// 0xB6
