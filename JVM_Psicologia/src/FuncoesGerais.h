@@ -29,6 +29,6 @@ void insereValorStaticField(listaClasses *inicioLista, char* nomeClasse, char* n
 
 void limpaPathClasseParaNome(char* nomeClasseSemPath, char* nomeClasse);
 
+int contaArgumentosMetodo(u1* descriptor);
 
-int comparaQsort(const void* , const void*);
 #endif /* FUNCOESGERAIS_H_ */
