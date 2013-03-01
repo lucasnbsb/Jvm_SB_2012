@@ -1191,8 +1191,8 @@ int i2s(execucao *p){ //  Converte o valor do topo da pilha de int para short - 
 //XcmpY -----------------------------------------------------------------------------------------------------------
 int lcmp(execucao *p){//compara dois valores long 0x94
 	tipoOperando op1 , op2  ,resultado;
-	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	if(op1.tipoLong > op2.tipoLong){
 		resultado.tipoInt = 1;
 		pushOperando(&(p->frameAtual->topoPilhaOperandos) , resultado , TIPO1);
@@ -1208,8 +1208,8 @@ int lcmp(execucao *p){//compara dois valores long 0x94
 
 int fcmpl(execucao *p) { // comparação entre floats , caso NAN resultado -1 op: 0x95
 	tipoOperando op1 , op2  ,resultado;
-	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	if(op1.tipoFloat > op2.tipoFloat){
 		resultado.tipoInt = 1;
 		pushOperando(&(p->frameAtual->topoPilhaOperandos) , resultado , TIPO1);
@@ -1228,8 +1228,8 @@ int fcmpl(execucao *p) { // comparação entre floats , caso NAN resultado -1 op: 
 
 int fcmpg(execucao *p) { // comparação entre floats , caso NAN resultado 1 op: 0x96
 	tipoOperando op1 , op2  ,resultado;
-	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	if(op1.tipoFloat > op2.tipoFloat){
 		resultado.tipoInt = 1;
 		pushOperando(&(p->frameAtual->topoPilhaOperandos) , resultado , TIPO1);
@@ -1248,8 +1248,8 @@ int fcmpg(execucao *p) { // comparação entre floats , caso NAN resultado 1 op: 0
 
 int dcmpl(execucao *p) { // comparação entre doubles , caso NAN resultado 1 op: 0x97
 	tipoOperando op1 , op2  ,resultado;
-	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	if(op1.tipoDouble > op2.tipoDouble){
 		resultado.tipoInt = 1;
 		pushOperando(&(p->frameAtual->topoPilhaOperandos) , resultado , TIPO1);
@@ -1268,8 +1268,8 @@ int dcmpl(execucao *p) { // comparação entre doubles , caso NAN resultado 1 op: 
 
 int dcmpg(execucao *p) { // comparação entre doubles , caso NAN resultado 1 op: 0x98
 	tipoOperando op1 , op2  ,resultado;
-	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	if(op1.tipoDouble > op2.tipoDouble){
 		resultado.tipoInt = 1;
 		pushOperando(&(p->frameAtual->topoPilhaOperandos) , resultado , TIPO1);
