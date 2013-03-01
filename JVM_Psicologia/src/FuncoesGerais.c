@@ -27,6 +27,41 @@ methodInfo* buscaMetodoNome(ClassFile cf, char* nomeMetodo, char* descriptor){
 
 }
 
+// Função que dada uma path para uma classe, filtra-a para ter somente seu nome
+void limpaPathClasseParaNome(char* nomeClasseSemPath, char* nomeClasse){
+
+	int i;
+	int j = 0;
+
+	i = strlen(nomeClasse) - 1;
+
+	// Pulamos o ".class" com o bloco abaixo, se estiver lá
+	if (strstr(nomeClasse, ".class") != NULL){
+		while(nomeClasse[i] != '.'){
+			i--;
+		}
+		i--;
+	}
+
+	// Agora, pulamos até encontrarmos o primeiro divisor, se tiver algum
+	// ou até o começo da String
+	while(nomeClasse[i] != '\\' && nomeClasse[i] != '/' && &(nomeClasse[i]) != nomeClasse){
+		i--;
+	}
+	if(nomeClasse[i] == '\\' || nomeClasse[i] == '/'){
+		i++;
+	}
+
+	// Agora passamos o nome da classe para o nomeClasseSemPath
+	while(nomeClasse[i] != '.' && nomeClasse[i] != '\0'){
+		nomeClasseSemPath[j] = nomeClasse[i];
+		i++;
+		j++;
+	}
+	nomeClasseSemPath[j] = '\0';
+
+}
+
 // Função que verifica se uma determinada classe já está carregada
 // A busca é feita pela constant pool de cada classe,
 // vendo cada membro this_class.
@@ -34,14 +69,17 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 
 	listaClasses* p1;
 	u2 indiceClassInfo;
+	char nomeClasseSemPath[100];
 
 	p1 = inicioLista;
+
+	limpaPathClasseParaNome(nomeClasseSemPath, nomeClasse);
 
 	if (p1 != NULL){
 		indiceClassInfo = p1->cf.this_class;
 	}
 	while (p1 != NULL){
-		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasse) == 0){
+		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasseSemPath) == 0){
 			return &(p1->cf);
 		}
 		p1 = p1->proxClasse;

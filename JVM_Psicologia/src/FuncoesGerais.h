@@ -25,6 +25,8 @@ field* buscaStaticFieldNome(listaClasses *inicioLista, char* nomeClasse, char* n
 
 void insereValorStaticField(listaClasses *inicioLista, char* nomeClasse, char* nomeField, tipoOperando op);
 
+void limpaPathClasseParaNome(char* nomeClasseSemPath, char* nomeClasse);
+
 int contaArgumentosMetodo(u1* descriptor);
 
 #endif /* FUNCOESGERAIS_H_ */
