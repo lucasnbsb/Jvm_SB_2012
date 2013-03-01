@@ -37,6 +37,10 @@ int dconst_1(execucao *p);// 0xF
 int bipush(execucao *p);// 0x10
 int sipush(execucao *p);// 0x11
 
+int ldc(execucao *p); // 0x12
+int ldc_w(execucao *p); // 0x13
+int ldc2_w(execucao *p); // 0x14
+
 // load ------------------------------------------------------------
 int iload(execucao *p);//0x15
 int lload(execucao *p);//0x16
@@ -63,9 +67,7 @@ int aload_0(execucao *p); // 0x2A
 int aload_1(execucao *p); // 0x2B
 int aload_2(execucao *p); // 0x2C
 int aload_3(execucao *p); // 0x2D
-int ldc(execucao *p); // 0x12
-int ldc_w(execucao *p); // 0x13
-int ldc2_w(execucao *p); // 0x14
+
 // store ------------------------------------------------------------
 int store(execucao *p); // 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
 int store_0(execucao *p); //0X3B,0X3F,0X43,0X47,0x4C

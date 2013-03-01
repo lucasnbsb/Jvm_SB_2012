@@ -23,6 +23,8 @@ u2 lerU2Codigo(frame*);
 
 field* buscaStaticFieldNome(listaClasses *inicioLista, char* nomeClasse, char* nomeField);
 
+void insereValorStaticField(listaClasses *inicioLista, char* nomeClasse, char* nomeField, tipoOperando op);
+
 int contaArgumentosMetodo(u1* descriptor);
 
 #endif /* FUNCOESGERAIS_H_ */

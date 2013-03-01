@@ -136,6 +136,38 @@ field* buscaStaticFieldNome(listaClasses* inicioLista, char* nomeClasse, char* n
 	return NULL;
 }
 
+void insereValorStaticField(listaClasses* inicioLista, char* nomeClasse, char* nomeField, tipoOperando op){
+
+	u2 indiceClassInfo;
+		listaClasses *p1;
+		int i;
+
+		p1 = inicioLista;
+
+		while (p1 != NULL){
+
+			indiceClassInfo = p1->cf.this_class;
+
+			if (strcmp(nomeClasse, buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex)) == 0){
+				for (i = 0; i < p1->numStaticFields; i++){
+					if(strcmp(nomeField, p1->staticFields[i].nome) == 0){
+						// Como o long long cobre o tamanho todo da union, uso ele para passar o valor
+						p1->staticFields[i].valor.tipoLong = op.tipoLong;
+						return;
+					}
+				}
+
+				// Não há como ter duas classes com o mesmo nome, então
+				// se o nome bateu, mas em nenhum dos fields foi encontrado
+				// o esperado, então welp, retorne.
+				return;
+			}
+
+			p1 = p1->proxClasse;
+		}
+
+}
+
 // Função que retorna um atributo UTF8 dado um índice válido
 u1* buscaUTF8ConstPool(cpInfo *cp, u2 indice){
 

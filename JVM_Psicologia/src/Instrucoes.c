@@ -1531,6 +1531,67 @@ int getstatic(execucao *p){ // op: 0xB2
 	return 0;
 }
 
+int putstatic(execucao *p){ // 0xB3
+
+	ClassFile *cf;
+	tipoOperando op;
+	field* fieldAProcurar;
+	char* nomeClasse;
+	char* nomeField;
+	char* descritor;
+	u2 indiceFieldRefInfo;
+	u2 indiceClassInfo;
+	u2 indiceNomeClasse;
+	u2 indiceNameAndTypeInfo;
+	u2 indiceNomeField;
+	u2 indiceTipoField;
+
+	indiceFieldRefInfo = lerU2Codigo(p->frameAtual);
+
+	indiceClassInfo = p->frameAtual->constantPool[indiceFieldRefInfo].info.fieldRefInfo.classIndex;
+	indiceNomeClasse = p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex;
+
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeClasse);
+
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceFieldRefInfo].info.fieldRefInfo.nameAndTypeIndex;
+	indiceNomeField = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
+	nomeField = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeField);
+
+	indiceTipoField = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
+	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoField);
+
+	// Verificamos se estamos requisitando uma classe que já está carregada
+	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
+
+	// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
+	if (cf == NULL){
+		cf = malloc (sizeof(ClassFile));
+		*cf = carregaClassFile(nomeClasse);
+		insereClassFileLista(&(p->pInicioLista), *cf);
+
+		// Executando o bloco que inicializa os parâmetros statics
+		// Caso ele exista
+		if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
+			preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
+			executaMetodo(p);
+		}
+	}
+
+	fieldAProcurar = buscaStaticFieldNome(p->pInicioLista, nomeClasse, nomeField);
+
+	// Não achei :(
+	if (fieldAProcurar == NULL){
+		printf("ERRO em putstatic: field nao encontrado - %s %s %s\n", nomeClasse, nomeField, descritor);
+		exit(1);
+	}
+	else{
+		op = popOperando(&(p->frameAtual->topoPilhaOperandos));
+		insereValorStaticField(p->pInicioLista, nomeClasse, nomeField, op);
+	}
+
+	return 0;
+}
+
 // invokes -------------------------------------------------------------------------------------------
 
 int invokestatic(execucao *p){
