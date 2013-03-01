@@ -159,7 +159,12 @@ int d2f(execucao *p);  //0x90
 
 int i2c(execucao *p);  //0x91, 0x92
 int i2s(execucao *p);  //0x93
-
+//XcmpY ------------------------------------------------------------------
+int lcmp(execucao *p);//0x94
+int fcmpl(execucao *p);//0x95
+int fcmpg(execucao *p);//0x96
+int dcmpl(execucao *p);//0x97
+int dcmpg(execucao *p);//0x98
 // IF --------------------------------------------------------------------
 int ifeq(execucao *p);//0x99
 int ifne(execucao *p);//0x9A
