@@ -237,14 +237,15 @@ int ldc2_w(execucao *p){  // ldc com index duplo op: 0x14
 	indice = lerU2Codigo(p->frameAtual);
 
 	switch(p->frameAtual->constantPool[indice].tag){
-	case CONSTANT_Double:
-		op.tipoDouble = p->frameAtual->constantPool[indice].info.doubleInfo.d.num;
-	break;
-	case CONSTANT_Long:
-		op.tipoLong = p->frameAtual->constantPool[indice].info.longInfo.bytes;
-	break;
-	printf("\nInstrução ldc2_w sendo utilizado com indice invalido\n");
-	exit(1);
+		case CONSTANT_Double:
+			op.tipoDouble = p->frameAtual->constantPool[indice].info.doubleInfo.d.num;
+			break;
+		case CONSTANT_Long:
+			op.tipoLong = p->frameAtual->constantPool[indice].info.longInfo.bytes;
+			break;
+		default:
+			printf("\nInstrução ldc2_w sendo utilizado com indice invalido\n");
+			exit(1);
 	}
 
 	pushOperando(&(p->frameAtual->topoPilhaOperandos), op, TIPO2);
