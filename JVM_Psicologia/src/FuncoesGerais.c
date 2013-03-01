@@ -50,7 +50,8 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 	return NULL;
 
 }
-
+//retorna um byte referente ao pc da frame dada
+//le o proximo byte do pc da frame e incrementa o pc
 u1 lerU1Codigo(frame *fr){
 	u1 retorno;
 	retorno = *(fr->pc);
@@ -58,6 +59,8 @@ u1 lerU1Codigo(frame *fr){
 	return retorno;
 }
 
+//retorna os dois bytes referentes ao pc da frame dada
+//le os proximos dois bytes do pc da frame e incrementa em 2 o pc
 u2 lerU2Codigo(frame *fr){
 	u2 retorno;
 
@@ -70,7 +73,9 @@ u2 lerU2Codigo(frame *fr){
 	return retorno;
 
 }
-
+//dado o descritor do metodo conta-se quantos argumentos sao passados para ele
+//É feita uma varredura no descritor e ao chegar na ')' encerra a varredura
+//Duarante a varredura um contador conta os argumentos que forem aparecendo
 int contaArgumentosMetodo(u1* descriptor){
 
 	u1* varredor;
