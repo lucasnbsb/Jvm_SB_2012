@@ -1400,7 +1400,8 @@ int tableswitch(execucao *p){
 		exit(1);
 	}
 
-	int offsets[switchsize];
+	int *offsets;
+	offsets = calloc(switchsize , sizeof(int));
 	for (i = 0; i < switchsize; ++i) { // preenchendo a tabela dos offsets do case
 		offsets[i] = lerU4Codigo(p->frameAtual);
 	}
@@ -1415,6 +1416,10 @@ int tableswitch(execucao *p){
 	return 0;
 }
 
+int  lookupswitch(execucao *p){
+
+	return  0;
+}
 // retornos ----------------------------------------------------------------------------------------------
 
 int ireturn(execucao *p){ // value -> empty , joga value na pilha de operandos  do frame que chamou op: 0xAC
@@ -2029,7 +2034,7 @@ int (*vetInstr[])(execucao *p) = {
 	jsr,// 0xA8
 	ret,// 0xA9
 	tableswitch,// 0xAA
-	nop,//lookupswitch,// 0xAB
+	lookupswitch,// 0xAB
 	ireturn,// 0xAC
 	lreturn,// 0xAD
 	freturn,// 0xAE

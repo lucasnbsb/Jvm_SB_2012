@@ -182,6 +182,7 @@ int ret(execucao *p); // 0xA9
 //Switch -------------------------------------------------------------
 
 int tableswitch(execucao *p);//0xAA
+int lookupswitch(execucao *p);//0xAB
 // retornos ------------------------------------------------------
 int ireturn(execucao *p);  //0xAC
 int lreturn(execucao *p);  //0xAD
