@@ -1375,7 +1375,6 @@ int ret(execucao *p){ // VAI DAR MERDA CAPITÃO  // 0xA9
 	return 0;
 }
 
-
 // Switch -------------------------------------------------------------------------------------------------------
 int tableswitch(execucao *p){
 	int default_ , low , high  ,switchsize  ,i ,sizepads ;
@@ -1412,12 +1411,37 @@ int tableswitch(execucao *p){
 	}else{
 		p->frameAtual->pc =  p->frameAtual->pc+(offsets[index.tipoInt- low]);
 	}
-
+	free(offsets);
 	return 0;
 }
 
 int  lookupswitch(execucao *p){
+	int default_  ,npairs ,i ,sizepads ;
+	u1  *endBaseInstr;
+	tipoOperando key;
+	endBaseInstr = p->frameAtual->pc - 1;  // salva o edereço do opcode da instrução
 
+	key = popOperando(&(p->frameAtual->topoPilhaOperandos)); // tirando o indeice do case da pilha
+	sizepads = (4 - (p->frameAtual->pc - p->frameAtual->codigoAExecutar) % 4)%4; // calculando quantos bits de pad são necessários
+	for (i = 0; i < sizepads; ++i) {
+		lerU1Codigo(p->frameAtual); // padding de bytes no inicio
+	}
+	default_ = lerU4Codigo(p->frameAtual); // le o offset do default
+	npairs = lerU4Codigo(p->frameAtual); // le o numero  de pares
+
+	int offsets[npairs][2];
+	for (i = 0; i < npairs; ++i) { // povoa a matriz de pares
+		offsets[i][0] = lerU4Codigo(p->frameAtual); // match
+		offsets[i][1] = lerU4Codigo(p->frameAtual);// offset
+	}
+	p->frameAtual->pc = endBaseInstr;
+	for (i = 0; i < npairs; ++i) {
+		if(key.tipoInt == offsets[i][0]){
+			p->frameAtual->pc += offsets[i][1];
+			return  0;
+		}
+	}
+	p->frameAtual->pc += default_;
 	return  0;
 }
 // retornos ----------------------------------------------------------------------------------------------
