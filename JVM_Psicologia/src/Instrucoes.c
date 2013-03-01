@@ -1073,7 +1073,8 @@ int lxor(execucao *p){// V1 , V2 -> V1 OR V2 op: 0x83
 }
 
 int iinc(execucao *p){
-	u1 index ,constante;
+	u1 index ;
+	char constante;
 	index = lerU1Codigo(p->frameAtual);
 	constante = lerU1Codigo(p->frameAtual);
 	p->frameAtual->arrayLocal[index].tipoInt++;
