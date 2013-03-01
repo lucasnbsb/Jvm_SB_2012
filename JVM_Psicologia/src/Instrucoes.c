@@ -1909,7 +1909,7 @@ int invokevirtual(execucao *p){ // op: 0xB6
 
 	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 
-	if (strcmp(nomeClasse,"java/io/PrintStream") == 0 && (strcmp(nomeMetodo,"println") == 0 || strcmp(nomeMetodo,"println") == 0)){
+	if (strcmp(nomeClasse,"java/io/PrintStream") == 0 && (strcmp(nomeMetodo,"println") == 0 || strcmp(nomeMetodo,"print") == 0)){
 		if(descritor[1] == 'I'){
 			printf("%d", op.tipoInt);
 		}
