@@ -109,8 +109,6 @@ void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor
 	// no ClassFile passado
 	inicializaFrame(p->pInicioLista, *cf, p->frameAtual, nomeMetodo, descriptor);
 
-	// TODO - Estou sentindo uma treta no bloco abaixo. Verificar.
-
 	// Esse bloco se refere a passagem de argumentos para o array local do novo frame
 	// Se a frame abaixo for NULL então é o método main que está passando por essa função
 	if (p->frameAtual->frameAbaixo != NULL){
