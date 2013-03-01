@@ -1357,6 +1357,23 @@ int goto_(execucao *p){ // op: 0xA7
 	return 0;
 }
 
+int jsr(execucao *p){  // 0xA8
+	u2 offset;
+	tipoOperando op;
+	offset = lerU2Codigo(p->frameAtual);
+	offset -= 3; // serve para corrigir o offset do PC
+	op.tipoReferencia = p->frameAtual->pc;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , op , TIPO1);
+	p->frameAtual->pc += offset;
+	return 0;
+}
+
+int ret(execucao *p){ // VAI DAR MERDA CAPITÃO  // 0xA9
+	u1 index;
+	index = lerU1Codigo(p->frameAtual);
+	p->frameAtual->pc = p->frameAtual->arrayLocal[index].tipoReferencia;
+	return 0;
+}
 
 // retornos ----------------------------------------------------------------------------------------------
 
@@ -1890,8 +1907,8 @@ int (*vetInstr[])(execucao *p) = {
 	if_acmpeq,// 0XA5
 	if_acmpne,// 0xA6
 	goto_,// 0xA7
-	nop,//jsr,// 0xA8
-	nop,//ret,// 0xA9
+	jsr,// 0xA8
+	ret,// 0xA9
 	nop,//tableswitch,// 0xAA
 	nop,//lookupswitch,// 0xAB
 	ireturn,// 0xAC
