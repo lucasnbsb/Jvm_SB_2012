@@ -179,6 +179,9 @@ int if_acmpne(execucao *p);//0xA6
 int goto_(execucao *p); // 0xA7
 int jsr(execucao *p); // 0xA8
 int ret(execucao *p); // 0xA9
+//Switch -------------------------------------------------------------
+
+int tableswitch(execucao *p);//0xAA
 // retornos ------------------------------------------------------
 int ireturn(execucao *p);  //0xAC
 int lreturn(execucao *p);  //0xAD
