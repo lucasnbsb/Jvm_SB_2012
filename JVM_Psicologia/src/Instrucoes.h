@@ -191,6 +191,12 @@ int invokevirtual(execucao *p); // 0xB6
 int invokespecial(execucao *p); // 0xB7
 int invokestatic(execucao *p); // 0xB8
 
+//if_null------------------------------------------------------------
+int ifnull(execucao *p);//0xC6
+int ifnonnull(execucao *p);//0xc7
+//goto_w----------------------------------------------------------
+int goto_w(execucao *p); //0C8
+
 
 int (*vetInstr[])(execucao *p) ;
 

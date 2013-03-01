@@ -1338,6 +1338,7 @@ int if_acmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 int goto_(execucao *p){
 	u2 offset;
 	offset = lerU2Codigo(p->frameAtual);
+	offset -= 3; // serve para corrigir o offset do PC
 	p->frameAtual->pc += offset;
 	return 0;
 }
@@ -1650,6 +1651,43 @@ int invokevirtual(execucao *p){ // op: 0xB6
 	return 0;
 }
 
+
+//ifnulls ------------------------------------------------------------------------------------------------
+int ifnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xC6
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 ;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoReferencia == NULL){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+int ifnonnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xC7
+	u2 offset;
+	offset = lerU2Codigo(p->frameAtual);
+	tipoOperando op1 ;
+	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(op1.tipoReferencia != NULL){
+		p->frameAtual->pc += offset;
+	}
+	return 0;
+}
+
+//goto_w ------------------------------------------------------------------------------------------------
+int goto_w(execucao *p){
+	u2 off1 , off2;
+	int offset;
+	off1 = lerU2Codigo(p->frameAtual);
+	off2 = lerU2Codigo(p->frameAtual);
+	offset = off1;
+	offset = (offset<<16)|(off2);
+	p->frameAtual->pc += offset;
+	return 0;
+}
+
+
 int (*vetInstr[])(execucao *p) = {
 	nop, // 0x00
 	aconst_null,// 0x1
@@ -1849,8 +1887,8 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//nop,// 0xC3
 	nop,//wide,// 0xC4
 	nop,//multianewarray,// 0xC5
-	nop,//ifnull,// 0xC6
-	nop,//ifnonnull,// 0xC7
+	ifnull,// 0xC6
+	ifnonnull,// 0xC7
 	nop,//goto_w,// 0xC8
 	nop//jsr_// 0xC9
 };
