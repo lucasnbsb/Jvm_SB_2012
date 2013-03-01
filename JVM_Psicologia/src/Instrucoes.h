@@ -209,6 +209,8 @@ int invokevirtual(execucao *p); // 0xB6
 int invokespecial(execucao *p); // 0xB7
 int invokestatic(execucao *p); // 0xB8
 
+//Array ------------------------------------------------------------
+int newarray(execucao *p); //0xBC
 //if_null------------------------------------------------------------
 int ifnull(execucao *p);//0xC6
 int ifnonnull(execucao *p);//0xc7

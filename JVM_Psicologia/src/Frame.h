@@ -28,6 +28,10 @@ typedef union _tipoOperando{
 
 } tipoOperando;
 
+typedef struct _Vetor{
+	int size , type;
+	tipoOperando* array;
+}Vetor;
 /*
  * A pilha mantém o topo dela como referência (pilha Homero).
  *

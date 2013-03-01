@@ -8,6 +8,15 @@
  */
 #include "Instrucoes.h"
 #include "math.h"
+// tags de tipo para implementação dos arrays
+#define T_BOOLEAN	4
+#define T_CHAR     	5
+#define T_FLOAT 	    6
+#define T_DOUBLE 	7
+#define T_BYTE        8
+#define T_SHORT 	    9
+#define T_INT          10
+#define T_LONG       11
 
 int nop(execucao *p) {
 	return 0;
@@ -1288,8 +1297,8 @@ int dcmpg(execucao *p) { // comparação entre doubles , caso NAN resultado 1 op: 
 // Ifs -----------------------------------------------------------------------------------------------------
 
 int ifeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x99
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	offset -= 3; // para corrigir o PC
@@ -1300,8 +1309,8 @@ int ifeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 }
 
 int ifne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9A
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	offset -= 3; // para corrigir o PC
@@ -1312,8 +1321,8 @@ int ifne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 }
 
 int iflt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9B
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	offset -= 3; // para corrigir o PC
@@ -1324,8 +1333,8 @@ int iflt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 }
 
 int ifge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9C
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	offset -= 3; // para corrigir o PC
@@ -1336,8 +1345,8 @@ int ifge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 }
 
 int ifgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9D
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	offset -= 3; // para corrigir o PC
@@ -1348,8 +1357,8 @@ int ifgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 }
 
 int ifle(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9E
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1;
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	offset -= 3; // para corrigir o PC
@@ -1360,8 +1369,8 @@ int ifle(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0
 }
 
 int if_icmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0x9F
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1373,8 +1382,8 @@ int if_icmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 int if_icmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA0
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1386,8 +1395,8 @@ int if_icmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 int if_icmplt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA1
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1399,8 +1408,8 @@ int if_icmplt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 int if_icmpge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA2
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1412,8 +1421,8 @@ int if_icmpge(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 int if_icmpgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA3
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1425,8 +1434,8 @@ int if_icmpgt(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 int if_icmple(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA4
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1438,8 +1447,8 @@ int if_icmple(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 int if_acmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA5
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1451,8 +1460,8 @@ int if_acmpeq(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 }
 
 int if_acmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xA6
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	tipoOperando op1 , op2;
 	op2 = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	op1 = popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1465,8 +1474,8 @@ int if_acmpne(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 
 // controle -----------------------------------------------------------------------------------------------
 int goto_(execucao *p){ // op: 0xA7
-	u2 offset;
-	offset = lerU2Codigo(p->frameAtual);
+	short offset;
+	offset = (short)lerU2Codigo(p->frameAtual);
 	offset -= 3; // serve para corrigir o offset do PC
 	p->frameAtual->pc += offset;
 	return 0;
@@ -1948,6 +1957,11 @@ int invokevirtual(execucao *p){ // op: 0xB6
 	return 0;
 }
 
+//Array -------------------------------------------------------------------------------------------------
+int newarray(execucao *p){
+
+	return 0;
+}
 //ifnulls ------------------------------------------------------------------------------------------------
 int ifnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xC6
 	u2 offset;
@@ -1976,7 +1990,7 @@ int ifnonnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch 
 //goto_w ------------------------------------------------------------------------------------------------
 int goto_w(execucao *p){ // goto com index de 32 bits op: 0xC8
 	u2 off1 , off2;
-	unsigned int offset;
+	int offset;
 	off1 = lerU2Codigo(p->frameAtual);
 	off2 = lerU2Codigo(p->frameAtual);
 	offset = off1;
@@ -2190,7 +2204,7 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//nop,// 0xB9
 	nop,//nop,// 0xBA
 	nop,//new_,// 0xBB
-	nop,//newarray,// 0xBC
+	newarray,// 0xBC
 	nop,//anewarray,// 0xBD
 	nop,//arraylength,// 0xBE
 	nop,//athrow,// 0xBF
