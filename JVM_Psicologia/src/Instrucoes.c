@@ -1378,44 +1378,40 @@ int ret(execucao *p){ // VAI DAR MERDA CAPITÃO  // 0xA9
 
 // Switch -------------------------------------------------------------------------------------------------------
 int tableswitch(execucao *p){
-	u1 bytepad;
-	u2 default1 , default2 , low1 , low2 , high1 , high2 , aux1 , aux2;
-	int default_ , low , high, switchsize  ,i;
-
+	int default_ , low , high  ,switchsize  ,i ,sizepads ;
+	u1  *pcVolta;
 	tipoOperando index;
-	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	//TODO - fazer o lerU4pc , assim que possivel
-	bytepad = lerU1Codigo(p->frameAtual);// lendo os bits em branco que sevem para começar a tabela em uma linha multipla de 4
-	bytepad = lerU1Codigo(p->frameAtual);
-	bytepad = lerU1Codigo(p->frameAtual);
+	pcVolta = p->frameAtual->pc - 1;
 
-	default1 = lerU2Codigo(p->frameAtual); // lendo  o unsigned 32 bits offset Low
-	default2= lerU2Codigo(p->frameAtual);
-	default_ = default1;
-	default_ = (default_<<16)|default2;
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos)); // tirando o indeice do case da pilha
 
-	low1 = lerU2Codigo(p->frameAtual); // lendo  o unsigned 32 bits offset Low
-	low2= lerU2Codigo(p->frameAtual);
-	low = low1;
-	low = (low<<16)|low2;
+	sizepads = (4 - (p->frameAtual->pc - p->frameAtual->codigoAExecutar) % 4); // calculando quantos bits de pad são necessários
+	for (i = 0; i < sizepads; ++i) {
+		lerU1Codigo(p->frameAtual); // padding de bytes no inicio
+	}
 
-	high1 = lerU2Codigo(p->frameAtual); // lendo  o unsigned 32 bits offset Low
-	high2= lerU2Codigo(p->frameAtual);
-	high = high1;
-	high = (high<<16)|high2;
+	default_ = (int)lerU4Codigo(p->frameAtual); // leitura do offset de default
+	low = (int)lerU4Codigo(p->frameAtual);// leitura do offset do menor case
+	high = (int)lerU4Codigo(p->frameAtual);// leitura do offset ddo maior case
 
 	switchsize = (high - low +1); // tirando o tamanho do switch
 	if(switchsize < 0){// checando para erros
 		printf("Erro tableswitch , low maior do que high");
 		exit(1);
 	}
+
 	int offsets[switchsize];
 	for (i = 0; i < switchsize; ++i) { // preenchendo a tabela dos offsets do case
-		aux1 = lerU2Codigo(p->frameAtual);
-		aux2 = lerU2Codigo(p->frameAtual);
-		offsets[i] = aux1;
-		offsets[i] = (int)(offsets[i]<<16)|aux2;
+		offsets[i] = lerU4Codigo(p->frameAtual);
 	}
+
+	p->frameAtual->pc = pcVolta; // recuperando o valor do pc
+	if((index.tipoInt > high)||(index.tipoInt < low)){// caso default
+		p->frameAtual->pc = p->frameAtual->pc+default_;
+	}else{
+		p->frameAtual->pc =  p->frameAtual->pc+(index.tipoInt - low);
+	}
+
 	return 0;
 }
 
@@ -2014,7 +2010,7 @@ int (*vetInstr[])(execucao *p) = {
 	goto_,// 0xA7
 	jsr,// 0xA8
 	ret,// 0xA9
-	nop,//tableswitch,// 0xAA
+	tableswitch,// 0xAA
 	nop,//lookupswitch,// 0xAB
 	ireturn,// 0xAC
 	lreturn,// 0xAD
