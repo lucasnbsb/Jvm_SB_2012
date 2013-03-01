@@ -201,7 +201,7 @@ void insereValorStaticField(listaClasses* inicioLista, char* nomeClasse, char* n
 			if (strcmp(nomeClasse, buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex)) == 0){
 				for (i = 0; i < p1->numStaticFields; i++){
 					if(strcmp(nomeField, p1->staticFields[i].nome) == 0){
-						// Como o long long cobre o tamanho todo da union, uso ele para passar o valor
+						// Como o long long cobre o tamanho da union, uso ele para passar o valor
 						p1->staticFields[i].valor.tipoLong = op.tipoLong;
 						return;
 					}
