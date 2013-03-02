@@ -75,8 +75,6 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 
 	p1 = inicioLista;
 
-	limpaPathClasseParaNome(nomeClasseSemPath, nomeClasse);
-
 	while (p1 != NULL){
 
 		indiceClassInfo = p1->cf.this_class;
