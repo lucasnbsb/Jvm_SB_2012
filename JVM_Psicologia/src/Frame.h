@@ -75,7 +75,6 @@ typedef struct _field{
 typedef struct _Object{
 	int fieldsCount;
 	field* fields;
-	methodInfo* methodAreaPointer;
 } object;
 
 typedef struct _listaObject{

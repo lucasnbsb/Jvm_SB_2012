@@ -33,4 +33,8 @@ int contaArgumentosMetodo(u1* descriptor);
 
 Vetor* alocaMultiArray(int  dimenssoes , int* tamanhos);
 
+int contaNumFields(execucao* p, ClassFile cf);
+
+void inicializaFieldsObjeto(listaClasses* inicioLista, ClassFile cf, field* fields);
+
 #endif /* FUNCOESGERAIS_H_ */

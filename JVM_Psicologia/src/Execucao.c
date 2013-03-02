@@ -76,6 +76,31 @@ void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf){
 
 }
 
+// Função que verifica se uma classe já está carregada
+// Se não está, aloca espaço e a inicializa.
+ClassFile* verificaClasse(execucao* p, char* nomeClasse) {
+
+	ClassFile* cf;
+
+	// Verificamos se estamos requisitando uma classe que já está carregada
+	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
+	// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
+	if (cf == NULL ) {
+		cf = malloc(sizeof(ClassFile));
+		*cf = carregaClassFile(nomeClasse);
+		insereClassFileLista(&(p->pInicioLista), *cf);
+
+		// Executando o bloco que inicializa os parâmetros statics
+		// Caso ele exista
+		if (buscaMetodoNome(*cf, "<clinit>", "()V") != NULL ) {
+			preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
+			executaMetodo(p);
+		}
+	}
+
+	return cf;
+}
+
 // Função que inicia e executa um método
 void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs){
 
@@ -85,22 +110,7 @@ void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor
 	int numIndicesNecessarios = 0;
 	int operandoTipo;
 
-	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
-
-	// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
-	if (cf == NULL){
-		cf = malloc (sizeof(ClassFile));
-		*cf = carregaClassFile(nomeClasse);
-		insereClassFileLista(&(p->pInicioLista), *cf);
-
-		// Executando o bloco que inicializa os parâmetros statics
-		// Caso ele exista
-		if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
-			preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
-			executaMetodo(p);
-		}
-	}
-
+	cf = verificaClasse(p, nomeClasse);
 	// Aloca a frame nova e a coloca na pilha de frames
 	pushFrame(&(p->frameAtual));
 

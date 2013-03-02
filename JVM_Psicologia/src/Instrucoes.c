@@ -1764,21 +1764,7 @@ int getstatic(execucao *p){ // op: 0xB2
 	else{ // Senão, temos que buscar nos fields da classe requisitada
 
 		// Verificamos se estamos requisitando uma classe que já está carregada
-		cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
-
-		// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
-		if (cf == NULL){
-			cf = malloc (sizeof(ClassFile));
-			*cf = carregaClassFile(nomeClasse);
-			insereClassFileLista(&(p->pInicioLista), *cf);
-
-			// Executando o bloco que inicializa os parâmetros statics
-			// Caso ele exista
-			if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
-				preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
-				executaMetodo(p);
-			}
-		}
+		cf = verificaClasse(p, nomeClasse);
 
 		fieldAProcurar = buscaStaticFieldNome(p->pInicioLista, nomeClasse, nomeField);
 
@@ -1853,21 +1839,7 @@ int putstatic(execucao *p){ // 0xB3
 	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoField);
 
 	// Verificamos se estamos requisitando uma classe que já está carregada
-	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
-
-	// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
-	if (cf == NULL){
-		cf = malloc (sizeof(ClassFile));
-		*cf = carregaClassFile(nomeClasse);
-		insereClassFileLista(&(p->pInicioLista), *cf);
-
-		// Executando o bloco que inicializa os parâmetros statics
-		// Caso ele exista
-		if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
-			preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
-			executaMetodo(p);
-		}
-	}
+	cf = verificaClasse(p, nomeClasse);
 
 	fieldAProcurar = buscaStaticFieldNome(p->pInicioLista, nomeClasse, nomeField);
 
@@ -1922,21 +1894,7 @@ int invokestatic(execucao *p){
 	else{
 
 		// Verificamos se estamos requisitando uma classe que já está carregada
-		cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
-
-		// Se cf for NULL, isso quer dizer que ainda temos que carregar a classe na memória
-		if (cf == NULL){
-			cf = malloc (sizeof(ClassFile));
-			*cf = carregaClassFile(nomeClasse);
-			insereClassFileLista(&(p->pInicioLista), *cf);
-
-			// Executando o bloco que inicializa os parâmetros statics
-			// Caso ele exista
-			if(buscaMetodoNome(*cf, "<clinit>", "()V") != NULL){
-				preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
-				executaMetodo(p);
-			}
-		}
+		cf = verificaClasse(p, nomeClasse);
 
 		preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs);
 		executaMetodo(p);
@@ -1983,6 +1941,7 @@ int invokespecial(execucao *p){
 // ATENÇÃO: O invokevirtual serve apenas para simular o print/println, não faz o que devia
 int invokevirtual(execucao *p){ // op: 0xB6
 
+	int numArgs;
 	char* nomeClasse;
 	char* nomeMetodo;
 	char* descritor;
@@ -2056,20 +2015,49 @@ int invokevirtual(execucao *p){ // op: 0xB6
 			printf("\n");
 		}
 
+		// Tirando a referência desnecessária para essa simulação
+		popOperando(&(p->frameAtual->topoPilhaOperandos));
+
+	}
+	else{
+		numArgs = contaArgumentosMetodo(descritor);
+
+		//numArgs + 1 é para incluir a referência ao objeto
+		preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs + 1);
+		executaMetodo(p);
 	}
 
-	// Tirando a referência desnecessária para essa simulação
-	popOperando(&(p->frameAtual->topoPilhaOperandos));
+	return 0;
+}
+
+//Objetos ---------------------------------------------------------------------------------------------
+int new_(execucao *p){
+
+	object* obj;
+	tipoOperando objRef;
+	ClassFile* cf;
+	u2 indexClassInfo;
+	u2 indiceNomeClasse;
+	char* nomeClasse;
+
+	indexClassInfo = lerU2Codigo(p->frameAtual); // lê index
+	indiceNomeClasse = p->frameAtual->constantPool[indexClassInfo].info.classInfo.nameIndex;
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeClasse);
+
+	cf = verificaClasse(p, nomeClasse);
+
+	obj = malloc(sizeof(object));
+
+	obj->fieldsCount = contaNumFields(p, *cf);
+
+	obj->fields = malloc(sizeof(field) * obj->fieldsCount);
+	inicializaFieldsObjeto(p->pInicioLista, *cf, obj->fields);
+
+	objRef.tipoReferencia = obj;
 
 	return 0;
 }
-//Objetos ---------------------------------------------------------------------------------------------
-int new_(execucao *p){
-	u2 index;
-	tipoOperando objectref;// referência a objeto a ser colocada na pilha de operandos
-	index = lerU2Codigo(p->frameAtual); // lê index
-	return 0;
-}
+
 //Array -------------------------------------------------------------------------------------------------
 int newarray(execucao *p){ // recebe da pilha um size e do código um tipo e aloca um array op: 0xBC
 	tipoOperando count , arrayref;
