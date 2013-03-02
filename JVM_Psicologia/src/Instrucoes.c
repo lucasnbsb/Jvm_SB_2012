@@ -1959,8 +1959,51 @@ int invokevirtual(execucao *p){ // op: 0xB6
 }
 
 //Array -------------------------------------------------------------------------------------------------
+/*#define T_BOOLEAN	4
+#define T_CHAR     	5
+#define T_FLOAT 	    6
+#define T_DOUBLE 	7
+#define T_BYTE        8
+#define T_SHORT 	    9
+#define T_INT          10
+#define T_LONG       11*/
 int newarray(execucao *p){
-
+	tipoOperando count , arrayref;
+	int tipo;
+	Vetor vet;
+	count = popOperando(&(p->frameAtual->topoPilhaOperandos));// tamanho do vetor
+	vet.size = count.tipoInt;
+	vet.type= lerU2Codigo(p->frameAtual);
+	switch(tipo){
+	case T_BOOLEAN:
+		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+	break;
+	case T_CHAR:
+		vet.array = calloc(vet.size ,sizeof(char));
+	break;
+	case T_FLOAT:
+		vet.array = calloc(vet.size ,sizeof(float));
+	break;
+	case T_DOUBLE:
+		vet.array = calloc(vet.size ,sizeof(double));
+	break;
+	case T_BYTE:
+		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+	break;
+	case T_SHORT:
+		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+	break;
+	case T_INT:
+		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+	break;
+	case T_LONG:
+		vet.array = calloc(vet.size ,sizeof(long));
+	break;
+	default:
+		printf("Erro no newarray - tipo incompativel");
+		exit(1);
+	}
+	arrayref.tipoReferencia = vet.array; // ponto de contestação
 	return 0;
 }
 //ifnulls ------------------------------------------------------------------------------------------------
