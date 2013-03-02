@@ -230,6 +230,7 @@ int invokestatic(execucao *p); // 0xB8
 int newarray(execucao *p); //0xBC
 int anewarray(execucao *p); //0xBD
 int arraylength(execucao *p); // 0xBE
+int multianewarray(execucao *p);// 0xC5
 //if_null------------------------------------------------------------
 int ifnull(execucao *p);//0xC6
 int ifnonnull(execucao *p);//0xc7

@@ -2126,6 +2126,25 @@ int arraylength(execucao *p){ //retona pela pilha o tamanho de um array op: 0xBE
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , length , TIPO1);
 	return 0;
 }
+
+int multianewarray(execucao *p){
+	u1 dimensions;
+	u2 index;
+	Vetor *vet;
+	int i;
+	index = lerU2Codigo(p->frameAtual);
+	dimensions = lerU1Codigo(p->frameAtual);
+	tipoOperando count[dimensions];
+	if(dimensions <= 0){
+		printf("dimensões zero ou negativas em multianewarray");
+		exit(1);
+	}else{
+		for (i = 0; i < dimensions; ++i) {
+			count[i] = popOperando(&(p->frameAtual->topoPilhaOperandos));
+		}
+	}
+	return 0;
+}
 //ifnulls ------------------------------------------------------------------------------------------------
 int ifnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xC6
 	u2 offset;
@@ -2377,7 +2396,7 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//nop,// 0xC2
 	nop,//nop,// 0xC3
 	nop,//wide,// 0xC4
-	nop,//multianewarray,// 0xC5
+	multianewarray,// 0xC5
 	ifnull,// 0xC6
 	ifnonnull,// 0xC7
 	goto_w,// 0xC8
