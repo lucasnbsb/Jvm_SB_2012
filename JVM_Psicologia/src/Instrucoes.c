@@ -626,7 +626,29 @@ int aastore(execucao *p){ // salva uma referencia num vetor 0p:0x53
 	return 0;
 }
 
+//pop ------------------------------------------------------------------------------------------------------------------------------------------------
 
+int pop(execucao *p){ // retira um tipo 1 da pilha de operandos op: 0x57
+	tipoOperando op;
+	if(p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1){
+		popOperando(&(p->frameAtual->topoPilhaOperandos));
+	}else{
+		printf("Pop chamado sobre valor de tipo 2");
+		exit(1);
+	}
+	return 0;
+}
+
+int pop2(execucao *p){ // retira dois tipo 1 da pilha de operandos ou um tipo 2 op: 0x58
+	tipoOperando op;
+	if((p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1)&&(p->frameAtual->topoPilhaOperandos->elementoAbaixo->operandoTipo1 == TIPO1)){
+		popOperando(&(p->frameAtual->topoPilhaOperandos));
+		popOperando(&(p->frameAtual->topoPilhaOperandos));
+	}else{
+		popOperando(&(p->frameAtual->topoPilhaOperandos));
+	}
+	return 0;
+}
 
 //dup  --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int dup(execucao *p) { // duplica o elemento no topo da pilha op: 0x59
@@ -2293,8 +2315,8 @@ int (*vetInstr[])(execucao *p) = {
 	iastore,// 0x54
 	iastore,// 0x55
 	iastore,// 0x56
-	nop,//pop,// 0x57
-	nop,//pop2,// 0x58
+	pop,// 0x57
+	pop2,// 0x58
 	dup,//0x59
 	dup_x1,//0x5A
 	dup_x2,//0x5B

@@ -91,8 +91,9 @@ int lastore(execucao *p); //0x50
 int fastore(execucao *p);//0x51
 int dastore(execucao *p);//0x52
 int aastore(execucao *p);//0x53
-
-
+//pop ---------------------------------------------------------------
+int pop(execucao *p); //0x57
+int pop2(execucao *p); //0x58
 // dup --------------------------------------------------------------
 int dup(execucao *p);// 0x59
 int dup_x1(execucao *p); // 0x5A
