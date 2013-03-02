@@ -31,4 +31,6 @@ void limpaPathClasseParaNome(char* nomeClasseSemPath, char* nomeClasse);
 
 int contaArgumentosMetodo(u1* descriptor);
 
+Vetor* alocaMultiArray(int  dimenssoes , int* tamanhos);
+
 #endif /* FUNCOESGERAIS_H_ */

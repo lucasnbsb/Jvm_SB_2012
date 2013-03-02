@@ -7,6 +7,8 @@
 
 #include "FuncoesGerais.h"
 #include "ClassFile.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 // Função que retorna a referência descrição de um método (methodInfo) dado um nome e um descritor
@@ -223,4 +225,32 @@ u1* buscaUTF8ConstPool(cpInfo *cp, u2 indice){
 
 	return cp[indice].info.UTF8Info.bytes;
 
+}
+
+Vetor* alocaMultiArray(int dimenssoes , int* tamanhos){
+	Vetor *aux , *aux2;
+	int i;
+	int *auxTamanhos;
+	if(dimenssoes == 1){ // função recursiva , critério de parada
+		aux = malloc(sizeof(Vetor)); // aloca para a parada
+		aux->size = tamanhos[0];
+		aux->type = T_INT;
+		aux->array = calloc(tamanhos[0] , sizeof(tipoOperando));
+	}else{
+		aux = malloc(sizeof(Vetor));//garante a alocação do vetor
+		aux->size = tamanhos[0];
+		aux->type = T_INT;
+		aux->array = calloc(tamanhos[0] , sizeof(tipoOperando));
+		//---------------------------------------------------
+		auxTamanhos = calloc(dimenssoes -1 , sizeof(int)); // montando o vetor de tamanho para o proximo nivel de recursão
+		for (i = 1; i < dimenssoes; ++i) { // o proximo nível recebe uma posição a menos
+			auxTamanhos[i-1] = tamanhos[i];
+		}
+		//---------------------------------------------------
+		for (i = 0; i < tamanhos[0]; ++i) {
+			aux2 = alocaMultiArray(dimenssoes-1 , auxTamanhos);
+			aux->array[i].tipoReferencia = aux2;
+		}
+	}
+	return aux;
 }

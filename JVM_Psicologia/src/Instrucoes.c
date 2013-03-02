@@ -2142,14 +2142,19 @@ int multianewarray(execucao *p){
 	int i;
 	index = lerU2Codigo(p->frameAtual);
 	dimensions = lerU1Codigo(p->frameAtual);
-	tipoOperando count[dimensions];
+	tipoOperando count[dimensions] , arrayref;
+	int count1[dimensions];
 	if(dimensions <= 0){
 		printf("dimensões zero ou negativas em multianewarray");
 		exit(1);
 	}else{
 		for (i = 0; i < dimensions; ++i) {
 			count[i] = popOperando(&(p->frameAtual->topoPilhaOperandos));
+			count1[i] = count[i].tipoInt; // gambiarra
 		}
+		vet = alocaMultiArray(dimensions , count1);
+		arrayref.tipoReferencia = vet;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos) , arrayref , TIPO1);
 	}
 	return 0;
 }
