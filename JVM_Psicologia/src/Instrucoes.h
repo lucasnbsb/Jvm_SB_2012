@@ -69,6 +69,13 @@ int aload_1(execucao *p); // 0x2B
 int aload_2(execucao *p); // 0x2C
 int aload_3(execucao *p); // 0x2D
 
+//Aload ---------------------------------------------------------------
+int iaload(execucao *p); // 0x2E , 0X33 , 0X34 , 0X35
+int laload(execucao *p); // 0X2F
+int faload(execucao *p);// 0X 30
+int daload(execucao *p); // 0X31
+int aaload(execucao *p); // 0X32
+
 // store ------------------------------------------------------------
 
 int store(execucao *p); // 0x36 , 0x37 , 0x38, 0x39 , 0x3A

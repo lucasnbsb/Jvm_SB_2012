@@ -480,8 +480,57 @@ int aload_3(execucao *p){
 	return 0;
 }
 
+// Aload ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+int iaload(execucao *p){ //carrega um int de um vetor op: 0x2E , 0X33 , 0X34 , 0X35
+	tipoOperando arrayref ,	 index ;
+	Vetor *vet;
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , vet->array[index.tipoInt] , TIPO1);
+	return 0;
+}
 
+int laload(execucao *p){ //carrega um long de um vetor op: 0x2F
+	tipoOperando arrayref ,	 index ;
+	Vetor *vet;
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , vet->array[index.tipoInt] , TIPO2);
+	return 0;
+}
+
+int faload(execucao *p){ //carrega um float de um vetor op: 0x30
+	tipoOperando arrayref ,	 index ;
+	Vetor *vet;
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , vet->array[index.tipoInt] , TIPO1);
+	return 0;
+}
+
+int daload(execucao *p){ //carrega um double de um vetor op: 0x31
+	tipoOperando arrayref ,	 index ;
+	Vetor *vet;
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , vet->array[index.tipoInt] , TIPO2);
+	return 0;
+}
+
+int aaload(execucao *p){ //carrega um float de um vetor op: 0x32
+	tipoOperando arrayref ,	 index ;
+	Vetor *vet;
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , vet->array[index.tipoInt] , TIPO1);
+	return 0;
+}
 //Store --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int store(execucao *p){ //recebe um indice e salva o topo da pilha de operandos no indice do vetor de variaveis locais 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
 	u1 index;
@@ -521,14 +570,6 @@ int store_3(execucao *p){ //salva o valor na posicao 3 0X3E,0X42,0X46,0X4A
 }
 
 //Astore ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-/*tipoOperando arrayref ,	 index;
-	Vetor *vet;
-	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	vet = arrayref.tipoReferencia;
-	index.tipoInt = vet->array[index.tipoInt];
-	pushOperando()
-	return 0;*/
 
 int iastore(execucao *p){ // salva um int num vetor op:0x4F , 0x54 , 0x55 , 0x56
 	tipoOperando arrayref ,	 index , value;
@@ -2157,14 +2198,14 @@ int (*vetInstr[])(execucao *p) = {
 	aload_1,// 0x2B
 	aload_2,// 0x2C
 	aload_3,// 0x2D
-	nop,//iaload,// 0x2E
-	nop,//laload,// 0x2F
-	nop,//faload,// 0x30
-	nop,//daload,// 0x31
-	nop,//aaload,// 0x32
-	nop,//baload,// 0x33
-	nop,//caload,// 0x34
-	nop,//saload,// 0x35
+	iaload,// 0x2E
+	laload,// 0x2F
+	faload,// 0x30
+	daload,// 0x31
+	aaload,// 0x32
+	iaload,// 0x33
+	iaload,// 0x34
+	iaload,// 0x35
 	store,// 0x36
 	store,// 0x37
 	store,// 0x38
