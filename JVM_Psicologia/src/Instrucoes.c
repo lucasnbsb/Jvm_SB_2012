@@ -2061,9 +2061,9 @@ int newarray(execucao *p){ // recebe da pilha um size e do código um tipo e aloc
 	tipoOperando count , arrayref;
 	Vetor *vet;
 	vet = malloc(sizeof(Vetor));
+	vet->type= lerU1Codigo(p->frameAtual);
 	count = popOperando(&(p->frameAtual->topoPilhaOperandos));// tamanho do vetor
 	vet->size = count.tipoInt;
-	vet->type= lerU2Codigo(p->frameAtual);
 	switch(vet->type){
 	case T_BOOLEAN:
 		vet->array = calloc(vet->size ,sizeof(tipoOperando)); // deixado como int
@@ -2098,6 +2098,9 @@ int newarray(execucao *p){ // recebe da pilha um size e do código um tipo e aloc
 	return 0;
 }
 
+int anewarray(execucao *p){
+	return 0;
+}
 //ifnulls ------------------------------------------------------------------------------------------------
 int ifnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xC6
 	u2 offset;
@@ -2341,7 +2344,7 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//nop,// 0xBA
 	nop,//new_,// 0xBB
 	newarray,// 0xBC
-	nop,//anewarray,// 0xBD
+	anewarray,// 0xBD
 	nop,//arraylength,// 0xBE
 	nop,//athrow,// 0xBF
 	nop,//checkcast,// 0xC0
