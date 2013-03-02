@@ -2099,6 +2099,21 @@ int newarray(execucao *p){ // recebe da pilha um size e do código um tipo e aloc
 }
 
 int anewarray(execucao *p){
+	u2 index;
+	tipoOperando count , arrayref;
+	Vetor *vet;
+	vet = calloc(1 , sizeof(Vetor));
+	index = lerU2Codigo(p->frameAtual);
+	count = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	if(count.tipoInt < 0 ){
+		printf("tamanho do vetor em anewarray menor que  zero , lançar exceção - NegativeArraySize");
+		exit(1);
+	}
+	vet->size = count.tipoInt;
+	vet->type = T_INT;
+	vet->array = calloc(vet->size , sizeof(tipoOperando));
+	arrayref.tipoReferencia = vet;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , arrayref , TIPO1);
 	return 0;
 }
 //ifnulls ------------------------------------------------------------------------------------------------
