@@ -2098,7 +2098,7 @@ int newarray(execucao *p){ // recebe da pilha um size e do código um tipo e aloc
 	return 0;
 }
 
-int anewarray(execucao *p){
+int anewarray(execucao *p){ // cria um array de  referencias 0xBD
 	u2 index;
 	tipoOperando count , arrayref;
 	Vetor *vet;
@@ -2114,6 +2114,16 @@ int anewarray(execucao *p){
 	vet->array = calloc(vet->size , sizeof(tipoOperando));
 	arrayref.tipoReferencia = vet;
 	pushOperando(&(p->frameAtual->topoPilhaOperandos) , arrayref , TIPO1);
+	return 0;
+}
+
+int arraylength(execucao *p){ //retona pela pilha o tamanho de um array op: 0xBE
+	tipoOperando arrayref , length;
+	Vetor *vet;
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	length.tipoInt = vet->size;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , length , TIPO1);
 	return 0;
 }
 //ifnulls ------------------------------------------------------------------------------------------------
@@ -2360,7 +2370,7 @@ int (*vetInstr[])(execucao *p) = {
 	nop,//new_,// 0xBB
 	newarray,// 0xBC
 	anewarray,// 0xBD
-	nop,//arraylength,// 0xBE
+	arraylength,// 0xBE
 	nop,//athrow,// 0xBF
 	nop,//checkcast,// 0xC0
 	nop,//instanceof,// 0xC1
