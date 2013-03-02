@@ -387,7 +387,7 @@ ClassFile carregaClassFile (char *nomeClasse){
 
 	strcpy(nomeClasseExt, nomeClasse);
 
-	if (strcasestr(nomeClasse, ".class") == NULL){
+	if (strstr(nomeClasse, ".class") == NULL){
 		strcat(nomeClasseExt, ".class");
 	}
 
