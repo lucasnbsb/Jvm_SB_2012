@@ -2075,6 +2075,8 @@ int new_(execucao *p){
 
 	objRef.tipoReferencia = obj;
 
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), objRef, TIPO1);
+
 	return 0;
 }
 
