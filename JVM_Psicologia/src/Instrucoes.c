@@ -2005,28 +2005,33 @@ int invokevirtual(execucao *p){ // op: 0xB6
 	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
 	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
 
-	op = popOperando(&(p->frameAtual->topoPilhaOperandos));
-
 	if (strcmp(nomeClasse,"java/io/PrintStream") == 0 && (strcmp(nomeMetodo,"println") == 0 || strcmp(nomeMetodo,"print") == 0)){
 		if(descritor[1] == 'I'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%d", op.tipoInt);
 		}
 		else if(descritor[1] == 'J'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%lld", op.tipoLong);
 		}
 		else if(descritor[1] == 'F'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%g", op.tipoFloat);
 		}
 		else if(descritor[1] == 'D'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%g", op.tipoDouble);
 		}
 		else if(descritor[1] == 'S'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%hi", (short) op.tipoInt);
 		}
 		else if(descritor[1] == 'C'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%c", (char) op.tipoInt);
 		}
 		else if(descritor[1] == 'L'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			if (strstr(descritor,"java/lang/String") != NULL){
 				printf("%s", (char*) op.tipoReferencia);
 			}
@@ -2035,12 +2040,15 @@ int invokevirtual(execucao *p){ // op: 0xB6
 			}
 		}
 		else if(descritor[1] == 'Z'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%s", !op.tipoInt ? "false" : "true");
 		}
 		else if(descritor[1] == 'B'){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%d", op.tipoInt);
 		}
-		else{ // descritor[1] == '['
+		else if(descritor[1] == '['){
+			op = popOperando(&(p->frameAtual->topoPilhaOperandos));
 			printf("%p", op.tipoReferencia);
 		}
 
