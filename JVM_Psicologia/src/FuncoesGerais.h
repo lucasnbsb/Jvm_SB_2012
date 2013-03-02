@@ -10,6 +10,7 @@
 
 #include "ClassFile.h"
 #include "Frame.h"
+#include "Execucao.h"
 
 methodInfo* buscaMetodoNome(ClassFile cf, char* nomeMetodo, char* descriptor);
 
@@ -35,6 +36,6 @@ Vetor* alocaMultiArray(int  dimenssoes , int* tamanhos);
 
 int contaNumFields(execucao* p, ClassFile cf);
 
-void inicializaFieldsObjeto(listaClasses* inicioLista, ClassFile cf, field* fields);
+void inicializaFieldsObjeto(execucao *p, ClassFile cf, field* fields);
 
 #endif /* FUNCOESGERAIS_H_ */

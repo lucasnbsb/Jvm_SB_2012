@@ -629,7 +629,6 @@ int aastore(execucao *p){ // salva uma referencia num vetor 0p:0x53
 //pop ------------------------------------------------------------------------------------------------------------------------------------------------
 
 int pop(execucao *p){ // retira um tipo 1 da pilha de operandos op: 0x57
-	tipoOperando op;
 	if(p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1){
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
 	}else{
@@ -640,7 +639,6 @@ int pop(execucao *p){ // retira um tipo 1 da pilha de operandos op: 0x57
 }
 
 int pop2(execucao *p){ // retira dois tipo 1 da pilha de operandos ou um tipo 2 op: 0x58
-	tipoOperando op;
 	if((p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1)&&(p->frameAtual->topoPilhaOperandos->elementoAbaixo->operandoTipo1 == TIPO1)){
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -2073,7 +2071,7 @@ int new_(execucao *p){
 	obj->fieldsCount = contaNumFields(p, *cf);
 
 	obj->fields = malloc(sizeof(field) * obj->fieldsCount);
-	inicializaFieldsObjeto(p->pInicioLista, *cf, obj->fields);
+	inicializaFieldsObjeto(p, *cf, obj->fields);
 
 	objRef.tipoReferencia = obj;
 

@@ -270,7 +270,7 @@ int contaNumFields(execucao *p, ClassFile cf){
 	for(i = 0; i < cfAux->fields_count; i++){
 		// Temos que ter certeza que os campos estáticos não são adicionados
 		// ao número de campos do objeto
-		if (cfAux->fields[i].accessFlags & ACC_STATIC == 0){
+		if ((cfAux->fields[i].accessFlags & ACC_STATIC) == 0){
 			numFields++;
 		}
 	}
@@ -287,9 +287,9 @@ int contaNumFields(execucao *p, ClassFile cf){
 
 		for(i = 0; i < cfAux->fields_count; i++){
 			// Adicionamos se o campo for public ou protected e não é static
-			if (((cfAux->fields[i].accessFlags & ACC_PUBLIC != 0) ||
-					(cfAux->fields[i].accessFlags & ACC_PROTECTED != 0)) &&
-					(cfAux->fields[i].accessFlags & ACC_STATIC == 0)){
+			if ((((cfAux->fields[i].accessFlags & ACC_PUBLIC) != 0) ||
+					((cfAux->fields[i].accessFlags & ACC_PROTECTED) != 0)) &&
+					((cfAux->fields[i].accessFlags & ACC_STATIC) == 0)){
 				numFields++;
 			}
 		}
@@ -302,7 +302,7 @@ int contaNumFields(execucao *p, ClassFile cf){
 
 // Função que preenche o array de fields do objeto com os fields de todas
 // as classes ligadas a ele (classe + super classes) e inicializa o valor com 0
-void inicializaFieldsObjeto(listaClasses* inicioLista, ClassFile cf, field* fields){
+void inicializaFieldsObjeto(execucao* p, ClassFile cf, field* fields){
 
 	int i;
 	int j = 0; // Contador dos fields do objeto
@@ -313,7 +313,6 @@ void inicializaFieldsObjeto(listaClasses* inicioLista, ClassFile cf, field* fiel
 	char* descritor;
 	char* nomeField;
 	char* nomeSuperClasse;
-	int numFields = 0;
 
 	cfAux = &cf;
 
@@ -326,7 +325,7 @@ void inicializaFieldsObjeto(listaClasses* inicioLista, ClassFile cf, field* fiel
 		indiceNomeField = cfAux->fields[i].nameIndex;
 		nomeField = buscaUTF8ConstPool(cfAux->constant_pool, indiceNomeField);
 
-		if (cfAux->fields[i].accessFlags & ACC_STATIC == 0){
+		if ((cfAux->fields[i].accessFlags & ACC_STATIC) == 0){
 			fields[j].descritor = descritor;
 			fields[j].nome = nomeField;
 			fields[j].valor.tipoLong = 0;	//Inicializo long com 0, pois ocupa todos os 64 bits da union
@@ -342,7 +341,7 @@ void inicializaFieldsObjeto(listaClasses* inicioLista, ClassFile cf, field* fiel
 
 		strcpy(nomeSuperClasse, buscaUTF8ConstPool(cfAux->constant_pool, indiceNomeSuperClasse));
 
-		cfAux = buscaClassFileNome(inicioLista, nomeSuperClasse);
+		cfAux = verificaClasse(p, nomeSuperClasse);
 
 		if (cfAux != NULL){
 			for(i = 0; i < cfAux->fields_count; i++){
@@ -354,9 +353,9 @@ void inicializaFieldsObjeto(listaClasses* inicioLista, ClassFile cf, field* fiel
 				nomeField = buscaUTF8ConstPool(cfAux->constant_pool, indiceNomeField);
 
 				// Inicializamos se o campo for public ou protected e não é static
-				if (((cfAux->fields[i].accessFlags & ACC_PUBLIC != 0) ||
-						(cfAux->fields[i].accessFlags & ACC_PROTECTED != 0)) &&
-						(cfAux->fields[i].accessFlags & ACC_STATIC == 0)){
+				if ((((cfAux->fields[i].accessFlags & ACC_PUBLIC) != 0) ||
+						((cfAux->fields[i].accessFlags & ACC_PROTECTED) != 0)) &&
+						((cfAux->fields[i].accessFlags & ACC_STATIC) == 0)){
 					fields[j].descritor = descritor;
 					fields[j].nome = nomeField;
 					fields[j].valor.tipoLong = 0;
