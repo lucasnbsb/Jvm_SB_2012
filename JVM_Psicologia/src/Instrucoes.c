@@ -2063,7 +2063,13 @@ int invokevirtual(execucao *p){ // op: 0xB6
 
 	return 0;
 }
-
+//Objetos ---------------------------------------------------------------------------------------------
+int new_(execucao *p){
+	u2 index;
+	tipoOperando objectref;// referência a objeto a ser colocada na pilha de operandos
+	index = lerU2Codigo(p->frameAtual); // lê index
+	return 0;
+}
 //Array -------------------------------------------------------------------------------------------------
 int newarray(execucao *p){ // recebe da pilha um size e do código um tipo e aloca um array op: 0xBC
 	tipoOperando count , arrayref;
@@ -2399,7 +2405,7 @@ int (*vetInstr[])(execucao *p) = {
 	invokestatic,// 0xB8
 	nop,//nop,// 0xB9
 	nop,//nop,// 0xBA
-	nop,//new_,// 0xBB
+	new_,// 0xBB
 	newarray,// 0xBC
 	anewarray,// 0xBD
 	arraylength,// 0xBE
