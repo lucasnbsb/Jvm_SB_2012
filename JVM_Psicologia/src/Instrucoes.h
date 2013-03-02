@@ -70,13 +70,23 @@ int aload_2(execucao *p); // 0x2C
 int aload_3(execucao *p); // 0x2D
 
 // store ------------------------------------------------------------
-int store(execucao *p); // 0x36 , 0X37 , 0X38 , 0X39 , 0X3A
-int store_0(execucao *p); //0X3B,0X3F,0X43,0X47,0x4C
-int store_1(execucao *p); //0X3C,0X40,0X44,0X48,0x4D
-int store_2(execucao *p); //0X3D,0X41,0X45,0X49,0x4E
-int store_3(execucao *p); //0X3E,0X42,0X46,0X4A,0x4F
 
-// dup ------------------------------------------------------------
+int store(execucao *p); // 0x36 , 0x37 , 0x38, 0x39 , 0x3A
+int store_0(execucao *p); //0x3B , 0X3F , 0X43 , 0X47 , 0X4B
+int store_1(execucao *p); //0X3C , 0X40 , 0X44 , 0X48 , 0X4C
+int store_2(execucao *p); //0X3D , 0X41 , 0X45 , 0X49 , 0X4D
+int store_3(execucao *p); //0X3E , 0X42 , 0X46 , 0X4A , 0X4E
+
+//Astore -----------------------------------------------------------
+
+int iastore(execucao *p); //0x4f , 0x54 , 0x55 , 0x56
+int lastore(execucao *p); //0x50
+int fastore(execucao *p);//0x51
+int dastore(execucao *p);//0x52
+int aastore(execucao *p);//0x53
+
+
+// dup --------------------------------------------------------------
 int dup(execucao *p);// 0x59
 int dup_x1(execucao *p); // 0x5A
 int dup_x2(execucao *p); // 0x5B

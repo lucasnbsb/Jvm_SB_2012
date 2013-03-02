@@ -520,6 +520,71 @@ int store_3(execucao *p){ //salva o valor na posicao 3 0X3E,0X42,0X46,0X4A
 	return 0;
 }
 
+//Astore ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*tipoOperando arrayref ,	 index;
+	Vetor *vet;
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	index.tipoInt = vet->array[index.tipoInt];
+	pushOperando()
+	return 0;*/
+
+int iastore(execucao *p){ // salva um int num vetor op:0x4F , 0x54 , 0x55 , 0x56
+	tipoOperando arrayref ,	 index , value;
+	Vetor *vet;
+	value = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	vet->array[index.tipoInt].tipoInt = value.tipoInt;
+	return 0;
+}
+
+int lastore(execucao *p){ // salva um long num vetor op:0x50
+	tipoOperando arrayref ,	 index , value;
+	Vetor *vet;
+	value = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	vet->array[index.tipoInt].tipoLong = value.tipoLong;
+	return 0;
+}
+
+int fastore(execucao *p){ // salva um float num vetor 0p:0x51
+	tipoOperando arrayref ,	 index , value;
+	Vetor *vet;
+	value = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	vet->array[index.tipoInt].tipoFloat= value.tipoFloat;
+	return 0;
+}
+
+int dastore(execucao *p){ // salva um double num vetor 0p:0x52
+	tipoOperando arrayref ,	 index , value;
+	Vetor *vet;
+	value = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	vet->array[index.tipoInt].tipoDouble = value.tipoDouble;
+	return 0;
+}
+
+int aastore(execucao *p){ // salva uma referencia num vetor 0p:0x53
+	tipoOperando arrayref ,	 index , value;
+	Vetor *vet;
+	value = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	index = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	arrayref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	vet = arrayref.tipoReferencia;
+	vet->array[index.tipoInt].tipoReferencia = value.tipoReferencia;
+	return 0;
+}
+
 
 
 //dup  --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2125,14 +2190,14 @@ int (*vetInstr[])(execucao *p) = {
 	store_1,// 0x4C
 	store_2,/// 0x4D
 	store_3,// 0x4E
-	nop,//iastore,// 0x4F
-	nop,//lastore,// 0x50
-	nop,//fastore,// 0x51
-	nop,//dastore,// 0x52
-	nop,//aastore,// 0x53
-	nop,//bastore,// 0x54
-	nop,//castore,// 0x55
-	nop,//sastore,// 0x56
+	iastore,// 0x4F
+	lastore,// 0x50
+	fastore,// 0x51
+	dastore,// 0x52
+	aastore,// 0x53
+	iastore,// 0x54
+	iastore,// 0x55
+	iastore,// 0x56
 	nop,//pop,// 0x57
 	nop,//pop2,// 0x58
 	dup,//0x59
