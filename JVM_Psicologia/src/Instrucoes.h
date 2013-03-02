@@ -15,7 +15,7 @@
 #include "Execucao.h"
 #include "ClassLoader.h"
 #include "FuncoesGerais.h"
-
+#include "ClassFile.h"
 
 int nop(execucao *p); // 0x00
 int aconst_null(execucao *p); // 0x01

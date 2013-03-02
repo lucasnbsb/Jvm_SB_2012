@@ -9,14 +9,6 @@
 #include "Instrucoes.h"
 #include "math.h"
 // tags de tipo para implementação dos arrays
-#define T_BOOLEAN	4
-#define T_CHAR     	5
-#define T_FLOAT 	    6
-#define T_DOUBLE 	7
-#define T_BYTE        8
-#define T_SHORT 	    9
-#define T_INT          10
-#define T_LONG       11
 
 int nop(execucao *p) {
 	return 0;
@@ -1959,53 +1951,47 @@ int invokevirtual(execucao *p){ // op: 0xB6
 }
 
 //Array -------------------------------------------------------------------------------------------------
-/*#define T_BOOLEAN	4
-#define T_CHAR     	5
-#define T_FLOAT 	    6
-#define T_DOUBLE 	7
-#define T_BYTE        8
-#define T_SHORT 	    9
-#define T_INT          10
-#define T_LONG       11*/
-int newarray(execucao *p){
+int newarray(execucao *p){ // recebe da pilha um size e do código um tipo e aloca um array op: 0xBC
 	tipoOperando count , arrayref;
-	int tipo;
-	Vetor vet;
+	Vetor *vet;
+	vet = malloc(sizeof(Vetor));
 	count = popOperando(&(p->frameAtual->topoPilhaOperandos));// tamanho do vetor
-	vet.size = count.tipoInt;
-	vet.type= lerU2Codigo(p->frameAtual);
-	switch(tipo){
+	vet->size = count.tipoInt;
+	vet->type= lerU2Codigo(p->frameAtual);
+	switch(vet->type){
 	case T_BOOLEAN:
-		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+		vet->array = calloc(vet->size ,sizeof(tipoOperando)); // deixado como int
 	break;
 	case T_CHAR:
-		vet.array = calloc(vet.size ,sizeof(char));
+		vet->array = calloc(vet->size ,sizeof(tipoOperando));
 	break;
 	case T_FLOAT:
-		vet.array = calloc(vet.size ,sizeof(float));
+		vet->array = calloc(vet->size ,sizeof(tipoOperando));
 	break;
 	case T_DOUBLE:
-		vet.array = calloc(vet.size ,sizeof(double));
+		vet->array = calloc(vet->size ,sizeof(tipoOperando));
 	break;
 	case T_BYTE:
-		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+		vet->array = calloc(vet->size ,sizeof(tipoOperando)); // deixado como int
 	break;
 	case T_SHORT:
-		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+		vet->array = calloc(vet->size ,sizeof(tipoOperando)); // deixado como int
 	break;
 	case T_INT:
-		vet.array = calloc(vet.size ,sizeof(int)); // deixado como int
+		vet->array = calloc(vet->size ,sizeof(tipoOperando)); // deixado como int
 	break;
 	case T_LONG:
-		vet.array = calloc(vet.size ,sizeof(long));
+		vet->array = calloc(vet->size ,sizeof(tipoOperando));
 	break;
 	default:
 		printf("Erro no newarray - tipo incompativel");
 		exit(1);
 	}
-	arrayref.tipoReferencia = vet.array; // ponto de contestação
+	arrayref.tipoReferencia = vet;
+	pushOperando(&(p->frameAtual->topoPilhaOperandos) , arrayref , TIPO1);
 	return 0;
 }
+
 //ifnulls ------------------------------------------------------------------------------------------------
 int ifnull(execucao *p){ // Compara o topo da pilha(int) com 0 , e dá branch op: 0xC6
 	u2 offset;
