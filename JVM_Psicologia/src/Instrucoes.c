@@ -1946,7 +1946,12 @@ int putfield(execucao *p){ //recebe um index e um valor e seta o campo correspon
 	descriptorIndexAux = p->frameAtual->constantPool[nameAndTypeIndexAux].info.nameAndTypeInfo.descriptorIndex;
 	descritorField = p->frameAtual->constantPool[descriptorIndexAux].info.UTF8Info.bytes;
 	campo = buscaFieldNome(nomeField , descritorField , obj);
-	campo->valor.tipoLong = value.tipoLong;
+	if(campo != NULL){
+		campo->valor.tipoLong = value.tipoLong;
+	}else{
+		printf("campo = NULL , problema na buscaFieldNome");
+		exit(1);
+	}
 	return 0;
 }
 
