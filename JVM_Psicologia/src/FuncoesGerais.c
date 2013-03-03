@@ -367,3 +367,16 @@ void inicializaFieldsObjeto(execucao *p, ClassFile cf, field* fields){
 	}
 
 }
+
+field* buscaFieldNome(char* nome , char* descritor , object* obj){
+	field* campo;
+	int i;
+	for (i = 0; i < obj->fieldsCount; ++i) {
+		if((strcmp(nome , (obj->fields[i].nome))==0)&&(strcmp(descritor, (obj->fields->descritor))==0 )){
+			campo = &(obj->fields[i]);
+			return campo;
+		}
+	}
+	campo = NULL;
+	return campo;
+}

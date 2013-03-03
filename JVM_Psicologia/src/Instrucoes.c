@@ -1739,7 +1739,7 @@ int return_(execucao *p){ // -> empty, não retorna nada OP: 0xB1
 	return 1;
 }
 
-// statics -------------------------------------------------------------------------------------------
+// Static Field -------------------------------------------------------------------------------------------
 
 // Função que pega um campo estático do array de campos estáticos da classe e o empilha
 int getstatic(execucao *p){ // op: 0xB2
@@ -1876,112 +1876,81 @@ int putstatic(execucao *p){ // 0xB3
 	return 0;
 }
 
-// invokes -------------------------------------------------------------------------------------------
+//Field -------------------------------------------------------------------------------------------------------
+int getfield(execucao *p){ //recebe um index e empilha o valor do campo correspondente a este index na pilha de opeandos 0xB4
+	u2 index;
+	u2 nameAndTypeIndexAux;
+	u2 nameIndexaux  , descriptorIndexAux;
+	object *obj;
+	field* campo;
+	char *nomeField , *descritorField;
+	tipoOperando objectref , value;
+	index = lerU2Codigo(p->frameAtual);
+	objectref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	obj = (object*)objectref.tipoReferencia;
+	// resolução de nomes -----------------------
+	nameAndTypeIndexAux = p->frameAtual->constantPool[index].info.fieldRefInfo.nameAndTypeIndex;
+	nameIndexaux = p->frameAtual->constantPool[nameAndTypeIndexAux].info.nameAndTypeInfo.nameIndex;
+	nomeField = p->frameAtual->constantPool[nameIndexaux].info.UTF8Info.bytes;
+	descriptorIndexAux = p->frameAtual->constantPool[nameAndTypeIndexAux].info.nameAndTypeInfo.descriptorIndex;
+	descritorField = p->frameAtual->constantPool[descriptorIndexAux].info.UTF8Info.bytes;
 
-int invokestatic(execucao *p){
-
-	ClassFile *cf;
-	int numArgs;
-	char* nomeClasse;
-	char* nomeMetodo;
-	char* descritor;
-	u2 indiceMethodRefInfo;
-	u2 indiceClassInfo;
-	u2 indiceNameAndTypeInfo;
-	u2 indiceNomeMetodo;
-	u2 indiceTipoMetodo;
-
-	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
-
-	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
-	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
-
-	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
-	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
-	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
-
-	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
-	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
-
-	numArgs = contaArgumentosMetodo(descritor);
-
-	// O método registerNatives é um método da classe Object.class, é um método nativo
-	// portanto, devemos ignorá-lo
-	if(strcmp(nomeClasse,"java/lang/Object") == 0 && strcmp(nomeMetodo, "registerNatives") == 0 &&
-			strcmp(descritor,"()V") == 0){
-		return 0;
+	campo = buscaFieldNome(nomeField , descritorField , obj);
+	if (descritorField[0] == 'B' || descritorField[0] == 'C'){
+		value.tipoInt = campo->valor.tipoChar;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), value, TIPO1);
 	}
-	else{
-
-		// Verificamos se estamos requisitando uma classe que já está carregada
-		cf = verificaClasse(p, nomeClasse);
-
-		preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs);
-		executaMetodo(p);
-
-		return 0;
+	else if(descritorField[0] == 'S'){
+		value.tipoInt = campo->valor.tipoShort;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), value, TIPO1);
 	}
-}
-
-// Instrução que dada uma pilha com os argumentos, invoca um método
-// Opcode: 0xB7
-int invokespecial(execucao *p){// Opcode: 0xB7
-
-	int numArgs;
-	char* nomeClasse;
-	char* nomeMetodo;
-	char* descritor;
-	u2 indiceMethodRefInfo;
-	u2 indiceClassInfo;
-	u2 indiceNameAndTypeInfo;
-	u2 indiceNomeMetodo;
-	u2 indiceTipoMetodo;
-
-	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
-
-	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
-	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
-
-	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
-	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
-	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
-
-	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
-	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
-
-	numArgs = contaArgumentosMetodo(descritor);
-
-	//numArgs + 1 é para incluir a referência ao objeto
-	preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs + 1);
-	executaMetodo(p);
-
+	else if(descritorField[0] == 'D'){
+		value.tipoDouble = campo->valor.tipoDouble;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), value, TIPO2);
+	}
+	else if(descritorField[0] == 'F'){
+		value.tipoFloat = campo->valor.tipoFloat;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), value, TIPO1);
+	}
+	else if(descritorField[0] == 'I' || descritorField[0] == 'Z'){
+		value.tipoInt = campo->valor.tipoInt;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), value, TIPO1);
+	}
+	else if(descritorField[0] == 'J'){
+		value.tipoLong = campo->valor.tipoLong;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), value, TIPO2);
+	}
+	else if(descritorField[0] == 'L' || descritorField[0] == '['){
+		value.tipoReferencia = campo->valor.tipoReferencia;
+		pushOperando(&(p->frameAtual->topoPilhaOperandos), value, TIPO1);
+	}
 	return 0;
 }
 
-//Field -------------------------------------------------------------------------------------------------------
-int putfield(execucao *p){
+
+int putfield(execucao *p){ //recebe um index e um valor e seta o campo correspondente em um objeto para o valor de value op: 0xB5
 	u2 index;
+	u2 nameAndTypeIndexAux;
+	u2 nameIndexaux  , descriptorIndexAux;
 	object *obj;
+	field* campo;
+	char *nomeField , *descritorField;
 	tipoOperando objectref , value;
 	index = lerU2Codigo(p->frameAtual);
 	value = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	objectref = popOperando(&(p->frameAtual->topoPilhaOperandos));
 	obj = (object*)objectref.tipoReferencia;
-	//p->frameAtual->constantPool[(p->frameAtual->constantPool[(p->frameAtual->constantPool[index].info.fieldRefInfo.nameAndTypeIndex)].info.nameAndTypeInfo.nameIndex)].info.UTF8Info.bytes;
+	nameAndTypeIndexAux = p->frameAtual->constantPool[index].info.fieldRefInfo.nameAndTypeIndex;
+	nameIndexaux = p->frameAtual->constantPool[nameAndTypeIndexAux].info.nameAndTypeInfo.nameIndex;
+	nomeField = p->frameAtual->constantPool[nameIndexaux].info.UTF8Info.bytes;
+	descriptorIndexAux = p->frameAtual->constantPool[nameAndTypeIndexAux].info.nameAndTypeInfo.descriptorIndex;
+	descritorField = p->frameAtual->constantPool[descriptorIndexAux].info.UTF8Info.bytes;
+	campo = buscaFieldNome(nomeField , descritorField , obj);
+	campo->valor.tipoLong = value.tipoLong;
 	return 0;
 }
 
-int getfield(execucao *p){
-	u2 index;
-	object *obj;
-	tipoOperando objectref , value;
-
-	index = lerU2Codigo(p->frameAtual);
-	objectref = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	obj = (object*)objectref.tipoReferencia;
-	//p->frameAtual->constantPool[(p->frameAtual->constantPool[(p->frameAtual->constantPool[index].info.fieldRefInfo.nameAndTypeIndex)].info.nameAndTypeInfo.nameIndex)].info.UTF8Info.bytes;
-	return 0;
-}
+// invokes -------------------------------------------------------------------------------------------
 
 // ATENÇÃO: O invokevirtual serve apenas para simular o print/println, não faz o que devia
 int invokevirtual(execucao *p){ // op: 0xB6
@@ -2075,8 +2044,88 @@ int invokevirtual(execucao *p){ // op: 0xB6
 	return 0;
 }
 
+// Instrução que dada uma pilha com os argumentos, invoca um método
+// Opcode: 0xB7
+int invokespecial(execucao *p){// Opcode: 0xB7
+
+	int numArgs;
+	char* nomeClasse;
+	char* nomeMetodo;
+	char* descritor;
+	u2 indiceMethodRefInfo;
+	u2 indiceClassInfo;
+	u2 indiceNameAndTypeInfo;
+	u2 indiceNomeMetodo;
+	u2 indiceTipoMetodo;
+
+	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
+
+	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
+
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
+	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
+	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
+
+	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
+	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
+
+	numArgs = contaArgumentosMetodo(descritor);
+
+	//numArgs + 1 é para incluir a referência ao objeto
+	preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs + 1);
+	executaMetodo(p);
+
+	return 0;
+}
+
+int invokestatic(execucao *p){//  op: 0xB8
+
+	ClassFile *cf;
+	int numArgs;
+	char* nomeClasse;
+	char* nomeMetodo;
+	char* descritor;
+	u2 indiceMethodRefInfo;
+	u2 indiceClassInfo;
+	u2 indiceNameAndTypeInfo;
+	u2 indiceNomeMetodo;
+	u2 indiceTipoMetodo;
+
+	indiceMethodRefInfo = lerU2Codigo(p->frameAtual);
+
+	indiceClassInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.classIndex;
+	nomeClasse = buscaUTF8ConstPool(p->frameAtual->constantPool, p->frameAtual->constantPool[indiceClassInfo].info.classInfo.nameIndex);
+
+	indiceNameAndTypeInfo = p->frameAtual->constantPool[indiceMethodRefInfo].info.methodRefInfo.nameAndTypeIndex;
+	indiceNomeMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.nameIndex;
+	nomeMetodo = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceNomeMetodo);
+
+	indiceTipoMetodo = p->frameAtual->constantPool[indiceNameAndTypeInfo].info.nameAndTypeInfo.descriptorIndex;
+	descritor = buscaUTF8ConstPool(p->frameAtual->constantPool, indiceTipoMetodo);
+
+	numArgs = contaArgumentosMetodo(descritor);
+
+	// O método registerNatives é um método da classe Object.class, é um método nativo
+	// portanto, devemos ignorá-lo
+	if(strcmp(nomeClasse,"java/lang/Object") == 0 && strcmp(nomeMetodo, "registerNatives") == 0 &&
+			strcmp(descritor,"()V") == 0){
+		return 0;
+	}
+	else{
+
+		// Verificamos se estamos requisitando uma classe que já está carregada
+		cf = verificaClasse(p, nomeClasse);
+
+		preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs);
+		executaMetodo(p);
+
+		return 0;
+	}
+}
+
 //Objetos ---------------------------------------------------------------------------------------------
-int new_(execucao *p){
+int new_(execucao *p){ // op: 0xBB
 
 	object* obj;
 	tipoOperando objRef;
@@ -2433,8 +2482,8 @@ int (*vetInstr[])(execucao *p) = {
 	return_,// 0xB1
 	getstatic,// 0xB2
 	putstatic,// 0xB3
-	nop,//getfield,// 0xB4
-	nop,//putfield,// 0xB5
+	getfield,// 0xB4
+	putfield,// 0xB5
 	invokevirtual,// 0xB6
 	invokespecial,// 0xB7
 	invokestatic,// 0xB8

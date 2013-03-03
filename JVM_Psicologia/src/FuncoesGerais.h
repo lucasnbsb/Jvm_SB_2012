@@ -38,4 +38,6 @@ int contaNumFields(execucao* p, ClassFile cf);
 
 void inicializaFieldsObjeto(execucao *p, ClassFile cf, field* fields);
 
+field* buscaFieldNome(char* , char* , object*);
+
 #endif /* FUNCOESGERAIS_H_ */
