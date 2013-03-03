@@ -286,9 +286,7 @@ int contaNumFields(execucao *p, ClassFile cf){
 
 		for(i = 0; i < cfAux->fields_count; i++){
 			// Adicionamos se o campo for public ou protected e não é static
-			if ((((cfAux->fields[i].accessFlags & ACC_PUBLIC) != 0) ||
-					((cfAux->fields[i].accessFlags & ACC_PROTECTED) != 0)) &&
-					((cfAux->fields[i].accessFlags & ACC_STATIC) == 0)){
+			if (((cfAux->fields[i].accessFlags & ACC_STATIC) == 0)){
 				numFields++;
 			}
 		}
@@ -352,9 +350,7 @@ void inicializaFieldsObjeto(execucao *p, ClassFile cf, field* fields){
 				nomeField = buscaUTF8ConstPool(cfAux->constant_pool, indiceNomeField);
 
 				// Inicializamos se o campo for public ou protected e não é static
-				if ((((cfAux->fields[i].accessFlags & ACC_PUBLIC) != 0) ||
-						((cfAux->fields[i].accessFlags & ACC_PROTECTED) != 0)) &&
-						((cfAux->fields[i].accessFlags & ACC_STATIC) == 0)){
+				if (((cfAux->fields[i].accessFlags & ACC_STATIC) == 0)){
 					fields[j].descritor = descritor;
 					fields[j].nome = nomeField;
 					fields[j].valor.tipoLong = 0;
