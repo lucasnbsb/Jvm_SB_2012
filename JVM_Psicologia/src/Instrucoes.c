@@ -629,7 +629,6 @@ int aastore(execucao *p){ // salva uma referencia num vetor 0p:0x53
 //pop ------------------------------------------------------------------------------------------------------------------------------------------------
 
 int pop(execucao *p){ // retira um tipo 1 da pilha de operandos op: 0x57
-	tipoOperando op;
 	if(p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1){
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
 	}else{
@@ -640,7 +639,6 @@ int pop(execucao *p){ // retira um tipo 1 da pilha de operandos op: 0x57
 }
 
 int pop2(execucao *p){ // retira dois tipo 1 da pilha de operandos ou um tipo 2 op: 0x58
-	tipoOperando op;
 	if((p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1)&&(p->frameAtual->topoPilhaOperandos->elementoAbaixo->operandoTipo1 == TIPO1)){
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1964,10 +1962,24 @@ int invokespecial(execucao *p){// Opcode: 0xB7
 int putfield(execucao *p){
 	u2 index;
 	object *obj;
-	tipoOperando aux;
+	tipoOperando objectref , value;
 	index = lerU2Codigo(p->frameAtual);
-	aux = popOperando(&(p->frameAtual->topoPilhaOperandos));
-	obj = (object*)aux.tipoReferencia;
+	value = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	objectref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	obj = (object*)objectref.tipoReferencia;
+	//p->frameAtual->constantPool[(p->frameAtual->constantPool[(p->frameAtual->constantPool[index].info.fieldRefInfo.nameAndTypeIndex)].info.nameAndTypeInfo.nameIndex)].info.UTF8Info.bytes;
+	return 0;
+}
+
+int getfield(execucao *p){
+	u2 index;
+	object *obj;
+	tipoOperando objectref , value;
+
+	index = lerU2Codigo(p->frameAtual);
+	objectref = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	obj = (object*)objectref.tipoReferencia;
+	//p->frameAtual->constantPool[(p->frameAtual->constantPool[(p->frameAtual->constantPool[index].info.fieldRefInfo.nameAndTypeIndex)].info.nameAndTypeInfo.nameIndex)].info.UTF8Info.bytes;
 	return 0;
 }
 
