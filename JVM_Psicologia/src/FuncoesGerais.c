@@ -71,7 +71,6 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 
 	listaClasses* p1;
 	u2 indiceClassInfo;
-	char nomeClasseSemPath[100];
 
 	p1 = inicioLista;
 
@@ -79,7 +78,7 @@ ClassFile* buscaClassFileNome(listaClasses* inicioLista, char* nomeClasse){
 
 		indiceClassInfo = p1->cf.this_class;
 
-		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasseSemPath) == 0){
+		if (strcmp(buscaUTF8ConstPool(p1->cf.constant_pool, p1->cf.constant_pool[indiceClassInfo].info.classInfo.nameIndex), nomeClasse) == 0){
 			return &(p1->cf);
 		}
 		p1 = p1->proxClasse;
