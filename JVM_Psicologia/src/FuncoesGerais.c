@@ -253,13 +253,15 @@ Vetor* alocaMultiArray(int dimenssoes , int* tamanhos){
 	return aux;
 }
 
+// TODO - contaNumFields e inicializaFields: mudar ponteiro de nome de super classe
+
 // Retorna o número de fields que o objeto sendo alocado terá
 int contaNumFields(execucao *p, ClassFile cf){
 
 	int i;
 	ClassFile* cfAux;
 	u2 indiceNomeSuperClasse;
-	char* nomeSuperClasse;
+	char nomeSuperClasse[100];
 	int numFields = 0;
 
 	cfAux = &cf;
@@ -309,7 +311,7 @@ void inicializaFieldsObjeto(execucao *p, ClassFile cf, field* fields){
 	u2 indiceNomeField;
 	char* descritor;
 	char* nomeField;
-	char* nomeSuperClasse;
+	char nomeSuperClasse[100];
 
 	cfAux = &cf;
 

@@ -81,14 +81,6 @@ void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf){
 ClassFile* verificaClasse(execucao* p, char* nomeClasse) {
 
 	ClassFile* cf;
-	char* inicializacaoStatic;
-	char* descritorStatic;
-
-	inicializacaoStatic = malloc(10 * sizeof(char));
-	strcpy(inicializacaoStatic, "<clinit>\0");
-
-	descritorStatic = malloc(5 * sizeof(char));
-	strcpy(descritorStatic, "()V\0");
 
 	// Verificamos se estamos requisitando uma classe que já está carregada
 	cf = buscaClassFileNome(p->pInicioLista, nomeClasse);
@@ -101,7 +93,7 @@ ClassFile* verificaClasse(execucao* p, char* nomeClasse) {
 		// Executando o bloco que inicializa os parâmetros statics
 		// Caso ele exista
 		if (buscaMetodoNome(*cf, "<clinit>", "()V") != NULL ) {
-			preparaExecucaoMetodo(nomeClasse, inicializacaoStatic, descritorStatic, p, 0);
+			preparaExecucaoMetodo(nomeClasse, "<clinit>", "()V", p, 0);
 			executaMetodo(p);
 		}
 	}
