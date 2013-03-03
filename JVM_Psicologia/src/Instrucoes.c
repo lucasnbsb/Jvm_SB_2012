@@ -629,6 +629,7 @@ int aastore(execucao *p){ // salva uma referencia num vetor 0p:0x53
 //pop ------------------------------------------------------------------------------------------------------------------------------------------------
 
 int pop(execucao *p){ // retira um tipo 1 da pilha de operandos op: 0x57
+	tipoOperando op;
 	if(p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1){
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
 	}else{
@@ -639,6 +640,7 @@ int pop(execucao *p){ // retira um tipo 1 da pilha de operandos op: 0x57
 }
 
 int pop2(execucao *p){ // retira dois tipo 1 da pilha de operandos ou um tipo 2 op: 0x58
+	tipoOperando op;
 	if((p->frameAtual->topoPilhaOperandos->operandoTipo1 == TIPO1)&&(p->frameAtual->topoPilhaOperandos->elementoAbaixo->operandoTipo1 == TIPO1)){
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
 		popOperando(&(p->frameAtual->topoPilhaOperandos));
@@ -1925,7 +1927,7 @@ int invokestatic(execucao *p){
 
 // Instrução que dada uma pilha com os argumentos, invoca um método
 // Opcode: 0xB7
-int invokespecial(execucao *p){
+int invokespecial(execucao *p){// Opcode: 0xB7
 
 	int numArgs;
 	char* nomeClasse;
@@ -1955,6 +1957,17 @@ int invokespecial(execucao *p){
 	preparaExecucaoMetodo(nomeClasse, nomeMetodo, descritor, p, numArgs + 1);
 	executaMetodo(p);
 
+	return 0;
+}
+
+//Field -------------------------------------------------------------------------------------------------------
+int putfield(execucao *p){
+	u2 index;
+	object *obj;
+	tipoOperando aux;
+	index = lerU2Codigo(p->frameAtual);
+	aux = popOperando(&(p->frameAtual->topoPilhaOperandos));
+	obj = (object*)aux.tipoReferencia;
 	return 0;
 }
 
@@ -2071,11 +2084,9 @@ int new_(execucao *p){
 	obj->fieldsCount = contaNumFields(p, *cf);
 
 	obj->fields = malloc(sizeof(field) * obj->fieldsCount);
-	inicializaFieldsObjeto(p, *cf, obj->fields);
+	inicializaFieldsObjeto(p->pInicioLista, *cf, obj->fields);
 
 	objRef.tipoReferencia = obj;
-
-	pushOperando(&(p->frameAtual->topoPilhaOperandos), objRef, TIPO1);
 
 	return 0;
 }

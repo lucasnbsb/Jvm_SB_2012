@@ -221,7 +221,8 @@ int return_(execucao *p);  //0xB1
 // static --------------------------------------------------------
 int getstatic(execucao *p); // 0xB2
 int putstatic(execucao *p); // 0xB3
-
+// Field ------------------------------------------------------------
+int putfield(execucao *p); //0xB5
 // invokes -------------------------------------------------------
 int invokevirtual(execucao *p); // 0xB6
 int invokespecial(execucao *p); // 0xB7
