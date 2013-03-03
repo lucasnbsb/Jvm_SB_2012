@@ -235,6 +235,7 @@ int new_(execucao *p);//0xBB
 int newarray(execucao *p); //0xBC
 int anewarray(execucao *p); //0xBD
 int arraylength(execucao *p); // 0xBE
+//Array -------------------------------------------------------------
 int multianewarray(execucao *p);// 0xC5
 //if_null------------------------------------------------------------
 int ifnull(execucao *p);//0xC6

@@ -2230,6 +2230,8 @@ int arraylength(execucao *p){ //retona pela pilha o tamanho de um array op: 0xBE
 	return 0;
 }
 
+
+// Array -------------------------------------------------------------------------------------
 int multianewarray(execucao *p){
 	u1 dimensions;
 	u2 index;
