@@ -299,7 +299,7 @@ int contaNumFields(execucao *p, ClassFile cf){
 
 // Função que preenche o array de fields do objeto com os fields de todas
 // as classes ligadas a ele (classe + super classes) e inicializa o valor com 0
-void inicializaFieldsObjeto(execucao* p, ClassFile cf, field* fields){
+void inicializaFieldsObjeto(execucao *p, ClassFile cf, field* fields){
 
 	int i;
 	int j = 0; // Contador dos fields do objeto

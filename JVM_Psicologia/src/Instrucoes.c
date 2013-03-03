@@ -2096,9 +2096,11 @@ int new_(execucao *p){
 	obj->fieldsCount = contaNumFields(p, *cf);
 
 	obj->fields = malloc(sizeof(field) * obj->fieldsCount);
-	inicializaFieldsObjeto(p->pInicioLista, *cf, obj->fields);
+	inicializaFieldsObjeto(p, *cf, obj->fields);
 
 	objRef.tipoReferencia = obj;
+
+	pushOperando(&(p->frameAtual->topoPilhaOperandos), objRef, TIPO1);
 
 	return 0;
 }
