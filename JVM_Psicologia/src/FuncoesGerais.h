@@ -24,20 +24,22 @@ u2 lerU2Codigo(frame*);
 
 u4 lerU4Codigo(frame *fr);
 
-field* buscaStaticFieldNome(listaClasses *inicioLista, char* nomeClasse, char* nomeField);
+field* buscaStaticFieldNome(listaClasses *inicioLista, char* nomeClasse,
+		char* nomeField);
 
-void insereValorStaticField(listaClasses *inicioLista, char* nomeClasse, char* nomeField, tipoOperando op);
+void insereValorStaticField(listaClasses *inicioLista, char* nomeClasse,
+		char* nomeField, tipoOperando op);
 
 void limpaPathClasseParaNome(char* nomeClasseSemPath, char* nomeClasse);
 
 int contaArgumentosMetodo(u1* descriptor);
 
-Vetor* alocaMultiArray(int  dimenssoes , int* tamanhos);
+Vetor* alocaMultiArray(int dimenssoes, int* tamanhos);
 
 int contaNumFields(execucao* p, ClassFile cf);
 
 void inicializaFieldsObjeto(execucao *p, ClassFile cf, field* fields);
 
-field* buscaFieldNome(char* , char* , object*);
+field* buscaFieldNome(char*, char*, object*);
 
 #endif /* FUNCOESGERAIS_H_ */

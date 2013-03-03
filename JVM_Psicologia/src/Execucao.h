@@ -18,7 +18,8 @@ void insereClassFileLista(listaClasses** endInicioLista, ClassFile cf);
 
 ClassFile* verificaClasse(execucao* p, char* nomeClasse);
 
-void preparaExecucaoMetodo (char* nomeClasse, char* nomeMetodo, char* descriptor, execucao *p, int numArgs);
+void preparaExecucaoMetodo(char* nomeClasse, char* nomeMetodo, char* descriptor,
+		execucao *p, int numArgs);
 
 void executaMetodo(execucao *p);
 

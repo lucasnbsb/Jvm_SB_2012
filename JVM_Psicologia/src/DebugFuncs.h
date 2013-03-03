@@ -12,7 +12,7 @@
 
 char* tagString(u1 tag);
 
-void printConstantPool (ClassFile cf);
+void printConstantPool(ClassFile cf);
 
 void printCodigoMetodo(attributeInfo codigoMetodo);
 

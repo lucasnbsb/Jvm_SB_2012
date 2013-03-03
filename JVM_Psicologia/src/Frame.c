@@ -12,20 +12,20 @@
 #include "FuncoesGerais.h"
 #include <string.h>
 
-
 /*
  * Checa se a pilha está vazia. Retorna 1, se sim, 0 se não.
  */
-int pilhaVazia (pilhaOperandos *topoPilha){
+int pilhaVazia(pilhaOperandos *topoPilha) {
 
-	return topoPilha == NULL;
+	return topoPilha == NULL ;
 
 }
 
 /*
  * Dados um ponteiro de pilha e um operando, atualiza o topo dessa pilha com o operando passado
  */
-void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado, int operandoTipo){
+void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado,
+		int operandoTipo) {
 
 	pilhaOperandos *p1;
 
@@ -42,7 +42,7 @@ void pushOperando(pilhaOperandos **endTopoPilha, tipoOperando operandoPassado, i
 /*
  * Sempre que uma pilha for iniciada, chame essa função.
  */
-void inicializaPilha(pilhaOperandos **endPilha){
+void inicializaPilha(pilhaOperandos **endPilha) {
 	*endPilha = NULL;
 
 	return;
@@ -51,18 +51,17 @@ void inicializaPilha(pilhaOperandos **endPilha){
 /*
  * Retorna o operando do topo da pilha e libera a memória antes utilizada por ele.
  */
-tipoOperando popOperando(pilhaOperandos **endTopoPilha){
+tipoOperando popOperando(pilhaOperandos **endTopoPilha) {
 
 	pilhaOperandos *p1;
 	tipoOperando operandoARetornar;
 
-	if (!pilhaVazia(*endTopoPilha)){
+	if (!pilhaVazia(*endTopoPilha)) {
 		operandoARetornar = (*endTopoPilha)->operando;
 		p1 = *endTopoPilha;
 		*endTopoPilha = (*endTopoPilha)->elementoAbaixo;
-		free (p1);
-	}
-	else{
+		free(p1);
+	} else {
 		printf("ERRO em popOperando: pilha vazia\n");
 		exit(1);
 	}
@@ -74,14 +73,14 @@ tipoOperando popOperando(pilhaOperandos **endTopoPilha){
 /*
  * Função que checa se a pilha de frames está vazia
  */
-int pilhaFramesVazia (frame *frameAtual){
-	return frameAtual == NULL;
+int pilhaFramesVazia(frame *frameAtual) {
+	return frameAtual == NULL ;
 }
 
 /*
  * Função que inicializa a pilha de frames, semelhante à pilha de operandos
  */
-void inicializaPilhaFrames (frame **endFrameAtual){
+void inicializaPilhaFrames(frame **endFrameAtual) {
 	*endFrameAtual = NULL;
 }
 
@@ -90,11 +89,11 @@ void inicializaPilhaFrames (frame **endFrameAtual){
  *
  * !! ATENÇÃO !! - Inicializar a frame após dar o push.
  */
-void pushFrame (frame **endFrameAtual){
+void pushFrame(frame **endFrameAtual) {
 
 	frame *p1;
 
-	p1 = malloc (sizeof(frame));
+	p1 = malloc(sizeof(frame));
 
 	p1->frameAbaixo = *endFrameAtual;
 	*endFrameAtual = p1;
@@ -104,18 +103,17 @@ void pushFrame (frame **endFrameAtual){
 /*
  * Função que retira uma frame da pilha de frames
  */
-void popFrame (frame **endFrameAtual){
+void popFrame(frame **endFrameAtual) {
 
 	frame *p1;
 
-	if (!pilhaFramesVazia(*endFrameAtual)){
+	if (!pilhaFramesVazia(*endFrameAtual)) {
 		p1 = *endFrameAtual;
 		*endFrameAtual = (*endFrameAtual)->frameAbaixo;
-		free (p1);
-	}
-	else {
+		free(p1);
+	} else {
 		printf("ERRO em popFrame : pilha vazia\n");
-		exit (1);
+		exit(1);
 	}
 
 }
@@ -125,7 +123,8 @@ void popFrame (frame **endFrameAtual){
  *
  * Caso o método que quer ser executado não possa ser achado na classe atual, procuramos nas super classes.
  */
-void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , char* nomeMetodo , char* descriptor){
+void inicializaFrame(listaClasses *inicioLista, ClassFile cf, frame *frame,
+		char* nomeMetodo, char* descriptor) {
 
 	ClassFile* cfAux;
 	methodInfo* metodo;
@@ -140,25 +139,32 @@ void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , ch
 
 	// Achar o método pelo nome
 	// Se não acharmos, passamos para a super classe para ver se está lá
-	while(cfAux != NULL && (metodo = buscaMetodoNome(*cfAux , nomeMetodo , descriptor)) == NULL && indiceSuperClasse != 0){
+	while (cfAux != NULL
+			&& (metodo = buscaMetodoNome(*cfAux, nomeMetodo, descriptor))
+					== NULL && indiceSuperClasse != 0) {
 
-		strcpy(nomeSuperClasse, buscaUTF8ConstPool(cfAux->constant_pool, cfAux->constant_pool[indiceSuperClasse].info.classInfo.nameIndex));
+		strcpy(nomeSuperClasse,
+				buscaUTF8ConstPool(cfAux->constant_pool,
+						cfAux->constant_pool[indiceSuperClasse].info.classInfo.nameIndex));
 
 		cfAux = buscaClassFileNome(inicioLista, nomeSuperClasse);
-		if(cfAux != NULL){
+		if (cfAux != NULL ) {
 			indiceSuperClasse = cfAux->super_class;
 		}
 	}
 
 	// Não conseguimos achar o método :(
-	if (metodo == NULL){
+	if (metodo == NULL ) {
 		printf("ERRO: NoSuchMethodError - %s %s\n", nomeMetodo, descriptor);
 		exit(1);
 	}
 
 	//achar o atributo Code , percorre a lista de atributos buscando o atributo Code
 	for (i = 0; i < metodo->attributesCount; i++) {
-		if(strcmp( buscaUTF8ConstPool(cfAux->constant_pool , metodo->attributes[i].attributeNameIndex) , "Code") == 0){
+		if (strcmp(
+				buscaUTF8ConstPool(cfAux->constant_pool,
+						metodo->attributes[i].attributeNameIndex), "Code")
+				== 0) {
 			codigoMetodo = metodo->attributes[i];
 			break;
 		}
@@ -170,7 +176,8 @@ void inicializaFrame (listaClasses *inicioLista, ClassFile cf, frame *frame , ch
 	//Copiando a referência do código do método a ser executado.
 	frame->codigoAExecutar = codigoMetodo.tipoInfo.code.code;
 	//inicializando o array de variáveis locais
-	frame->arrayLocal = malloc(codigoMetodo.tipoInfo.code.maxLocals * sizeof(tipoOperando));
-	frame->pc =  frame->codigoAExecutar;
+	frame->arrayLocal = malloc(
+			codigoMetodo.tipoInfo.code.maxLocals * sizeof(tipoOperando));
+	frame->pc = frame->codigoAExecutar;
 
 }
